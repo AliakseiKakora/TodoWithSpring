@@ -6,24 +6,27 @@ import by.itacademy.todolist.persistance.exception.DaoException;
 import by.itacademy.todolist.persistance.mapper.ResultSetMapper;
 import by.itacademy.todolist.persistance.query.CrudJdbcSqlQueryHolder;
 import by.itacademy.todolist.persistance.statement.StatementInitializer;
+import lombok.Getter;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 public abstract class AbstractJdbcDao<T> implements CrudDao<T> {
 
-    private Connector connector;
+    private final Connector connector;
+    private final ResultSetMapper<T> resultSetMapper;
+    private final CrudJdbcSqlQueryHolder queryHolder;
+    private final StatementInitializer<T> statementInitializer;
 
-    public AbstractJdbcDao() {
+    public AbstractJdbcDao(ResultSetMapper<T> resultSetMapper, CrudJdbcSqlQueryHolder queryHolder,
+                           StatementInitializer<T> statementInitializer) {
         connector = HikariConnector.getInstance();
+        this.resultSetMapper = resultSetMapper;
+        this.queryHolder = queryHolder;
+        this.statementInitializer = statementInitializer;
     }
-
-    protected abstract CrudJdbcSqlQueryHolder getQueryHolder();
-
-    protected abstract StatementInitializer<T> getStatementInitializer();
-
-    protected abstract ResultSetMapper<T> getResultSetMapper();
 
     @Override
     public T getById(long id) {
