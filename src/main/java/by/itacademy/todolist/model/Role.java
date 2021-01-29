@@ -1,15 +1,16 @@
 package by.itacademy.todolist.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
-public class Role {
-    private long id;
-    private String role;
+@Getter
+@RequiredArgsConstructor
+public enum Role {
+
+    ADMIN(1, "ADMIN"),
+    USER(2, "USER");
+
+    private final long id;
+    private final String role;
+
 }

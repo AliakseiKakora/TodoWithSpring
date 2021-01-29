@@ -9,14 +9,15 @@ import java.sql.SQLException;
 public class RoleStatementInitializer implements StatementInitializer<Role> {
 
     @Override
-    public void processCreateStatement(PreparedStatement preparedStatement, Role role) throws SQLException {
-        preparedStatement.setString(1, role.getRole());
+    public void processCreateStatement(PreparedStatement pStatement, Role role) throws SQLException {
+        pStatement.setLong(1, role.getId());
+        pStatement.setString(2, role.getRole());
     }
 
     @Override
-    public long processUpdateStatement(PreparedStatement preparedStatement, Role role) throws SQLException {
-        preparedStatement.setString(1, role.getRole());
-        preparedStatement.setLong(2, role.getId());
+    public long processUpdateStatement(PreparedStatement pStatement, Role role) throws SQLException {
+        pStatement.setString(1, role.getRole());
+        pStatement.setLong(2, role.getId());
         return role.getId();
     }
 

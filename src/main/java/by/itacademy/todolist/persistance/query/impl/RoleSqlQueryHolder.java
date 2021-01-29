@@ -4,11 +4,11 @@ import by.itacademy.todolist.persistance.query.CrudJdbcSqlQueryHolder;
 
 public class RoleSqlQueryHolder implements CrudJdbcSqlQueryHolder {
 
-    private static final String GET_BY_ID_SQL = "select id, role from roles where id = ?";
-    private static final String GET_ALL_SQL = "select id, role from roles";
+    private static final String GET_BY_ID_SQL = "select role from roles where id = ?";
+    private static final String GET_ALL_SQL = "select role from roles";
     private static final String UPDATE_SQL = "update roles set role = ? where id = ?";
     private static final String DELETE_SQL = "delete from roles where id = ?";
-    private static final String CREATE_SQL = "insert into roles (role) values (?)";
+    private static final String CREATE_SQL = "insert into roles (id, role) values (?, ?)";
 
     @Override
     public String getByIdSql() {

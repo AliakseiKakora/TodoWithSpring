@@ -4,11 +4,17 @@ import by.itacademy.todolist.persistance.query.CrudJdbcSqlQueryHolder;
 
 public class UserSqlQueryHolder implements CrudJdbcSqlQueryHolder {
 
-    private static final String GET_BY_ID_SQL = "select id, name, surname, email from users where id = ?";
-    private static final String GET_ALL_SQL = "select id, name, surname, email from users";
+
+    private static final String GET_BY_ID_SQL = "select u.id, u.name, u.surname, u.email, p.id as profile_id, p.login, " +
+           "p.password, p.profile_enable from users u " +
+           "left join profiles p on u.profile_id = p.id" +
+           " where u.id = ?";
+    private static final String GET_ALL_SQL = "select u.id, u.name, u.surname, u.email, p.id as profile_id, p.login, " +
+            "p.password, p.profile_enable from users u " +
+            "left join profiles p on u.profile_id = p.id";
     private static final String UPDATE_SQL = "update users set name = ?, surname = ?, email = ? where id = ?";
     private static final String DELETE_SQL = "delete from users where id = ?";
-    private static final String CREATE_SQL = "insert into users (name, surname, email) values (?,?,?)";
+    private static final String CREATE_SQL = "insert into users (name, surname, email, profile_id) values (?,?,?,?)";
 
     @Override
     public String getByIdSql() {

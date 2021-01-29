@@ -9,16 +9,19 @@ import java.sql.SQLException;
 public class UserStatementInitializer implements StatementInitializer<User> {
 
     @Override
-    public void processCreateStatement(PreparedStatement preparedStatement, User user) throws SQLException {
-        preparedStatement.setString(1, user.getName());
-        preparedStatement.setString(2, user.getSurname());
-        preparedStatement.setString(3, user.getEmail());
+    public void processCreateStatement(PreparedStatement pStatement, User user) throws SQLException {
+        pStatement.setString(1, user.getName());
+        pStatement.setString(2, user.getSurname());
+        pStatement.setString(3, user.getEmail());
+        pStatement.setLong(4, user.getProfile().getId());
     }
 
     @Override
-    public long processUpdateStatement(PreparedStatement preparedStatement, User user) throws SQLException {
-        processCreateStatement(preparedStatement, user);
-        preparedStatement.setLong(4, user.getId());
+    public long processUpdateStatement(PreparedStatement pStatement, User user) throws SQLException {
+        pStatement.setString(1, user.getName());
+        pStatement.setString(2, user.getSurname());
+        pStatement.setString(3, user.getEmail());
+        pStatement.setLong(4, user.getId());
         return user.getId();
     }
 

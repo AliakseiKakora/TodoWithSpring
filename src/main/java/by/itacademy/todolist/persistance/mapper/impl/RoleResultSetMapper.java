@@ -10,10 +10,16 @@ public class RoleResultSetMapper implements ResultSetMapper<Role> {
 
     @Override
     public Role processResultSet(ResultSet rs) throws SQLException {
-        return Role.builder()
-                .id(rs.getLong("id"))
-                .role(rs.getString("role"))
-                .build();
+        Role role = null;
+        switch (rs.getString("role")) {
+            case "ADMIN":
+                role = Role.ADMIN;
+                break;
+            case "USER":
+                role = Role.USER;
+                break;
+        }
+        return role;
     }
 
 }
