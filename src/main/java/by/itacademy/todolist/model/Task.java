@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.File;
 import java.time.LocalDateTime;
 
 @Data
@@ -13,10 +12,11 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Task {
+    private long id;
     private String description;
     private LocalDateTime dateAdded;
     private LocalDateTime dateCompletion;
-    private File file;
+    private FileInfo fileInfo;
     private boolean isCompleted;
     private boolean isDeleted;
 }

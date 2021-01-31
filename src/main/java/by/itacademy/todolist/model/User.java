@@ -12,7 +12,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
-
     private long id;
     private String name;
     private String surname;
@@ -20,5 +19,4 @@ public class User {
     private Profile profile;
     private List<Role> roles;
     private List<Task> tasks;
-
 }
