@@ -3,6 +3,7 @@ package by.itacademy.todolist.persistance.dao.impl;
 import by.itacademy.todolist.model.Role;
 import by.itacademy.todolist.model.User;
 import by.itacademy.todolist.persistance.dao.AbstractJdbcDao;
+import by.itacademy.todolist.persistance.dao.RoleDao;
 import by.itacademy.todolist.persistance.exception.DaoException;
 import by.itacademy.todolist.persistance.mapper.impl.RoleResultSetMapper;
 import by.itacademy.todolist.persistance.query.impl.RoleSqlQueryHolder;
@@ -15,7 +16,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RoleJdbcDao extends AbstractJdbcDao<Role> {
+public class RoleJdbcDao extends AbstractJdbcDao<Role> implements RoleDao<Role> {
 
     private static final String GET_ROLES_BY_ID_SQL = "select r.role from users_roles rs " +
             "left join roles r on r.id = rs.role_id " +
@@ -27,6 +28,7 @@ public class RoleJdbcDao extends AbstractJdbcDao<Role> {
         super(new RoleResultSetMapper(), new RoleSqlQueryHolder(), new RoleStatementInitializer());
     }
 
+    @Override
     public List<Role> getRolesByUserId(long id) {
         try (Connection connection = getConnector().getConnection();
              PreparedStatement pStatement = connection.prepareStatement(GET_ROLES_BY_ID_SQL)) {
@@ -53,6 +55,7 @@ public class RoleJdbcDao extends AbstractJdbcDao<Role> {
         }
     }
 
+    @Override
     public void addUserRoles(User user) {
         List<Role> roles = user.getRoles();
 
@@ -76,6 +79,7 @@ public class RoleJdbcDao extends AbstractJdbcDao<Role> {
         }
     }
 
+    @Override
     public void deleteAllUserRoles(long userId) {
         try (Connection connection = getConnector().getConnection();
              PreparedStatement pStatement = connection.prepareStatement(DELETE_ALL_USER_ROLES)) {
