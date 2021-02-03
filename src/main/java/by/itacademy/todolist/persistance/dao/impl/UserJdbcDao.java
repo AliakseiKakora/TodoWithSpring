@@ -4,43 +4,42 @@ import by.itacademy.todolist.model.Profile;
 import by.itacademy.todolist.model.Role;
 import by.itacademy.todolist.model.Task;
 import by.itacademy.todolist.model.User;
-import by.itacademy.todolist.persistance.dao.AbstractJdbcDao;
-import by.itacademy.todolist.persistance.dao.UserDao;
+import by.itacademy.todolist.persistance.connector.Connector;
+import by.itacademy.todolist.persistance.dao.*;
 import by.itacademy.todolist.persistance.mapper.impl.UserResultSetMapper;
 import by.itacademy.todolist.persistance.query.impl.UserSqlQueryHolder;
 import by.itacademy.todolist.persistance.statement.impl.UserStatementInitializer;
 
 import java.util.List;
 
-public class UserJdbcDao extends AbstractJdbcDao<User> implements UserDao {
+public class UserJdbcDao extends AbstractJdbcDao<User> implements UserDao<User> {
 
-    private static final String CREATE_PROFILE_SQL = "insert into profiles (login, password, profile_enable) values (?,?,?)";
-    private static final String CREATE_USER_SQL = "insert into users (name, surname, email, profile_id) values (?,?,?,?)";
-    private static final String ADD_USER_ROLES_SQL = "insert into users_roles (user_id, role_id) values (?, ?)";
+    private final ProfileDao<Profile> profileDao;
+    private final RoleDao<Role> roleDao;
+    private final TaskDao<Task> taskDao;
 
-    private ProfileJdbcDao profileJdbcDao = new ProfileJdbcDao();
-    private RoleJdbcDao roleJdbcDao = new RoleJdbcDao();
-    private TaskJdbcDao taskJdbcDao = new TaskJdbcDao();
-
-    public UserJdbcDao() {
-        super(new UserResultSetMapper(), new UserSqlQueryHolder(), new UserStatementInitializer());
+    public UserJdbcDao(Connector connector, ProfileDao<Profile> profileDao, RoleDao<Role> roleDao, TaskDao<Task> taskDao) {
+        super(connector, new UserResultSetMapper(), new UserSqlQueryHolder(), new UserStatementInitializer());
+        this.profileDao = profileDao;
+        this.roleDao = roleDao;
+        this.taskDao = taskDao;
     }
 
     @Override
     public User create(User user) {
-        Profile createdProfile = profileJdbcDao.create(user.getProfile());
+        Profile createdProfile = profileDao.create(user.getProfile());
 
         user.setProfile(createdProfile);
         User createdUser = super.create(user);
         createdUser.setRoles(user.getRoles());
-        roleJdbcDao.addUserRoles(createdUser);
+        roleDao.addUserRoles(createdUser);
         return createdUser;
     }
 
     @Override
     public User getById(long id) {
-        List<Role> usersRoles = roleJdbcDao.getRolesByUserId(id);
-        List<Task> userTask = taskJdbcDao.getAllUserTasks(id);
+        List<Role> usersRoles = roleDao.getRolesByUserId(id);
+        List<Task> userTask = taskDao.getAllUserTasks(id);
         User user = super.getById(id);
         user.setRoles(usersRoles);
         user.setTasks(userTask);
@@ -50,18 +49,18 @@ public class UserJdbcDao extends AbstractJdbcDao<User> implements UserDao {
     @Override
     public List<User> getAll() {
         List<User> users = super.getAll();
-        users.forEach(u -> u.setRoles(roleJdbcDao.getRolesByUserId(u.getId())));
-        users.forEach(u -> u.setTasks(taskJdbcDao.getAllUserTasks(u.getId())));
+        users.forEach(u -> u.setRoles(roleDao.getRolesByUserId(u.getId())));
+        users.forEach(u -> u.setTasks(taskDao.getAllUserTasks(u.getId())));
         return users;
     }
 
     @Override
     public void delete(long id) {
         User user = getById(id);
-        user.getTasks().forEach(task -> taskJdbcDao.delete(task.getId()));
-        roleJdbcDao.deleteAllUserRoles(id);
+        user.getTasks().forEach(task -> taskDao.delete(task.getId()));
+        roleDao.deleteAllUserRoles(id);
         super.delete(id);
-        profileJdbcDao.delete(user.getProfile().getId());
+        profileDao.delete(user.getProfile().getId());
     }
 
 }

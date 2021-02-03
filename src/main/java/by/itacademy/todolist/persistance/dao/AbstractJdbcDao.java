@@ -1,7 +1,6 @@
 package by.itacademy.todolist.persistance.dao;
 
 import by.itacademy.todolist.persistance.connector.Connector;
-import by.itacademy.todolist.persistance.connector.impl.HikariConnector;
 import by.itacademy.todolist.persistance.exception.DaoException;
 import by.itacademy.todolist.persistance.mapper.ResultSetMapper;
 import by.itacademy.todolist.persistance.query.CrudJdbcSqlQueryHolder;
@@ -20,9 +19,9 @@ public abstract class AbstractJdbcDao<T> implements CrudDao<T> {
     private final CrudJdbcSqlQueryHolder queryHolder;
     private final StatementInitializer<T> statementInitializer;
 
-    public AbstractJdbcDao(ResultSetMapper<T> resultSetMapper, CrudJdbcSqlQueryHolder queryHolder,
+    public AbstractJdbcDao(Connector connector, ResultSetMapper<T> resultSetMapper, CrudJdbcSqlQueryHolder queryHolder,
                            StatementInitializer<T> statementInitializer) {
-        connector = HikariConnector.getInstance();
+        this.connector = connector;
         this.resultSetMapper = resultSetMapper;
         this.queryHolder = queryHolder;
         this.statementInitializer = statementInitializer;

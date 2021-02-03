@@ -1,7 +1,10 @@
 package by.itacademy.todolist.persistance.dao.impl;
 
+import by.itacademy.todolist.model.FileInfo;
 import by.itacademy.todolist.model.Task;
+import by.itacademy.todolist.persistance.connector.Connector;
 import by.itacademy.todolist.persistance.dao.AbstractJdbcDao;
+import by.itacademy.todolist.persistance.dao.FileInfoDao;
 import by.itacademy.todolist.persistance.dao.TaskDao;
 import by.itacademy.todolist.persistance.exception.DaoException;
 import by.itacademy.todolist.persistance.mapper.impl.TaskResultSetMapper;
@@ -19,12 +22,11 @@ public class TaskJdbcDao extends AbstractJdbcDao<Task> implements TaskDao<Task> 
     private static final String GET_ALL_USER_TASK_SQL = "select t.id, t.description, t.date_added, t.date_completion, t.completed," +
             " t.deleted, fi.id as file_id, fi.path from tasks t left join files_info fi on fi.task_id = t.id where t.user_id = ?";
 
-    private static final String DELETE_ALL_USER_TASKS_SQL = "delete from tasks where user_id = ?";
+    private final FileInfoDao<FileInfo> fileInfoJdbcDao;
 
-    private FileInfoJdbcDao fileInfoJdbcDao = new FileInfoJdbcDao();
-
-    public TaskJdbcDao() {
-        super(new TaskResultSetMapper(), new TaskSqlQueryHolder(), new TaskStatementInitializer());
+    public TaskJdbcDao(Connector connector, FileInfoDao<FileInfo> fileInfoJdbcDao) {
+        super(connector, new TaskResultSetMapper(), new TaskSqlQueryHolder(), new TaskStatementInitializer());
+        this.fileInfoJdbcDao = fileInfoJdbcDao;
     }
 
     @Override
@@ -87,19 +89,6 @@ public class TaskJdbcDao extends AbstractJdbcDao<Task> implements TaskDao<Task> 
             throw new DaoException("Error receive database connection: " + e.getMessage());
         }
 
-
     }
 
-    @Override
-    public void deleteAllUserTasks(long userId) {
-        try (Connection connection = getConnector().getConnection();
-             PreparedStatement pStatement = connection.prepareStatement(DELETE_ALL_USER_TASKS_SQL)) {
-
-            pStatement.setLong(1,userId);
-            pStatement.executeUpdate();
-            ////// delete this
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 }

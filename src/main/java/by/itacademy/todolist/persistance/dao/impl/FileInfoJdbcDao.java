@@ -1,6 +1,7 @@
 package by.itacademy.todolist.persistance.dao.impl;
 
 import by.itacademy.todolist.model.FileInfo;
+import by.itacademy.todolist.persistance.connector.Connector;
 import by.itacademy.todolist.persistance.dao.AbstractJdbcDao;
 import by.itacademy.todolist.persistance.dao.FileInfoDao;
 import by.itacademy.todolist.persistance.exception.DaoException;
@@ -14,8 +15,8 @@ public class FileInfoJdbcDao extends AbstractJdbcDao<FileInfo> implements FileIn
 
     private static final String ADD_FILE_FOR_TASK_SQL = "insert into files_info (path, task_id) values (?,?)";
 
-    public FileInfoJdbcDao() {
-        super(new FileInfoResultSetMapper(), new FileInfoSqlQueryHolder(), new FileInfoStatementInitializer());
+    public FileInfoJdbcDao(Connector connector) {
+        super(connector, new FileInfoResultSetMapper(), new FileInfoSqlQueryHolder(), new FileInfoStatementInitializer());
     }
 
     @Override

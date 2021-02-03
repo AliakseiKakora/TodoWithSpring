@@ -4,7 +4,7 @@ import by.itacademy.todolist.model.User;
 
 import java.util.List;
 
-public interface RoleDao<Role> {
+public interface RoleDao<Role> extends CrudDao<Role> {
 
     List<Role> getRolesByUserId(long id);
 
