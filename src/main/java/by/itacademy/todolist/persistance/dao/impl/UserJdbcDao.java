@@ -39,10 +39,8 @@ public class UserJdbcDao extends AbstractJdbcDao<User> implements UserDao<User> 
     @Override
     public User getById(long id) {
         List<Role> usersRoles = roleDao.getRolesByUserId(id);
-        List<Task> userTask = taskDao.getAllUserTasks(id);
         User user = super.getById(id);
         user.setRoles(usersRoles);
-        user.setTasks(userTask);
         return user;
     }
 
@@ -50,7 +48,6 @@ public class UserJdbcDao extends AbstractJdbcDao<User> implements UserDao<User> 
     public List<User> getAll() {
         List<User> users = super.getAll();
         users.forEach(u -> u.setRoles(roleDao.getRolesByUserId(u.getId())));
-        users.forEach(u -> u.setTasks(taskDao.getAllUserTasks(u.getId())));
         return users;
     }
 
