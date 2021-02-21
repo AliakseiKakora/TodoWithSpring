@@ -16,7 +16,7 @@ public class LoginCommand extends FrontCommand {
             User user = userService.getUserByLoginAndPassword(login, password);
             request.getSession().setAttribute("user", user);
             context.getRequestDispatcher("/main.jsp").forward(request, response);
-
+            return;
         } catch (Exception e) {
             System.out.println("User not found");
         }

@@ -1,6 +1,6 @@
 <%@ page import="by.itacademy.todolist.model.Role" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light ">
     <div class="container-fluid">
@@ -10,7 +10,9 @@
             <ul class="navbar-nav mb-2 mb-lg-0">
 
                 <li class="nav-item">
-                    <a class="nav-link" href="#">My profile</a>
+                    <a class="nav-link" href="<c:url value="/">
+                        <c:param name="command" value="ProfileView"/>
+                        </c:url>">My profile</a>
                 </li>
 
                 <c:if test="${sessionScope.user.roles.contains(Role.ADMIN)}">

@@ -17,18 +17,24 @@ public class RegistrationCommand extends FrontCommand {
         String password = request.getParameter("password");
         String email = request.getParameter("email");
 
-        if (profileService.existLoginAndEmail(login, email)) {
-           request.setAttribute("error", "Login or email is busy");
-           context.getRequestDispatcher("/registration.jsp").forward(request, response);
-           return;
+        try {
+            if (profileService.existLoginAndEmail(login, email)) {
+                request.setAttribute("error", "Login or email is busy");
+                context.getRequestDispatcher("/registration.jsp").forward(request, response);
+                return;
+            }
+            List<Role> roles = new ArrayList<>();
+            roles.add(Role.USER);
+            Profile profile = Profile.builder().isEnable(true).login(login).password(password).build();
+            User user = User.builder().profile(profile).email(email).roles(roles).build();
+            user = userService.create(user);
+            request.getSession().setAttribute("user", user);
+            context.getRequestDispatcher("/main.jsp").forward(request, response);
+            return;
+        } catch (Exception e) {
+            System.out.println("Registration error");
         }
-
-        List<Role> roles = new ArrayList<>();
-        roles.add(Role.USER);
-        Profile profile = Profile.builder().isEnable(true).login(login).password(password).build();
-        User user = User.builder().profile(profile).email(email).roles(roles).build();
-        user = userService.create(user);
-        request.getSession().setAttribute("user", user);
-        context.getRequestDispatcher("/main.jsp").forward(request, response);
+        request.setAttribute("error", "Registration error");
+        context.getRequestDispatcher("/registration.jsp").forward(request, response);
     }
 }
