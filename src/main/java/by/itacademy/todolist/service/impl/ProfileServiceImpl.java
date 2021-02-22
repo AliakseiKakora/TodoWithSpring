@@ -16,4 +16,14 @@ public class ProfileServiceImpl implements ProfileService {
     public boolean existLoginAndEmail(String login, String email) {
         return profileDao.existLoginAndEmail(login, email);
     }
+
+    @Override
+    public Profile update(Profile profile, String login, String password) {
+        if (profile.getLogin().equals(login) && profile.getPassword().equals(password)) {
+            return profile;
+        }
+        profile.setLogin(login);
+        profile.setPassword(password);
+        return profileDao.update(profile);
+    }
 }

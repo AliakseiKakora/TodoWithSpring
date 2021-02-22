@@ -21,4 +21,17 @@ public class UserServiceImpl implements UserService {
     public User create(User user) {
         return userDao.create(user);
     }
+
+    @Override
+    public User update(User user, String email, String name, String surname) {
+        if (user.getEmail().equals(email)
+                && user.getSurname().equals(surname)
+                && user.getName().equals(name)) {
+            return user;
+        }
+        user.setEmail(email);
+        user.setSurname(surname);
+        user.setName(name);
+        return userDao.update(user);
+    }
 }

@@ -30,7 +30,7 @@
         <div class="col-8 rounded-3">
             <h1 class="mb-3 p-2" >My Profile</h1>
             <c:if test="${!empty sessionScope.user}">
-                <form action="<c:url value="/" />" method="post">
+                <form action="<c:url value="/" > <c:param name="command" value="UpdateUser"/> </c:url>" method="post">
 
                     <div class="mb-3">
                         <label for="login" class="form-label">Login</label>
@@ -57,9 +57,11 @@
                         <input type="text" class="form-control" id="surname" name="surname" value="${sessionScope.user.surname}">
                     </div>
 
-                    <button type="submit" class="btn btn-primary">Change</button>
+                    <button type="submit" class="btn btn-primary">Update</button>
                 </form>
             </c:if>
+
+            <c:import url="/WEB-INF/template/successful_template.jsp"/>
 
 
         </div>
