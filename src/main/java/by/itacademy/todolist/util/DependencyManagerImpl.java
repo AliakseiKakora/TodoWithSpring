@@ -6,8 +6,10 @@ import by.itacademy.todolist.persistance.connector.impl.HikariConnector;
 import by.itacademy.todolist.persistance.dao.*;
 import by.itacademy.todolist.persistance.dao.impl.*;
 import by.itacademy.todolist.service.ProfileService;
+import by.itacademy.todolist.service.TaskService;
 import by.itacademy.todolist.service.UserService;
 import by.itacademy.todolist.service.impl.ProfileServiceImpl;
+import by.itacademy.todolist.service.impl.TaskServiceImpl;
 import by.itacademy.todolist.service.impl.UserServiceImpl;
 
 public class DependencyManagerImpl implements DependencyManager {
@@ -16,6 +18,7 @@ public class DependencyManagerImpl implements DependencyManager {
 
     private static final UserService USER_SERVICE;
     private static final ProfileService PROFILE_SERVICE;
+    private static final TaskService TASK_SERVICE;
 
 
     static {
@@ -28,6 +31,7 @@ public class DependencyManagerImpl implements DependencyManager {
 
         USER_SERVICE = new UserServiceImpl(userDao);
         PROFILE_SERVICE = new ProfileServiceImpl(profileDao);
+        TASK_SERVICE = new TaskServiceImpl(taskDao);
     }
 
     @Override
@@ -38,6 +42,11 @@ public class DependencyManagerImpl implements DependencyManager {
     @Override
     public ProfileService getProfileService() {
         return PROFILE_SERVICE;
+    }
+
+    @Override
+    public TaskService getTaskService() {
+        return TASK_SERVICE;
     }
 
     public static DependencyManager getInstance() {

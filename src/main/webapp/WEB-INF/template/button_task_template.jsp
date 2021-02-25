@@ -8,7 +8,7 @@
         <input type="submit" class="btn btn-outline-primary form-control" value="Tomorrow">
     </form>
 
-    <form action="<c:url value="/"> <c:param name="command" value="AllUsers"/> </c:url>" method="post">
+    <form action="<c:url value="/"> <c:param name="command" value="SomeDayTasks"/> </c:url>" method="post">
         <input type="submit" class="btn btn-outline-primary form-control" value="Some day">
     </form>
 

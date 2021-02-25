@@ -1,6 +1,7 @@
 package by.itacademy.todolist.controller.command;
 
 import by.itacademy.todolist.service.ProfileService;
+import by.itacademy.todolist.service.TaskService;
 import by.itacademy.todolist.service.UserService;
 
 import javax.servlet.ServletContext;
@@ -16,18 +17,21 @@ public abstract class FrontCommand {
 
     protected UserService userService;
     protected ProfileService profileService;
+    protected TaskService taskService;
 
     public void init(
             ServletContext servletContext,
             HttpServletRequest servletRequest,
             HttpServletResponse servletResponse,
             UserService userService,
-            ProfileService profileService) {
+            ProfileService profileService,
+            TaskService taskService) {
         this.context = servletContext;
         this.request = servletRequest;
         this.response = servletResponse;
         this.userService = userService;
         this.profileService = profileService;
+        this.taskService = taskService;
     }
 
     public abstract void process() throws ServletException, IOException;

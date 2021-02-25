@@ -29,7 +29,8 @@ public class FrontServlet extends HttpServlet {
         FrontCommand command = getCommand(request);
         command.init(getServletContext(), request, response,
                 dependencyManager.getUsersService(),
-                dependencyManager.getProfileService());
+                dependencyManager.getProfileService(),
+                dependencyManager.getTaskService());
         command.process();
     }
 

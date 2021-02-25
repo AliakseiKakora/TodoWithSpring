@@ -1,12 +1,7 @@
 package by.itacademy.todolist.listener;
 
-import by.itacademy.todolist.model.*;
 import by.itacademy.todolist.persistance.connector.Connector;
 import by.itacademy.todolist.persistance.connector.impl.HikariConnector;
-import by.itacademy.todolist.persistance.dao.*;
-import by.itacademy.todolist.persistance.dao.impl.*;
-import by.itacademy.todolist.service.UserService;
-import by.itacademy.todolist.service.impl.UserServiceImpl;
 import org.h2.tools.RunScript;
 import org.h2.tools.Server;
 
