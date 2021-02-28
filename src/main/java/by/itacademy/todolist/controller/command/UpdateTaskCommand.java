@@ -32,6 +32,10 @@ public class UpdateTaskCommand extends FrontCommand {
                 case ApplicationConstants.TASK_ACTION_FIXED:
                     task.setCompleted(true);
                     break;
+                case ApplicationConstants.TASK_ACTION_FULL_DELETE:
+                    taskService.deleteTask(takId);
+                    sectionTasksViewCommand.process();
+                    return;
                 default:
                     throw new RuntimeException();
             }

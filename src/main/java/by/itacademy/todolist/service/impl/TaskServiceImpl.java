@@ -110,4 +110,9 @@ public class TaskServiceImpl implements TaskService {
     public Task getTaskById(long id) {
         return taskDao.getById(id);
     }
+
+    @Override
+    public void deleteTask(long id) {
+        taskDao.delete(id);
+    }
 }
