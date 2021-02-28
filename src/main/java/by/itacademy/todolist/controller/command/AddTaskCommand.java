@@ -21,6 +21,8 @@ public class AddTaskCommand extends FrontCommand {
         String date = request.getParameter(ApplicationConstants.TASK_DATE);
         String time = request.getParameter(ApplicationConstants.TASK_TIME);
 
+        String today = String.format("%sT23:59", LocalDate.now().toString());
+
         try {
             Task task = Task.builder().name(name).description(description).dateAdded(LocalDateTime.now()).build();
             switch (section) {
@@ -31,10 +33,11 @@ public class AddTaskCommand extends FrontCommand {
                     task.setDateCompletion(timeCompleted);
                     break;
                 case ApplicationConstants.SECTION_TODAY:
-                    task.setDateCompletion(LocalDateTime.now());
+                    task.setDateCompletion(LocalDateTime.parse(today));
                     break;
                 case ApplicationConstants.SECTION_TOMORROW:
-                    task.setDateCompletion(LocalDateTime.now().plusDays(1));
+                    LocalDateTime tomorrow = LocalDateTime.parse(today).plusDays(1);
+                    task.setDateCompletion(tomorrow);
                     break;
             }
             taskService.createTaskForUser(task, user.getId());

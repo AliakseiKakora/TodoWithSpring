@@ -16,7 +16,7 @@ public class SomeDayTasksViewCommand extends FrontCommand {
 
         try {
             List<Task> someDayTasks = taskService.getSomeDayUserTasks(user.getId());
-            request.setAttribute(ApplicationConstants.TASK_KEY, someDayTasks);
+            request.setAttribute(ApplicationConstants.TASKS_KEY, someDayTasks);
             request.setAttribute(ApplicationConstants.SECTION_KEY, ApplicationConstants.SECTION_SOME_DAY);
             request.setAttribute(ApplicationConstants.TASK_TITLE, ApplicationConstants.TASK_SOME_DAY_TITLE);
             context.getRequestDispatcher(ApplicationConstants.TASKS_JSP).forward(request, response);

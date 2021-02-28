@@ -16,7 +16,7 @@ public class TodayTasksViewCommand extends FrontCommand {
 
         try {
             List<Task> todayTasks = taskService.getTodayUserTasks(user.getId());
-            request.setAttribute(ApplicationConstants.TASK_KEY, todayTasks);
+            request.setAttribute(ApplicationConstants.TASKS_KEY, todayTasks);
             request.setAttribute(ApplicationConstants.SECTION_KEY, ApplicationConstants.SECTION_TODAY);
             request.setAttribute(ApplicationConstants.TASK_TITLE, ApplicationConstants.TASK_TODAY_TITLE);
             context.getRequestDispatcher(ApplicationConstants.TASKS_JSP).forward(request, response);

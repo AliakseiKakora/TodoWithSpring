@@ -16,7 +16,7 @@ public class FixedTasksViewCommand extends FrontCommand {
 
         try {
             List<Task> fixedTasks = taskService.getFixedUserTasks(user.getId());
-            request.setAttribute(ApplicationConstants.TASK_KEY, fixedTasks);
+            request.setAttribute(ApplicationConstants.TASKS_KEY, fixedTasks);
             request.setAttribute(ApplicationConstants.SECTION_KEY, ApplicationConstants.SECTION_FIXED);
             request.setAttribute(ApplicationConstants.TASK_TITLE, ApplicationConstants.TASK_FIXED_TITLE);
             context.getRequestDispatcher(ApplicationConstants.TASKS_JSP).forward(request, response);

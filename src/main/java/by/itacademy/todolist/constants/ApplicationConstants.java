@@ -24,6 +24,7 @@ public class ApplicationConstants {
     public static final String ADD_TASK_JSP = "/addTask.jsp";
     public static final String PROFILE_JSP = "/profile.jsp";
     public static final String TASKS_JSP = "/tasks.jsp";
+    public static final String EDIT_TASK_JSP = "/editTask.jsp";
 
     public static final String SUCCESSFUL_KEY = "successful";
     public static final String ERROR_KEY = "error";
@@ -31,7 +32,8 @@ public class ApplicationConstants {
     public static final String ERROR_TASK_ADDED_MSG = "Task adding error";
     public static final String DATA_UPDATED_MSG = " data update";
 
-    public static final String TASK_KEY = "tasks";
+    public static final String TASKS_KEY = "tasks";
+    public static final String TASK_KEY = "task";
     public static final String TASK_TITLE = "title";
     public static final String TASK_SOME_DAY_TITLE = "Some day";
     public static final String TASK_TOMORROW_TITLE = "Tomorrow";

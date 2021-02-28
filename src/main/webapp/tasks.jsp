@@ -73,8 +73,8 @@
                                                         </c:otherwise>
                                                     </c:choose>
                                                     </c:url>" method="post">
-                                    <input name="taskId" type="hidden" value="${task.id}">
-                                    <input name="section" type="hidden" value="${requestScope.section}">
+                                    <input name="${ApplicationConstants.TASK_ID}" type="hidden" value="${task.id}">
+                                    <input name="${ApplicationConstants.SECTION_KEY}" type="hidden" value="${requestScope.section}">
                                     <input class="btn btn-danger btn-sm" type="submit" value="Delete">
                                 </form>
 
@@ -85,17 +85,21 @@
                                         || requestScope.section == ApplicationConstants.SECTION_TOMORROW)}">
 
                                 <td>
-                                    <a class="btn btn-warning btn-sm" href="<c:url value="/"> <c:param name="command" value="EditTask"/>  <c:param name="taskId" value="${task.id}"/> </c:url>" role="button">Edit</a>
+                                    <form action="<c:url value="/" >
+                                                   <c:param name="${ApplicationConstants.COMMAND_KEY}" value="EditTaskView"/>
+                                                 </c:url>" method="post">
+                                        <input name="${ApplicationConstants.TASK_ID}" type="hidden" value="${task.id}">
+                                        <input class="btn btn-warning btn-sm" type="submit" value="Edit">
+                                    </form>
                                 </td>
-
 
                                 <td>
                                     <form action="<c:url value="/" >
                                                    <c:param name="${ApplicationConstants.COMMAND_KEY}" value="UpdateTask"/>
                                                     <c:param name= "${ApplicationConstants.TASK_ACTION_KEY}" value="${ApplicationConstants.TASK_ACTION_FIXED}"/>
                                                  </c:url>" method="post">
-                                        <input name="taskId" type="hidden" value="${task.id}">
-                                        <input name="section" type="hidden" value="${requestScope.section}">
+                                        <input name="${ApplicationConstants.TASK_ID}" type="hidden" value="${task.id}">
+                                        <input name="${ApplicationConstants.SECTION_KEY}" type="hidden" value="${requestScope.section}">
                                         <input class="btn btn-success btn-sm" type="submit" value="Fixed">
                                     </form>
 

@@ -16,7 +16,7 @@ public class DeletedTasksViewCommand extends FrontCommand {
 
         try {
             List<Task> deletedTasks = taskService.getDeletedUserTasks(user.getId());
-            request.setAttribute(ApplicationConstants.TASK_KEY, deletedTasks);
+            request.setAttribute(ApplicationConstants.TASKS_KEY, deletedTasks);
             request.setAttribute(ApplicationConstants.SECTION_KEY, ApplicationConstants.SECTION_DELETED);
             request.setAttribute(ApplicationConstants.TASK_TITLE, ApplicationConstants.TASK_DELETED_TITLE);
             context.getRequestDispatcher(ApplicationConstants.TASKS_JSP).forward(request, response);
