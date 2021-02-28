@@ -23,13 +23,50 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<Task> getTodayUserTasks(User user) {
-        return user.getTasks().stream().filter(this::isTodayOrBeforeTask).collect(Collectors.toList());
+    public List<Task> getTodayUserTasks(long userId) {
+        List<Task> tasks = getAllUserTasks(userId);
+        return tasks.stream()
+                .filter(task -> !task.isCompleted() && !task.isDeleted())
+                .filter(this::isTodayOrBeforeTask)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public List<Task> getTomorrowUserTasks(User user) {
-        return user.getTasks().stream().filter(this::isTomorrowTask).collect(Collectors.toList());
+    public List<Task> getTomorrowUserTasks(long userId) {
+        List<Task> tasks = getAllUserTasks(userId);
+        return tasks.stream()
+                .filter(task -> !task.isCompleted() && !task.isDeleted())
+                .filter(this::isTomorrowTask)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Task> getSomeDayUserTasks(long userId) {
+        List<Task> tasks = getAllUserTasks(userId);
+        return tasks.stream()
+                .filter(task -> !task.isCompleted() && !task.isDeleted())
+                .filter(this::isSomeDayTask)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Task> getFixedUserTasks(long userId) {
+        List<Task> tasks = getAllUserTasks(userId);
+        return tasks.stream()
+                .filter(task -> !task.isDeleted())
+                .filter(Task::isCompleted)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Task> getDeletedUserTasks(long userId) {
+        List<Task> tasks = getAllUserTasks(userId);
+        return tasks.stream().filter(Task::isDeleted).collect(Collectors.toList());
+    }
+
+    @Override
+    public Task createTaskForUser(Task task, long userId) {
+        return taskDao.createTaskForUser(task, userId);
     }
 
     private boolean isTodayOrBeforeTask(Task task) {
@@ -47,32 +84,30 @@ public class TaskServiceImpl implements TaskService {
                 && now.getDayOfYear() == dateCompletion.getDayOfYear();
     }
 
+//    private boolean isSomeDayTask12(Task task) {
+//        LocalDateTime dateCompletion = task.getDateCompletion();
+//        LocalDateTime now = LocalDateTime.now().plusDays(1);
+//        return now.getYear() == dateCompletion.getYear()
+//                && now.getDayOfYear() < dateCompletion.getDayOfYear();
+//    }
+
     private boolean isSomeDayTask(Task task) {
         LocalDateTime dateCompletion = task.getDateCompletion();
         LocalDateTime now = LocalDateTime.now().plusDays(1);
-        return now.getYear() == dateCompletion.getYear()
-                && now.getDayOfYear() < dateCompletion.getDayOfYear();
-    }
-//    public static void main(String[] args) {
-//        LocalDateTime taskTime = LocalDateTime.of(2021, 2, 25, 12, 0);
-//
-//        Task task = Task.builder().dateCompletion(taskTime).build();
-//        System.out.println(isSomeDayTask(task));
-//
-//    }
-
-    @Override
-    public List<Task> getSomeDayUserTasks(User user) {
-        return user.getTasks().stream().filter(this::isSomeDayTask).collect(Collectors.toList());
+        if (dateCompletion.getYear() > now.getYear()) {
+            return true;
+        }
+        return dateCompletion.getYear() == now.getYear()
+                && dateCompletion.getDayOfYear() > now.getDayOfYear();
     }
 
     @Override
-    public List<Task> getFixedUserTasks(User user) {
-        return user.getTasks().stream().filter(Task::isCompleted).collect(Collectors.toList());
+    public Task updateTask(Task task) {
+        return taskDao.update(task);
     }
 
     @Override
-    public List<Task> getDeletedUserTasks(User user) {
-        return user.getTasks().stream().filter(Task::isDeleted).collect(Collectors.toList());
+    public Task getTaskById(long id) {
+        return taskDao.getById(id);
     }
 }

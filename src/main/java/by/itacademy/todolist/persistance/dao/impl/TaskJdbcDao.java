@@ -17,9 +17,9 @@ import java.util.List;
 
 public class TaskJdbcDao extends AbstractJdbcDao<Task> implements TaskDao<Task> {
 
-    private static final String CREATE_TASK_SQL = "insert into tasks (description, date_added, date_completion," +
-            " completed, deleted, user_id) values (?,?,?,?,?,?)";
-    private static final String GET_ALL_USER_TASK_SQL = "select t.id, t.description, t.date_added, t.date_completion, t.completed," +
+    private static final String CREATE_TASK_SQL = "insert into tasks (name, description, date_added, date_completion," +
+            " completed, deleted, user_id) values (?,?,?,?,?,?,?)";
+    private static final String GET_ALL_USER_TASK_SQL = "select t.id, t.name, t.description, t.date_added, t.date_completion, t.completed," +
             " t.deleted, fi.id as file_id, fi.path from tasks t left join files_info fi on fi.task_id = t.id where t.user_id = ?";
 
     private final FileInfoDao<FileInfo> fileInfoJdbcDao;
@@ -35,7 +35,7 @@ public class TaskJdbcDao extends AbstractJdbcDao<Task> implements TaskDao<Task> 
              PreparedStatement pStatement = connection.prepareStatement(CREATE_TASK_SQL, Statement.RETURN_GENERATED_KEYS)) {
 
             getStatementInitializer().processCreateStatement(pStatement, task);
-            pStatement.setLong(6, userId);
+            pStatement.setLong(7, userId);
             pStatement.executeUpdate();
 
             try (ResultSet resultSet = pStatement.getGeneratedKeys()) {

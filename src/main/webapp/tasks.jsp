@@ -1,4 +1,5 @@
 <%@ page import="java.time.format.DateTimeFormatter" %>
+<%@ page import="by.itacademy.todolist.constants.ApplicationConstants" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -15,80 +16,102 @@
 </head>
 <body>
 
-<header>
-    <c:import url="/WEB-INF/template/header_templ.jsp"/>
-</header>
-
 <div class="container-liquid ">
     <div class="row " style="height:100vh">
 
         <div class="col-2">
-            <c:import url="/WEB-INF/template/button_task_template.jsp"/>
 
         </div>
 
         <div class="col-8 rounded-3">
-           <c:if test="${!empty requestScope.tasks}">
-               <table class="table p-3 table-hover">
-                   <thead>
-                   <tr>
-                       <th scope="col">Description</th>
-                       <th scope="col">Date Added</th>
-                       <th scope="col">Date Completion</th>
-                   </tr>
-                   </thead>
-                   <tbody>
-
-                   <c:forEach items="${requestScope.tasks}" var="task">
-                       <tr class="table-primary">
-                           <td>${task.description}</td>
-                           <td>${task.dateAdded.format(DateTimeFormatter.ofPattern("dd:MM:uuuu"))}</td>
-                           <td>${task.dateCompletion.format(DateTimeFormatter.ofPattern("dd:MM:uuuu"))}</td>
-                           <td>
-                              <%-- <form action="<c:url value="/"> <c:param name="command" value="DeleteTask"/> </c:url>"
-                                     method="post">
-                                   <input name="productId" type="hidden" value="${task.id}">
-                                   <input type="submit" value="Delete task">
-                               </form>
-                               <form action="<c:url value="/"> <c:param name="command" value="EditTask"/> </c:url>"
-                                     method="post">
-                                   <input name="productId" type="hidden" value="${task.id}">
-                                   <input type="submit" value="Edit task">
-                               </form>--%>
-
-                               <a class="btn btn-light" href="<c:url value="/"> <c:param name="command" value="DeleteTask"/> <c:param name="taskId" value="${task.id}"></c:param> </c:url>" role="button">Delete</a>
-
-                               <a class="btn btn-light" href="<c:url value="/"> <c:param name="command" value="EditTask"/> </c:url>" role="button">Edit</a>
-                           </td>
-
-                       </tr>
-
-                   </c:forEach>
-
-                   </tbody>
-               </table>
 
 
+            <div style="margin-bottom: 5vh">
+                <c:import url="/WEB-INF/template/header_templ.jsp"/>
+            </div>
 
-               <ul class="list-group">
+            <h3 class="p-2">${requestScope.title} tasks</h3>
 
-                   <c:forEach items="${requestScope.tasks}" var="task">
+            <c:if test="${!empty requestScope.section && (requestScope.section == ApplicationConstants.SECTION_SOME_DAY
+                            || requestScope.section == ApplicationConstants.SECTION_TODAY
+                            || requestScope.section == ApplicationConstants.SECTION_TOMORROW)}">
+                <a class="btn btn-info btn-sm" href="<c:url value="/"> <c:param name="command" value="AddTaskView"/> <c:param name="section" value="${requestScope.section}"/> </c:url>" role="button">Add Task</a>
+            </c:if>
 
-                   <li class="list-group-item list-group-item-primary">${task.description}</li>
+
+            <c:if test="${!empty requestScope.tasks}">
+                <table class="table p-3 table-hover">
+                    <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Date Added</th>
+                        <th scope="col">Date Completion</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <c:forEach items="${requestScope.tasks}" var="task">
+                        <tr>
+
+                            <td> <a class="nav-link" href="<c:url value="/"> <c:param name="command" value="Task"/> <c:param name="taskId" value="${task.id}"/> </c:url> ">
+                                    ${task.name}</a>
+                            </td>
+                            <td>${task.dateAdded.format(DateTimeFormatter.ofPattern("dd:MM:uuuu"))}</td>
+                            <td>${task.dateCompletion.format(DateTimeFormatter.ofPattern("dd:MM:uuuu"))}</td>
+                            <td>
+                                <form action="<c:url value="/" >
+                                                    <c:param name="${ApplicationConstants.COMMAND_KEY}" value="UpdateTask"/>
+                                                    <c:param name= "${ApplicationConstants.TASK_ACTION_KEY}" value="${ApplicationConstants.TASK_ACTION_DELETE}"/>
+                                                  </c:url>" method="post">
+                                    <input name="taskId" type="hidden" value="${task.id}">
+                                    <input name="section" type="hidden" value="${requestScope.section}">
+                                    <input class="btn btn-danger btn-sm" type="submit" value="Delete">
+                                </form>
+
+                            </td>
+
+                            <c:if test="${!empty requestScope.section && (requestScope.section == ApplicationConstants.SECTION_SOME_DAY
+                                        || requestScope.section == ApplicationConstants.SECTION_TODAY
+                                        || requestScope.section == ApplicationConstants.SECTION_TOMORROW)}">
+
+                                <td>
+                                    <a class="btn btn-warning btn-sm" href="<c:url value="/"> <c:param name="command" value="EditTask"/>  <c:param name="taskId" value="${task.id}"/> </c:url>" role="button">Edit</a>
+                                </td>
 
 
-                   </c:forEach>
+                                <td>
 
 
-               </ul>
+                                        <form action="<c:url value="/" >
+                                                    <c:param name="${ApplicationConstants.COMMAND_KEY}" value="UpdateTask"/>
+                                                    <c:param name= "${ApplicationConstants.TASK_ACTION_KEY}" value="${ApplicationConstants.TASK_ACTION_FIXED}"/>
+                                                  </c:url>" method="post">
+                                            <input name="taskId" type="hidden" value="${task.id}">
+                                            <input name="section" type="hidden" value="${requestScope.section}">
+                                            <input class="btn btn-success btn-sm" type="submit" value="Fixed">
+                                        </form>
 
-           </c:if>
 
+
+                                </td>
+                            </c:if>
+                        </tr>
+
+                    </c:forEach>
+
+                    </tbody>
+                </table>
+            </c:if>
+            <c:import url="/WEB-INF/template/error_templ.jsp"/>
         </div>
 
         <div class="col-2" >
 
         </div>
+
 
     </div>
 

@@ -6,6 +6,7 @@ public class ProfileViewCommand extends FrontCommand {
 
     @Override
     public void process() throws IOException {
-        response.sendRedirect("profile.jsp");
+        String context = request.getContextPath();
+        response.sendRedirect(context + "/profile.jsp");
     }
 }

@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebFilter (urlPatterns = {"/main.jsp", "/profile.jsp"})
+@WebFilter (urlPatterns = {"/main.jsp", "/profile.jsp", "/tasks.jsp"}, dispatcherTypes = DispatcherType.FORWARD)
 public class AuthenticationFilter implements Filter {
 
 
@@ -25,7 +25,8 @@ public class AuthenticationFilter implements Filter {
         if (session != null && (session.getAttribute("user") != null)) {
             chain.doFilter(request, response);
         } else {
-            res.sendRedirect("/login.jsp");
+            String context = req.getContextPath();
+            res.sendRedirect(context + "/login.jsp");
         }
      }
 

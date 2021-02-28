@@ -12,6 +12,7 @@ public class LogoutCommand extends FrontCommand {
         if (session != null) {
             session.invalidate();
         }
-        response.sendRedirect("/login.jsp");
+        String context = request.getContextPath();
+        response.sendRedirect(context+ "/login.jsp");
     }
 }

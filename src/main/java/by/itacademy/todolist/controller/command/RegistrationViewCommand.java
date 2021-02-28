@@ -7,6 +7,7 @@ public class RegistrationViewCommand extends FrontCommand {
 
     @Override
     public void process() throws ServletException, IOException {
-        response.sendRedirect("/registration.jsp");
+        String context = request.getContextPath();
+        response.sendRedirect(context + "/registration.jsp");
     }
 }

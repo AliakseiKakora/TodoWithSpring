@@ -16,18 +16,20 @@
 
 
 
-<header>
-    <c:import url="/WEB-INF/template/header_templ.jsp"/>
-</header>
+
 
 <div class="container-liqud text-center">
     <div class="row " style="height:100vh">
 
         <div class="col-2">
-            <c:import url="/WEB-INF/template/button_task_template.jsp"/>
+
         </div>
 
         <div class="col-8 rounded-3">
+            <div style="margin-bottom: 5vh">
+                <c:import url="/WEB-INF/template/header_templ.jsp"/>
+            </div>
+
             <h1 class="mb-3 p-2" >My Profile</h1>
             <c:if test="${!empty sessionScope.user}">
                 <form action="<c:url value="/" > <c:param name="command" value="UpdateUser"/> </c:url>" method="post">
@@ -62,6 +64,7 @@
             </c:if>
 
             <c:import url="/WEB-INF/template/successful_template.jsp"/>
+            <c:import url="/WEB-INF/template/error_templ.jsp"/>
 
 
         </div>

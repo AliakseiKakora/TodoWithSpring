@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class Task {
     private long id;
+    private String name;
     private String description;
     private LocalDateTime dateAdded;
     private LocalDateTime dateCompletion;

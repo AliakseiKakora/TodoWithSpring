@@ -14,19 +14,19 @@
 </head>
 <body>
 
-<header>
-    <c:import url="/WEB-INF/template/header_templ.jsp"/>
-</header>
 
 <div class="container-liqud text-center">
     <div class="row " style="height:100vh">
 
         <div class="col-2">
-            <c:import url="/WEB-INF/template/button_task_template.jsp"/>
 
         </div>
 
         <div class="col-8 rounded-3">
+            <div style="margin-bottom: 5vh">
+                <c:import url="/WEB-INF/template/header_templ.jsp"/>
+            </div>
+
             <h3 class="p-2">Welcome to todo!</h3>
             <p class="lead">
                 Here you can create tasks, decide when you need to complete them. You have all the rights to fully edit your tasks.

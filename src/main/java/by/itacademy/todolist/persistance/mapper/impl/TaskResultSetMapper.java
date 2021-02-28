@@ -18,6 +18,7 @@ public class TaskResultSetMapper implements ResultSetMapper<Task> {
 
         return Task.builder()
                 .id(rs.getLong("id"))
+                .name(rs.getString("name"))
                 .description(rs.getString("description"))
                 .dateAdded(rs.getTimestamp("date_added").toLocalDateTime())
                 .dateCompletion(rs.getTimestamp("date_completion").toLocalDateTime())

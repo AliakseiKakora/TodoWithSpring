@@ -9,14 +9,20 @@ public interface TaskService {
 
     List<Task> getAllUserTasks(long userId);
 
-    List<Task> getTodayUserTasks(User user);
+    List<Task> getTodayUserTasks(long userId);
 
-    List<Task> getTomorrowUserTasks(User user);
+    List<Task> getTomorrowUserTasks(long userId);
 
-    List<Task> getSomeDayUserTasks(User user);
+    List<Task> getSomeDayUserTasks(long userId);
 
-    List<Task> getFixedUserTasks(User user);
+    List<Task> getFixedUserTasks(long userId);
 
-    List<Task> getDeletedUserTasks(User user);
+    List<Task> getDeletedUserTasks(long userId);
+
+    Task createTaskForUser(Task task, long userId);
+
+    Task updateTask(Task task);
+
+    Task getTaskById(long id);
 
 }
