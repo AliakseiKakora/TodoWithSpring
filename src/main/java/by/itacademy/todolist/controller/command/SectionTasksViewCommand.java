@@ -39,7 +39,8 @@ public class SectionTasksViewCommand extends FrontCommand {
         frontCommand.init(context, request, response,
                 dependencyManager.getUsersService(),
                 dependencyManager.getProfileService(),
-                dependencyManager.getTaskService());
+                dependencyManager.getTaskService(),
+                dependencyManager.getFileService());
         frontCommand.process();
     }
 }

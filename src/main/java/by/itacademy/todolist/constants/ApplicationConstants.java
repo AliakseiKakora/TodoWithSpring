@@ -43,5 +43,10 @@ public class ApplicationConstants {
 
     public static final String COMMAND_KEY = "command";
 
+    public static final String SAVE_DIRECTORY = "/todoFiles/";
+
+    public static final String FILE_ID = "fileId";
+    public static final String FILE_PATH= "filePath";
+
 
 }

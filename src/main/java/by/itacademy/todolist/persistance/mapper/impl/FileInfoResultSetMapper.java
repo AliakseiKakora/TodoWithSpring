@@ -13,6 +13,8 @@ public class FileInfoResultSetMapper implements ResultSetMapper<FileInfo> {
         return FileInfo.builder()
                 .id(rs.getLong("id"))
                 .path(rs.getString("path"))
+                .name(rs.getString("name"))
+                .directory(rs.getString("directory"))
                 .build();
     }
 

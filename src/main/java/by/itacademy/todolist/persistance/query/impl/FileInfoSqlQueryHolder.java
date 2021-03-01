@@ -4,11 +4,11 @@ import by.itacademy.todolist.persistance.query.CrudJdbcSqlQueryHolder;
 
 public class FileInfoSqlQueryHolder implements CrudJdbcSqlQueryHolder {
 
-    private static final String GET_BY_ID_SQL = "select id, path from files_info where id = ?";
-    private static final String GET_ALL_SQL = "select id, path from files_info";
-    private static final String UPDATE_SQL = "update files_info set path = ? where id = ?";
+    private static final String GET_BY_ID_SQL = "select id, name, directory, path from files_info where id = ?";
+    private static final String GET_ALL_SQL = "select id, name, directory, path from files_info";
+    private static final String UPDATE_SQL = "update files_info set name = ?, directory = ?, path = ? where id = ?";
     private static final String DELETE_SQL = "delete from files_info where id = ?";
-    private static final String CREATE_SQL = "insert into files_info (path) values (?)";
+    private static final String CREATE_SQL = "insert into files_info (name, directory, path) values (?,?,?)";
 
     @Override
     public String getByIdSql() {

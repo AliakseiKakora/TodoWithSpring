@@ -10,13 +10,15 @@ public class FileInfoStatementInitializer implements StatementInitializer<FileIn
 
     @Override
     public void processCreateStatement(PreparedStatement pStatement, FileInfo fileInfo) throws SQLException {
-        pStatement.setString(1, fileInfo.getPath());
+        pStatement.setString(1, fileInfo.getName());
+        pStatement.setString(2, fileInfo.getDirectory());
+        pStatement.setString(3, fileInfo.getPath());
     }
 
     @Override
     public long processUpdateStatement(PreparedStatement pStatement, FileInfo fileInfo) throws SQLException {
-        pStatement.setString(1, fileInfo.getPath());
-        pStatement.setLong(2, fileInfo.getId());
+        processCreateStatement(pStatement, fileInfo);
+        pStatement.setLong(4, fileInfo.getId());
         return fileInfo.getId();
     }
 

@@ -34,34 +34,33 @@ public class TestRunner {
         UserDao<User> userDao = new UserJdbcDao(connector, profileDao, roleDao, taskDao);
 
 
-        List<Task> tasks1 = taskDao.getAllUserTasks(3);
-        for (Task task1: tasks1) {
-            System.out.println(task1);
-        }
+        FileInfo fileInfo = FileInfo.builder().name("file1").directory("directory1").path("directory1/file1").build();
+        FileInfo fileInfo1 = FileInfo.builder().name("file2").directory("directory1").path("directory1/file2").build();
+        FileInfo fileInfo2 = FileInfo.builder().name("file3").directory("directory1").path("directory1/file3").build();
+
+
+        fileInfoDao.getAll().forEach(System.out::println);
+
+        fileInfoDao.delete(3);
+
 
 
         System.out.println("------------------------------------------");
 
-
-
-        taskDao.delete(31);
-
-
-
-        List<Task> tasks = taskDao.getAllUserTasks(3);
-        for (Task task1: tasks) {
-            System.out.println(task1);
-        }
+        fileInfoDao.getAll().forEach(System.out::println);
 
 
 
-        ////jdbcUrl=jdbc:h2:d:/database/todolist-test
+
+
+
+
+        ////jdbc:h2:d:/database/test2
 
 
        //// jdbcUrl=jdbc:h2:mem:database;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=TRUE;
 
 
-        //jdbc:h2:d:/database/testbase
 
     }
 }

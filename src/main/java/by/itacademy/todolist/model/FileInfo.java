@@ -9,4 +9,6 @@ import lombok.*;
 public class FileInfo {
     private long id;
     private String path;
+    private String directory;
+    private String name;
 }

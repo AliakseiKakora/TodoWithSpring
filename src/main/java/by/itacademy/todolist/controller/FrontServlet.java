@@ -11,6 +11,9 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 
 @WebServlet(name = "FrontServlet", urlPatterns = "")
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2,
+        maxFileSize = 1024 * 1024 * 10,
+        maxRequestSize = 1024 * 1024 * 50)
 public class FrontServlet extends HttpServlet {
 
     private final DependencyManager dependencyManager = DependencyManagerImpl.getInstance();
@@ -30,7 +33,8 @@ public class FrontServlet extends HttpServlet {
         command.init(getServletContext(), request, response,
                 dependencyManager.getUsersService(),
                 dependencyManager.getProfileService(),
-                dependencyManager.getTaskService());
+                dependencyManager.getTaskService(),
+                dependencyManager.getFileService());
         command.process();
     }
 

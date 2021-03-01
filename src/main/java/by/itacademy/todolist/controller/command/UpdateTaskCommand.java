@@ -18,7 +18,8 @@ public class UpdateTaskCommand extends FrontCommand {
         sectionTasksViewCommand.init(context, request, response,
                 dependencyManager.getUsersService(),
                 dependencyManager.getProfileService(),
-                dependencyManager.getTaskService());
+                dependencyManager.getTaskService(),
+                dependencyManager.getFileService());
 
         try {
             String action = request.getParameter(ApplicationConstants.TASK_ACTION_KEY);

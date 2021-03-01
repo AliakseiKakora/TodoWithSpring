@@ -13,7 +13,7 @@ import java.sql.*;
 
 public class FileInfoJdbcDao extends AbstractJdbcDao<FileInfo> implements FileInfoDao<FileInfo> {
 
-    private static final String ADD_FILE_FOR_TASK_SQL = "insert into files_info (path, task_id) values (?,?)";
+    private static final String ADD_FILE_FOR_TASK_SQL = "insert into files_info (name, directory, path, task_id) values (?,?,?,?)";
 
     public FileInfoJdbcDao(Connector connector) {
         super(connector, new FileInfoResultSetMapper(), new FileInfoSqlQueryHolder(), new FileInfoStatementInitializer());
@@ -24,8 +24,10 @@ public class FileInfoJdbcDao extends AbstractJdbcDao<FileInfo> implements FileIn
         try (Connection connection = getConnector().getConnection();
              PreparedStatement pStatement = connection.prepareStatement(ADD_FILE_FOR_TASK_SQL, Statement.RETURN_GENERATED_KEYS)) {
 
-            pStatement.setString(1, fileInfo.getPath());
-            pStatement.setLong(2, task_id);
+            pStatement.setString(1, fileInfo.getName());
+            pStatement.setString(2, fileInfo.getDirectory());
+            pStatement.setString(3, fileInfo.getPath());
+            pStatement.setLong(4, task_id);
             pStatement.executeUpdate();
 
             try (ResultSet resultSet = pStatement.getGeneratedKeys()) {

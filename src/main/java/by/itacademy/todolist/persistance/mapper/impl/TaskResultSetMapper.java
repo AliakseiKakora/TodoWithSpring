@@ -14,11 +14,13 @@ public class TaskResultSetMapper implements ResultSetMapper<Task> {
         FileInfo fileInfo = FileInfo.builder()
                 .id(rs.getLong("file_id"))
                 .path(rs.getString("path"))
+                .directory(rs.getString("directory"))
+                .name(rs.getString("file_name"))
                 .build();
 
         return Task.builder()
                 .id(rs.getLong("id"))
-                .name(rs.getString("name"))
+                .name(rs.getString("task_name"))
                 .description(rs.getString("description"))
                 .dateAdded(rs.getTimestamp("date_added").toLocalDateTime())
                 .dateCompletion(rs.getTimestamp("date_completion").toLocalDateTime())

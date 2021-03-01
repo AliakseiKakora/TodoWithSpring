@@ -14,6 +14,9 @@ public class EditTaskViewCommand extends FrontCommand {
         try {
             long taskId = Long.parseLong(request.getParameter(ApplicationConstants.TASK_ID));
             Task task = taskService.getTaskById(taskId);
+
+            String filePath = task.getFileInfo().getDirectory() + task.getFileInfo().getName();
+            request.setAttribute(ApplicationConstants.FILE_PATH, filePath);
             request.setAttribute(ApplicationConstants.TASK_KEY, task);
             context.getRequestDispatcher(ApplicationConstants.EDIT_TASK_JSP).forward(request, response);
             return;

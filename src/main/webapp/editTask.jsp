@@ -55,7 +55,7 @@
 
 
             <c:if test="${!empty requestScope.task}">
-                <form action="<c:url value="/"> <c:param name="command" value="EditTask"/> </c:url> " method="post">
+                <form action="<c:url value="/"> <c:param name="command" value="EditTask"/> </c:url> " method="post" enctype="multipart/form-data">
 
                     <div class="input-group mb-4">
                         <span class="input-group-text" id="basic-addon1">Name</span>
@@ -79,6 +79,39 @@
                     </div>
 
                 </form>
+
+                <c:choose>
+                    <c:when test="${empty requestScope.task.fileInfo.path}" >
+                        <form method="post" action="<c:url value="/"> <c:param name="command" value="UploadFile"/> </c:url>"
+                              enctype="multipart/form-data">
+
+                            <div class="input-group mb-4">
+                                <span class="input-group-text">File</span>
+                                <input class="form-control" type="file" name="file"/>
+                                <input name="${ApplicationConstants.TASK_ID}" type="hidden" value="${requestScope.task.id}"/>
+                            </div>
+
+                            <input type="submit" class="btn btn-info" value="Upload File"/>
+                        </form>
+                    </c:when>
+                    <c:otherwise>
+
+                        <a class="btn btn-success" href="<c:url value="${requestScope.filePath}"/>">Download File</a>
+
+                        <form method="post" action="<c:url value="/"> <c:param name="command" value="DeleteFile"/> </c:url>" >
+
+                            <div class="input-group mb-4">
+                                <input name="${ApplicationConstants.TASK_ID}" type="hidden" value="${requestScope.task.id}"/>
+                                <input name="${ApplicationConstants.FILE_ID}" type="hidden" value="${requestScope.task.fileInfo.id}"/>
+                            </div>
+
+                            <input type="submit" class="btn btn-danger" value="Delete File"/>
+                        </form>
+                    </c:otherwise>
+
+                </c:choose>
+
+
 
             </c:if>
 
