@@ -29,7 +29,7 @@ public class DependencyManagerImpl implements DependencyManager {
         ProfileDao<Profile> profileDao = new ProfileJdbcDao(connector);
         RoleDao<Role> roleDao = new RoleJdbcDao(connector);
         FileInfoDao<FileInfo> fileInfoDao = new FileInfoJdbcDao(connector);
-        TaskDao<Task> taskDao = new TaskJdbcDao(connector, fileInfoDao);
+        TaskDao<Task> taskDao = new TaskJdbcDao(connector);
         UserDao<User> userDao = new UserJdbcDao(connector, profileDao, roleDao, taskDao);
 
         USER_SERVICE = new UserServiceImpl(userDao);

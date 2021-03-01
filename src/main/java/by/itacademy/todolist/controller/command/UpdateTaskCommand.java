@@ -34,6 +34,7 @@ public class UpdateTaskCommand extends FrontCommand {
                     task.setCompleted(true);
                     break;
                 case ApplicationConstants.TASK_ACTION_FULL_DELETE:
+                    fileService.delete(task.getFileInfo().getId());
                     taskService.deleteTask(takId);
                     sectionTasksViewCommand.process();
                     return;

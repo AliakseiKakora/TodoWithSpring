@@ -84,13 +84,6 @@ public class TaskServiceImpl implements TaskService {
                 && now.getDayOfYear() == dateCompletion.getDayOfYear();
     }
 
-//    private boolean isSomeDayTask12(Task task) {
-//        LocalDateTime dateCompletion = task.getDateCompletion();
-//        LocalDateTime now = LocalDateTime.now().plusDays(1);
-//        return now.getYear() == dateCompletion.getYear()
-//                && now.getDayOfYear() < dateCompletion.getDayOfYear();
-//    }
-
     private boolean isSomeDayTask(Task task) {
         LocalDateTime dateCompletion = task.getDateCompletion();
         LocalDateTime now = LocalDateTime.now().plusDays(1);
