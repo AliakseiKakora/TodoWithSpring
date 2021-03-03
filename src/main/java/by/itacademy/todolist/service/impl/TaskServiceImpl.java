@@ -3,6 +3,7 @@ package by.itacademy.todolist.service.impl;
 import by.itacademy.todolist.model.Task;
 import by.itacademy.todolist.model.User;
 import by.itacademy.todolist.persistance.dao.TaskDao;
+import by.itacademy.todolist.service.FileService;
 import by.itacademy.todolist.service.TaskService;
 
 import java.time.LocalDateTime;
@@ -11,10 +12,12 @@ import java.util.stream.Collectors;
 
 public class TaskServiceImpl implements TaskService {
 
-    private TaskDao<Task> taskDao;
+    private final TaskDao<Task> taskDao;
+    private final FileService fileService;
 
-    public TaskServiceImpl(TaskDao<Task> taskDao) {
+    public TaskServiceImpl(TaskDao<Task> taskDao, FileService fileService) {
         this.taskDao = taskDao;
+        this.fileService = fileService;
     }
 
     @Override
@@ -69,6 +72,29 @@ public class TaskServiceImpl implements TaskService {
         return taskDao.createTaskForUser(task, userId);
     }
 
+    @Override
+    public Task updateTask(Task task) {
+        return taskDao.update(task);
+    }
+
+    @Override
+    public Task getTaskById(long id) {
+        return taskDao.getById(id);
+    }
+
+    @Override
+    public void deleteTask(long id) {
+        taskDao.delete(id);
+    }
+
+    @Override
+    public void deleteAllUserDeletedTask(long userId) {
+        List<Task> deletedTasks = getDeletedUserTasks(userId);
+        deletedTasks.stream().filter(task -> task.getFileInfo().getPath() != null)
+                .forEach(task -> fileService.delete(task.getFileInfo().getId()));
+        deletedTasks.forEach(task -> deleteTask(task.getId()));
+    }
+
     private boolean isTodayOrBeforeTask(Task task) {
         LocalDateTime dateCompletion = task.getDateCompletion();
         LocalDateTime now = LocalDateTime.now();
@@ -92,20 +118,5 @@ public class TaskServiceImpl implements TaskService {
         }
         return dateCompletion.getYear() == now.getYear()
                 && dateCompletion.getDayOfYear() > now.getDayOfYear();
-    }
-
-    @Override
-    public Task updateTask(Task task) {
-        return taskDao.update(task);
-    }
-
-    @Override
-    public Task getTaskById(long id) {
-        return taskDao.getById(id);
-    }
-
-    @Override
-    public void deleteTask(long id) {
-        taskDao.delete(id);
     }
 }

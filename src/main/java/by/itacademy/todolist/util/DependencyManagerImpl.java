@@ -34,8 +34,8 @@ public class DependencyManagerImpl implements DependencyManager {
 
         USER_SERVICE = new UserServiceImpl(userDao);
         PROFILE_SERVICE = new ProfileServiceImpl(profileDao);
-        TASK_SERVICE = new TaskServiceImpl(taskDao);
         FILE_SERVICE = new FileServiceImpl(fileInfoDao);
+        TASK_SERVICE = new TaskServiceImpl(taskDao, FILE_SERVICE);
     }
 
     @Override

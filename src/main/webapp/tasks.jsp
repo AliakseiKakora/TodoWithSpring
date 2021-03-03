@@ -32,10 +32,12 @@
 
             <h3 class="p-2">${requestScope.title} tasks</h3>
 
-            <c:if test="${!empty requestScope.section && (requestScope.section == ApplicationConstants.SECTION_SOME_DAY
-                            || requestScope.section == ApplicationConstants.SECTION_TODAY
-                            || requestScope.section == ApplicationConstants.SECTION_TOMORROW)}">
+            <c:if test="${!empty requestScope.section && (requestScope.section != ApplicationConstants.SECTION_DELETED)}">
                 <a class="btn btn-info btn-sm" href="<c:url value="/"> <c:param name="command" value="AddTaskView"/> <c:param name="section" value="${requestScope.section}"/> </c:url>" role="button">Add Task</a>
+            </c:if>
+
+            <c:if test="${!empty requestScope.section && (requestScope.section == ApplicationConstants.SECTION_DELETED)}">
+                <a class="btn btn-info btn-sm" href="<c:url value="/"> <c:param name="command" value="ClearList"/> </c:url>" role="button">Clear list</a>
             </c:if>
 
 
@@ -118,6 +120,8 @@
                     </tbody>
                 </table>
             </c:if>
+
+            <c:import url="/WEB-INF/template/successful_template.jsp"/>
             <c:import url="/WEB-INF/template/error_templ.jsp"/>
         </div>
 
