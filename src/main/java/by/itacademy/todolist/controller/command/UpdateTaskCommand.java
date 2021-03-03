@@ -33,6 +33,10 @@ public class UpdateTaskCommand extends FrontCommand {
                 case ApplicationConstants.TASK_ACTION_FIXED:
                     task.setCompleted(true);
                     break;
+                case ApplicationConstants.TASK_ACTION_RESTORE:
+                    task.setCompleted(false);
+                    task.setDeleted(false);
+                    break;
                 case ApplicationConstants.TASK_ACTION_FULL_DELETE:
                     if (task.getFileInfo().getPath() != null) {
                         fileService.delete(task.getFileInfo().getId());

@@ -20,6 +20,7 @@ public class ApplicationConstants {
     public static final String TASK_ACTION_FIXED = "fixedTask";
     public static final String TASK_ACTION_DELETE = "deleteTask";
     public static final String TASK_ACTION_FULL_DELETE = "fullDelete";
+    public static final String TASK_ACTION_RESTORE = "restoreTask";
 
     public static final String ADD_TASK_JSP = "/addTask.jsp";
     public static final String PROFILE_JSP = "/profile.jsp";

@@ -32,7 +32,8 @@
 
             <h3 class="p-2">${requestScope.title} tasks</h3>
 
-            <c:if test="${!empty requestScope.section && (requestScope.section != ApplicationConstants.SECTION_DELETED)}">
+            <c:if test="${!empty requestScope.section && (requestScope.section != ApplicationConstants.SECTION_DELETED
+                            && requestScope.section != ApplicationConstants.SECTION_FIXED)}">
                 <a class="btn btn-info btn-sm" href="<c:url value="/"> <c:param name="command" value="AddTaskView"/> <c:param name="section" value="${requestScope.section}"/> </c:url>" role="button">Add Task</a>
             </c:if>
 
@@ -113,6 +114,24 @@
 
                                 </td>
                             </c:if>
+
+                            <c:if test="${!empty requestScope.section && (requestScope.section == ApplicationConstants.SECTION_DELETED
+                                            || requestScope.section == ApplicationConstants.SECTION_FIXED)}">
+                                <td>
+                                    <form action="<c:url value="/" >
+                                                   <c:param name="${ApplicationConstants.COMMAND_KEY}" value="UpdateTask"/>
+                                                    <c:param name= "${ApplicationConstants.TASK_ACTION_KEY}" value="${ApplicationConstants.TASK_ACTION_RESTORE}"/>
+                                                 </c:url>" method="post">
+                                        <input name="${ApplicationConstants.TASK_ID}" type="hidden" value="${task.id}">
+                                        <input name="${ApplicationConstants.SECTION_KEY}" type="hidden" value="${requestScope.section}">
+                                        <input class="btn btn-success btn-sm" type="submit" value="Restore">
+                                    </form>
+
+                                </td>
+
+                            </c:if>
+
+
                         </tr>
 
                     </c:forEach>
