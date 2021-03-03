@@ -25,6 +25,7 @@ public class ApplicationConstants {
     public static final String PROFILE_JSP = "/profile.jsp";
     public static final String TASKS_JSP = "/tasks.jsp";
     public static final String EDIT_TASK_JSP = "/editTask.jsp";
+    public static final String TASK_CARD_JSP = "/taskCard.jsp";
 
     public static final String SUCCESSFUL_KEY = "successful";
     public static final String ERROR_KEY = "error";

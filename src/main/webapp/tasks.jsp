@@ -56,8 +56,14 @@
                     <c:forEach items="${requestScope.tasks}" var="task">
                         <tr>
 
-                            <td> <a class="nav-link" href="<c:url value="/"> <c:param name="command" value="Task"/> <c:param name="taskId" value="${task.id}"/> </c:url> ">
-                                    ${task.name}</a>
+                            <td>
+
+                                <form action="<c:url value="/"> <c:param name="command" value="TaskView"/> </c:url>" method="post">
+                                    <input name="${ApplicationConstants.TASK_ID}" type="hidden" value="${task.id}">
+                                    <input name="${ApplicationConstants.SECTION_KEY}" type="hidden" value="${requestScope.section}">
+                                    <input style="text-decoration: none" class="btn btn-link" type="submit" value="${task.name}">
+                                </form>
+
                             </td>
                             <td>${task.dateAdded.format(DateTimeFormatter.ofPattern("dd:MM:uuuu"))}</td>
                             <td>${task.dateCompletion.format(DateTimeFormatter.ofPattern("dd:MM:uuuu"))}</td>
