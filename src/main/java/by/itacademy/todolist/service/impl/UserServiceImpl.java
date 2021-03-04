@@ -25,15 +25,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User update(User user, String email, String name, String surname) {
-        if (user.getEmail().equals(email)
-                && user.getSurname().equals(surname)
-                && user.getName().equals(name)) {
-            return user;
-        }
-        user.setEmail(email);
-        user.setSurname(surname);
-        user.setName(name);
+    public User update(User user) {
         return userDao.update(user);
     }
 
@@ -42,4 +34,8 @@ public class UserServiceImpl implements UserService {
         return userDao.getAll();
     }
 
+    @Override
+    public User getById(long id) {
+        return userDao.getById(id);
+    }
 }

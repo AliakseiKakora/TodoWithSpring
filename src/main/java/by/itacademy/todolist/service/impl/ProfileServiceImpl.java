@@ -18,12 +18,7 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public Profile update(Profile profile, String login, String password) {
-        if (profile.getLogin().equals(login) && profile.getPassword().equals(password)) {
-            return profile;
-        }
-        profile.setLogin(login);
-        profile.setPassword(password);
+    public Profile update(Profile profile) {
         return profileDao.update(profile);
     }
 }

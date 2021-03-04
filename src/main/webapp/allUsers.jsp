@@ -107,26 +107,49 @@
 
                             <c:choose>
                                 <c:when test="${user.profile.enable}">
+
                                     <td>${ApplicationConstants.USER_STATUS_ACTIVE}</td>
+
                                 </c:when>
                                 <c:otherwise>
+
                                     <td>${ApplicationConstants.USER_STATUS_BLOCKED}</td>
+
                                 </c:otherwise>
                             </c:choose>
 
                             <c:if test="${sessionScope.user.id != user.id}">
+
+                                <c:choose>
+                                    <c:when test="${user.profile.enable}">
+
+                                        <td>
+                                            <form action="<c:url value="/"> <c:param name="command" value="UpdateUser"/> </c:url>" method="post">
+                                                <input name="${ApplicationConstants.USER_ID_KEY}" type="hidden" value="${user.id}">
+                                                <input name="${ApplicationConstants.ACTION_KEY}" type="hidden" value="${ApplicationConstants.USER_ACTION_BLOCK}">
+                                                <input class="btn btn-warning btn-sm" type="submit" value="Blocked">
+                                            </form>
+                                        </td>
+                                    </c:when>
+                                    <c:otherwise>
+
+                                        <td>
+                                            <form action="<c:url value="/"> <c:param name="command" value="UpdateUser"/> </c:url>" method="post">
+                                                <input name="${ApplicationConstants.USER_ID_KEY}" type="hidden" value="${user.id}">
+                                                <input name="${ApplicationConstants.ACTION_KEY}" type="hidden" value="${ApplicationConstants.USER_ACTION_UNBLOCK}">
+                                                <input class="btn btn-success btn-sm" type="submit" value="Unblock">
+                                            </form>
+                                        </td>
+                                    </c:otherwise>
+                                </c:choose>
+
                                 <td>
                                     <form action="<c:url value="/"> <c:param name="command" value="DeleteUser"/> </c:url>" method="post">
-                                        <input name="userId" type="hidden" value="${user.id}">
+                                        <input name="${ApplicationConstants.USER_ID_KEY}" type="hidden" value="${user.id}">
                                         <input class="btn btn-danger btn-sm" type="submit" value="Delete">
                                     </form>
                                 </td>
-                                <td>
-                                    <form action="<c:url value="/"> <c:param name="command" value="DeleteUser"/> </c:url>" method="post">
-                                        <input name="userId" type="hidden" value="${user.id}">
-                                        <input class="btn btn-warning btn-sm" type="submit" value="Blocked">
-                                    </form>
-                                </td>
+
                             </c:if>
                         </tr>
 

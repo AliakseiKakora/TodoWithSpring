@@ -10,6 +10,7 @@ public class ApplicationConstants {
 
     public static final String USER_KEY = "user";
     public static final String USERS_KEY = "users";
+    public static final String USER_ID_KEY = "userId";
 
     public static final String TASK_NAME = "name";
     public static final String TASK_DESCRIPTION = "description";
@@ -17,11 +18,15 @@ public class ApplicationConstants {
     public static final String TASK_TIME = "time";
     public static final String TASK_ID = "taskId";
 
-    public static final String TASK_ACTION_KEY = "action";
+    public static final String ACTION_KEY = "action";
     public static final String TASK_ACTION_FIXED = "fixedTask";
     public static final String TASK_ACTION_DELETE = "deleteTask";
     public static final String TASK_ACTION_FULL_DELETE = "fullDelete";
     public static final String TASK_ACTION_RESTORE = "restoreTask";
+
+    public static final String USER_ACTION_UNBLOCK = "unblock";
+    public static final String USER_ACTION_BLOCK = "block";
+    public static final String USER_ACTION_DELETE = "delete";
 
     public static final String ADD_TASK_JSP = "/addTask.jsp";
     public static final String PROFILE_JSP = "/profile.jsp";

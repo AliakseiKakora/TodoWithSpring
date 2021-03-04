@@ -32,7 +32,7 @@
 
             <h1 class="mb-3 p-2" >My Profile</h1>
             <c:if test="${!empty sessionScope.user}">
-                <form action="<c:url value="/" > <c:param name="command" value="UpdateUser"/> </c:url>" method="post">
+                <form action="<c:url value="/" > <c:param name="command" value="UpdateProfile"/> </c:url>" method="post">
 
                     <div class="mb-3">
                         <label for="login" class="form-label">Login</label>

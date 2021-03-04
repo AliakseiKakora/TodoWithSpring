@@ -61,10 +61,10 @@
                                              <c:param name="${ApplicationConstants.COMMAND_KEY}" value="UpdateTask"/>
                                              <c:choose>
                                                         <c:when test="${requestScope.section == ApplicationConstants.SECTION_DELETED}">
-                                                             <c:param name= "${ApplicationConstants.TASK_ACTION_KEY}" value="${ApplicationConstants.TASK_ACTION_FULL_DELETE}"/>
+                                                             <c:param name= "${ApplicationConstants.ACTION_KEY}" value="${ApplicationConstants.TASK_ACTION_FULL_DELETE}"/>
                                                         </c:when>
                                                         <c:otherwise>
-                                                             <c:param name= "${ApplicationConstants.TASK_ACTION_KEY}" value="${ApplicationConstants.TASK_ACTION_DELETE}"/>
+                                                             <c:param name= "${ApplicationConstants.ACTION_KEY}" value="${ApplicationConstants.TASK_ACTION_DELETE}"/>
                                                         </c:otherwise>
                                              </c:choose>
                                           </c:url>" method="post">
@@ -91,7 +91,7 @@
                             <li class="nav-item">
                                 <form action="<c:url value="/" >
                                                        <c:param name="${ApplicationConstants.COMMAND_KEY}" value="UpdateTask"/>
-                                                        <c:param name= "${ApplicationConstants.TASK_ACTION_KEY}" value="${ApplicationConstants.TASK_ACTION_FIXED}"/>
+                                                        <c:param name= "${ApplicationConstants.ACTION_KEY}" value="${ApplicationConstants.TASK_ACTION_FIXED}"/>
                                                      </c:url>" method="post">
                                     <input name="${ApplicationConstants.TASK_ID}" type="hidden" value="${requestScope.task.id}">
                                     <input name="${ApplicationConstants.SECTION_KEY}" type="hidden" value="${requestScope.section}">

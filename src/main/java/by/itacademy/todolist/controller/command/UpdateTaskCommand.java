@@ -22,7 +22,7 @@ public class UpdateTaskCommand extends FrontCommand {
                 dependencyManager.getFileService());
 
         try {
-            String action = request.getParameter(ApplicationConstants.TASK_ACTION_KEY);
+            String action = request.getParameter(ApplicationConstants.ACTION_KEY);
             long takId = Long.parseLong(request.getParameter(ApplicationConstants.TASK_ID));
             Task task = taskService.getTaskById(takId);
 
