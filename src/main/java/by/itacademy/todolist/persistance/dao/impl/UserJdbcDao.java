@@ -64,7 +64,6 @@ public class UserJdbcDao extends AbstractJdbcDao<User> implements UserDao<User> 
     @Override
     public void delete(long id) {
         User user = getById(id);
-        user.getTasks().forEach(task -> taskDao.delete(task.getId()));
         roleDao.deleteAllUserRoles(id);
         super.delete(id);
         profileDao.delete(user.getProfile().getId());

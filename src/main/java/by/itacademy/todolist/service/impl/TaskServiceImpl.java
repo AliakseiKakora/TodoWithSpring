@@ -98,6 +98,17 @@ public class TaskServiceImpl implements TaskService {
         deletedTasks.forEach(task -> deleteTask(task.getId()));
     }
 
+    @Override
+    public void deleteAllUserTasks(long userId) {
+        List<Task> allUserTasks = getAllUserTasks(userId);
+        if (allUserTasks.isEmpty()) {
+            return;
+        }
+        allUserTasks.stream().filter(task -> task.getFileInfo().getPath() != null)
+                .forEach(task -> fileService.delete(task.getFileInfo().getId()));
+        allUserTasks.forEach(task -> deleteTask(task.getId()));
+    }
+
     private boolean isTodayOrBeforeTask(Task task) {
         LocalDateTime dateCompletion = task.getDateCompletion();
         LocalDateTime now = LocalDateTime.now();

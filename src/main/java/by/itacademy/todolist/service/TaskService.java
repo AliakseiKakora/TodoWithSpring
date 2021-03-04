@@ -29,4 +29,6 @@ public interface TaskService {
 
     void deleteAllUserDeletedTask(long userId);
 
+    void deleteAllUserTasks(long userId);
+
 }
