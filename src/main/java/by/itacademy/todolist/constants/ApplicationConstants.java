@@ -35,6 +35,7 @@ public class ApplicationConstants {
     public static final String TASK_CARD_JSP = "/taskCard.jsp";
     public static final String ADMIN_PAGE_JSP = "/adminPage.jsp";
     public static final String ALL_USERS_JSP = "/allUsers.jsp";
+    public static final String LOGIN_JSP = "/login.jsp";
 
     public static final String SUCCESSFUL_KEY = "successful";
     public static final String ERROR_KEY = "error";
