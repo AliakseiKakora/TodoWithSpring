@@ -1,5 +1,4 @@
 <%@ page import="by.itacademy.todolist.model.Role" %>
-<%@ page import="by.itacademy.todolist.constants.ApplicationConstants" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 
@@ -34,7 +33,9 @@
 
                 <c:if test="${sessionScope.user.roles.contains(Role.ADMIN)}">
                     <li class="nav-item">
-                        <a class="nav-link" href="<c:url value="/"/>">Admin Page</a>
+
+                        <a class="nav-link" href="<c:url value="/"> <c:param name="command" value="AdminPageView"/> </c:url>">Admin Page</a>
+
                     </li>
                 </c:if>
 

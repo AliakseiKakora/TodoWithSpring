@@ -9,6 +9,7 @@ public class ApplicationConstants {
     public static final String SECTION_DELETED = "deleted";
 
     public static final String USER_KEY = "user";
+    public static final String USERS_KEY = "users";
 
     public static final String TASK_NAME = "name";
     public static final String TASK_DESCRIPTION = "description";
@@ -27,6 +28,8 @@ public class ApplicationConstants {
     public static final String TASKS_JSP = "/tasks.jsp";
     public static final String EDIT_TASK_JSP = "/editTask.jsp";
     public static final String TASK_CARD_JSP = "/taskCard.jsp";
+    public static final String ADMIN_PAGE_JSP = "/adminPage.jsp";
+    public static final String ALL_USERS_JSP = "/allUsers.jsp";
 
     public static final String SUCCESSFUL_KEY = "successful";
     public static final String ERROR_KEY = "error";
@@ -48,7 +51,9 @@ public class ApplicationConstants {
     public static final String SAVE_DIRECTORY = "/todoFiles/";
 
     public static final String FILE_ID = "fileId";
-    public static final String FILE_PATH= "filePath";
+    public static final String FILE_PATH = "filePath";
 
+    public static final String USER_STATUS_ACTIVE = "ACTIVE";
+    public static final String USER_STATUS_BLOCKED = "BLOCKED";
 
 }

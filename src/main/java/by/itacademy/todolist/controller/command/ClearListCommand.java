@@ -13,7 +13,6 @@ public class ClearListCommand extends FrontCommand {
         try {
             User user = (User) request.getSession().getAttribute(ApplicationConstants.USER_KEY);
             taskService.deleteAllUserDeletedTask(user.getId());
-            request.setAttribute(ApplicationConstants.SUCCESSFUL_KEY, "tasks was deleted");
             context.getRequestDispatcher("/?command=DeletedTasksView").forward(request, response);
             return;
         } catch (Exception e) {

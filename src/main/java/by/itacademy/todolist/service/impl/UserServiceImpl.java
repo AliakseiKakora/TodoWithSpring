@@ -4,6 +4,8 @@ import by.itacademy.todolist.model.User;
 import by.itacademy.todolist.persistance.dao.UserDao;
 import by.itacademy.todolist.service.UserService;
 
+import java.util.List;
+
 public class UserServiceImpl implements UserService {
 
     private final UserDao<User> userDao;
@@ -34,4 +36,10 @@ public class UserServiceImpl implements UserService {
         user.setName(name);
         return userDao.update(user);
     }
+
+    @Override
+    public List<User> getAllUsers() {
+        return userDao.getAll();
+    }
+
 }
