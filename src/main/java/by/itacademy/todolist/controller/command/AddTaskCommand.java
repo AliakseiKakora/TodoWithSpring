@@ -41,15 +41,11 @@ public class AddTaskCommand extends FrontCommand {
                     break;
             }
             taskService.createTaskForUser(task, user.getId());
-            request.setAttribute(ApplicationConstants.SUCCESSFUL_KEY, ApplicationConstants.SUCCESSFUL_TASK_ADDED_MSG);
-            request.setAttribute(ApplicationConstants.SECTION_KEY, section);
-            context.getRequestDispatcher(ApplicationConstants.ADD_TASK_JSP).forward(request, response);
+            response.sendRedirect("/?command=AddTaskView&section=" + section + "&successful=" + ApplicationConstants.SUCCESSFUL_TASK_ADDED_MSG );
             return;
         } catch (Exception e) {
             System.out.println("Task adding error");
         }
-        request.setAttribute(ApplicationConstants.ERROR_KEY, ApplicationConstants.ERROR_TASK_ADDED_MSG);
-        request.setAttribute(ApplicationConstants.SECTION_KEY, section);
-        context.getRequestDispatcher(ApplicationConstants.ADD_TASK_JSP).forward(request, response);
+        response.sendRedirect("/?command=AddTaskView&section=" + section + "&error=" + ApplicationConstants.ERROR_TASK_ADDED_MSG);
     }
 }
