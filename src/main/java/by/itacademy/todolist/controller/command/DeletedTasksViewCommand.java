@@ -13,12 +13,13 @@ public class DeletedTasksViewCommand extends FrontCommand {
     @Override
     public void process() throws ServletException, IOException {
         User user = (User) request.getSession().getAttribute(ApplicationConstants.USER_KEY);
-
+        String errorMessage = request.getParameter(ApplicationConstants.ERROR_KEY);
         try {
             List<Task> deletedTasks = taskService.getDeletedUserTasks(user.getId());
             request.setAttribute(ApplicationConstants.TASKS_KEY, deletedTasks);
             request.setAttribute(ApplicationConstants.SECTION_KEY, ApplicationConstants.SECTION_DELETED);
             request.setAttribute(ApplicationConstants.TASK_TITLE, ApplicationConstants.TASK_DELETED_TITLE);
+            request.setAttribute(ApplicationConstants.ERROR_KEY, errorMessage);
             context.getRequestDispatcher(ApplicationConstants.TASKS_JSP).forward(request, response);
             return;
         } catch (Exception e) {

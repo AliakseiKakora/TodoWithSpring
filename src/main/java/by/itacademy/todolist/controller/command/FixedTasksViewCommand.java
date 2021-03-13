@@ -13,12 +13,13 @@ public class FixedTasksViewCommand extends FrontCommand {
     @Override
     public void process() throws ServletException, IOException {
         User user = (User) request.getSession().getAttribute(ApplicationConstants.USER_KEY);
-
+        String errorMessage = request.getParameter(ApplicationConstants.ERROR_KEY);
         try {
             List<Task> fixedTasks = taskService.getFixedUserTasks(user.getId());
             request.setAttribute(ApplicationConstants.TASKS_KEY, fixedTasks);
             request.setAttribute(ApplicationConstants.SECTION_KEY, ApplicationConstants.SECTION_FIXED);
             request.setAttribute(ApplicationConstants.TASK_TITLE, ApplicationConstants.TASK_FIXED_TITLE);
+            request.setAttribute(ApplicationConstants.ERROR_KEY, errorMessage);
             context.getRequestDispatcher(ApplicationConstants.TASKS_JSP).forward(request, response);
             return;
         } catch (Exception e) {

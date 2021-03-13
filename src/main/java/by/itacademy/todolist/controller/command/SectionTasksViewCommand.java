@@ -9,38 +9,28 @@ import java.io.IOException;
 
 public class SectionTasksViewCommand extends FrontCommand {
 
-    private final DependencyManager dependencyManager = DependencyManagerImpl.getInstance();
-
     @Override
     public void process() throws ServletException, IOException {
         String section = request.getParameter(ApplicationConstants.SECTION_KEY);
-        FrontCommand frontCommand;
 
         switch (section) {
             case ApplicationConstants.SECTION_TODAY:
-                frontCommand = new TodayTasksViewCommand();
+                context.getRequestDispatcher("/?command=TodayTasksView").forward(request, response);
                 break;
             case ApplicationConstants.SECTION_TOMORROW:
-                frontCommand = new TomorrowTasksViewCommand();
+                context.getRequestDispatcher("/?command=TomorrowTasksView").forward(request, response);
                 break;
             case ApplicationConstants.SECTION_SOME_DAY:
-                frontCommand = new SomeDayTasksViewCommand();
+                context.getRequestDispatcher("/?command=SomeDayTasksView").forward(request, response);
                 break;
             case ApplicationConstants.SECTION_FIXED:
-                frontCommand = new FixedTasksViewCommand();
+                context.getRequestDispatcher("/?command=FixedTasksView").forward(request, response);
                 break;
             case ApplicationConstants.SECTION_DELETED:
-                frontCommand = new DeletedTasksViewCommand();
+                context.getRequestDispatcher("/?command=DeletedTasksView").forward(request, response);
                 break;
             default:
-                throw new RuntimeException();
+                response.sendRedirect(ApplicationConstants.MAIN_JSP);
         }
-
-        frontCommand.init(context, request, response,
-                dependencyManager.getUsersService(),
-                dependencyManager.getProfileService(),
-                dependencyManager.getTaskService(),
-                dependencyManager.getFileService());
-        frontCommand.process();
     }
 }
