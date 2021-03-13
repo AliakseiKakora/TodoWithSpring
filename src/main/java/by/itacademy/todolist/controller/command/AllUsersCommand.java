@@ -12,8 +12,10 @@ public class AllUsersCommand extends FrontCommand {
     @Override
     public void process() throws ServletException, IOException {
         try {
+            String errorMessage = request.getParameter(ApplicationConstants.ERROR_KEY);
             List<User> allUsers = userService.getAllUsers();
             request.setAttribute(ApplicationConstants.USERS_KEY, allUsers);
+            request.setAttribute(ApplicationConstants.ERROR_KEY, errorMessage);
             context.getRequestDispatcher(ApplicationConstants.ALL_USERS_JSP).forward(request, response);
             return;
 

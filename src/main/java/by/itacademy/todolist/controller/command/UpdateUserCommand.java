@@ -24,17 +24,16 @@ public class UpdateUserCommand extends FrontCommand {
                 case ApplicationConstants.USER_ACTION_UNBLOCK:
                     profile.setEnable(true);
                     break;
-                default:
-                    throw new RuntimeException();
             }
 
             profileService.update(profile);
-            context.getRequestDispatcher("/?command=AllUsers").forward(request, response);
+            response.sendRedirect("/?command=AllUsers");
             return;
         } catch (Exception e) {
             e.printStackTrace();
         }
         request.setAttribute(ApplicationConstants.ERROR_KEY, "blocking user");
-        context.getRequestDispatcher("/?command=AllUsers").forward(request, response);
+        response.sendRedirect("/?command=AllUsers&" +
+                ApplicationConstants.ERROR_KEY + "=blocking user");
     }
 }

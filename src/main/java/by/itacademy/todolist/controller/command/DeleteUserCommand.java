@@ -13,13 +13,12 @@ public class DeleteUserCommand extends FrontCommand {
             long userId = Long.parseLong(request.getParameter(ApplicationConstants.USER_ID_KEY));
             taskService.deleteAllUserTasks(userId);
             userService.deleteById(userId);
-            context.getRequestDispatcher("/?command=AllUsers").forward(request, response);
-
+            response.sendRedirect("/?command=AllUsers");
+            return;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        request.setAttribute(ApplicationConstants.ERROR_KEY, "blocking user");
-        context.getRequestDispatcher("/?command=AllUsers").forward(request, response);
-
+        response.sendRedirect("/?command=AllUsers&" +
+                ApplicationConstants.ERROR_KEY + "=deleting user");
     }
 }

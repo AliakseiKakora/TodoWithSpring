@@ -27,26 +27,22 @@ public class UpdateProfileCommand extends FrontCommand {
                 profile.setPassword(password);
                 profileService.update(profile);
             }
+            user.setEmail(email);
+            user.setSurname(surname);
+            user.setName(name);
+            user = userService.update(user);
 
-            if (!user.getEmail().equals(email)
-                    || !user.getSurname().equals(surname)
-                    || !user.getName().equals(name)) {
-                user.setEmail(email);
-                user.setSurname(surname);
-                user.setName(name);
-                user = userService.update(user);
-            }
 
             user = userService.getById(user.getId());
             request.getSession().setAttribute(ApplicationConstants.USER_KEY, user);
-            request.setAttribute(ApplicationConstants.SUCCESSFUL_KEY, ApplicationConstants.DATA_UPDATED_MSG);
-            context.getRequestDispatcher(ApplicationConstants.PROFILE_JSP).forward(request, response);
+            response.sendRedirect("/?command=ProfileView&" +
+                    ApplicationConstants.SUCCESSFUL_KEY + "=" + ApplicationConstants.DATA_UPDATED_MSG);
             return;
         } catch (Exception e) {
             System.out.println("Error update user data");
         }
-        request.setAttribute(ApplicationConstants.ERROR_KEY,  ApplicationConstants.DATA_UPDATED_MSG);
-        context.getRequestDispatcher(ApplicationConstants.PROFILE_JSP).forward(request, response);
+        response.sendRedirect("/?command=ProfileView&" +
+                ApplicationConstants.ERROR_KEY + "=" + ApplicationConstants.DATA_UPDATED_MSG);
     }
 
 }
