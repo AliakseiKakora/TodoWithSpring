@@ -19,7 +19,7 @@ import java.util.List;
 public class AuthenticationFilter implements Filter {
 
 
-    private String [] guestPages = {"/index.jsp", "/login.jsp", "registration", "/blocked.jsp", "/"};
+    private String [] guestPages = {"/index.jsp", "/login.jsp", "/registration.jsp", "/blocked.jsp", "/"};
     private String [] adminPages = {"/adminPage.jsp", "/allUsers.jsp"};
 
     List<String> guestPagesList = new ArrayList<>(Arrays.asList(guestPages));

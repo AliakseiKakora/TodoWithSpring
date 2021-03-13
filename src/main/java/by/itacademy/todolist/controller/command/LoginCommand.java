@@ -18,7 +18,7 @@ public class LoginCommand extends FrontCommand {
             context.getRequestDispatcher("/main.jsp").forward(request, response);
             return;
         } catch (Exception e) {
-            System.out.println("User not found");
+            e.printStackTrace();
         }
         request.setAttribute("error", "Invalid user data");
         context.getRequestDispatcher("/login.jsp").forward(request, response);
