@@ -12,6 +12,7 @@ public class SectionTasksViewCommand extends FrontCommand {
     @Override
     public void process() throws ServletException, IOException {
         String section = request.getParameter(ApplicationConstants.SECTION_KEY);
+        String contextPath = request.getContextPath();
 
         switch (section) {
             case ApplicationConstants.SECTION_TODAY:
@@ -30,7 +31,7 @@ public class SectionTasksViewCommand extends FrontCommand {
                 context.getRequestDispatcher("/?command=DeletedTasksView").forward(request, response);
                 break;
             default:
-                response.sendRedirect(ApplicationConstants.MAIN_JSP);
+                response.sendRedirect(contextPath + ApplicationConstants.MAIN_JSP);
         }
     }
 }

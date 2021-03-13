@@ -18,7 +18,7 @@ public class ProfileJdbcDao extends AbstractJdbcDao<Profile> implements ProfileD
 
     private static final String EXIST_LOGIN_AND_EMAIL = "select exists (select u.id from users u " +
             "left join profiles p on u.profile_id = p.id " +
-            "where login = ? and email = ?)";
+            "where login = ? or email = ?)";
 
     public ProfileJdbcDao(Connector connector) {
         super(connector, new ProfileResultSetMapper(), new ProfileSqlQueryHolder(),new ProfileStatementInitializer());

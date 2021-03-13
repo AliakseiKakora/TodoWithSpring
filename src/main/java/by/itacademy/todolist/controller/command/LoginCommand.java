@@ -1,5 +1,6 @@
 package by.itacademy.todolist.controller.command;
 
+import by.itacademy.todolist.constants.ApplicationConstants;
 import by.itacademy.todolist.model.User;
 
 import javax.servlet.ServletException;
@@ -11,16 +12,17 @@ public class LoginCommand extends FrontCommand {
     public void process() throws ServletException, IOException {
         String login = request.getParameter("login");
         String password = request.getParameter("password");
+        String contextPath = request.getContextPath();
 
         try {
             User user = userService.getUserByLoginAndPassword(login, password);
             request.getSession().setAttribute("user", user);
-            context.getRequestDispatcher("/main.jsp").forward(request, response);
+            response.sendRedirect( contextPath + "/main.jsp");
             return;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        request.setAttribute("error", "Invalid user data");
-        context.getRequestDispatcher("/login.jsp").forward(request, response);
+        response.sendRedirect("/?command=LoginView&" +
+                ApplicationConstants.ERROR_KEY + "=Invalid user data");
     }
 }
