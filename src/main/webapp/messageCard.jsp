@@ -1,5 +1,5 @@
-<%@ page import="by.itacademy.todolist.constants.ApplicationConstants" %>
 <%@ page import="java.time.format.DateTimeFormatter" %>
+<%@ page import="by.itacademy.todolist.constants.ApplicationConstants" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -71,51 +71,42 @@
 
         </div>
 
-        <div class="col-6 text-center" >
+        <div class="col-6" >
 
-            <c:if test="${!empty requestScope.messages}">
-                <table class="table p-3 table-hover">
-                    <thead>
-                    <tr>
-                        <th scope="col">Message</th>
-                        <th scope="col">Date Added</th>
-                        <th scope="col"></th>
-                    </thead>
-                    <tbody>
 
-                    <c:forEach items="${requestScope.messages}" var="message">
-                        <tr>
-                            <td>
-                                <form action="<c:url value="/"> <c:param name="${ApplicationConstants.COMMAND_KEY}" value="MessageCardView"/> </c:url>" method="post">
-                                    <input name="${ApplicationConstants.MESSAGE_ID}" type="hidden" value="${message.id}">
-                                    <input style="text-decoration: none" class="btn btn-link" type="submit" value="${message.message}">
-                                </form>
+            <div class="card">
+                <div class="card-header">
+                    <ul class="nav nav-pills card-header-pills">
 
-                            </td>
-                            <td>${message.dateAdded.format(DateTimeFormatter.ofPattern("dd:MM:uuuu"))}</td>
-
-                            <td>
+                            <li>
                                 <form action="<c:url value="/" > <c:param name="${ApplicationConstants.COMMAND_KEY}" value="DeleteMessage"/>
                                                     </c:url>" method="post">
-                                    <input name="${ApplicationConstants.MESSAGE_ID}" type="hidden" value="${message.id}">
+                                    <input name="${ApplicationConstants.MESSAGE_ID}" type="hidden" value="${requestScope.message.id}">
                                     <input class="btn btn-danger btn-sm" type="submit" value="Delete">
                                 </form>
 
-                            </td>
+                            </li>
 
-                        </tr>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <form action="<c:url value="/"> <c:param name="command" value="UserCardView"/> </c:url>" method="post">
+                        <input name="${ApplicationConstants.USER_ID_KEY}" type="hidden" value="${requestScope.message.user.id}">
+                        <input style="text-decoration: none" class="btn btn-link" type="submit" value=" ${requestScope.message.user.name} ${requestScope.message.user.surname}">
+                    </form>
+                    <p class="card-text">${requestScope.message.message}</p>
+                    <h6 class="card-title">${requestScope.message.dateAdded.format(DateTimeFormatter.ofPattern("dd:MM:uuuu HH:mm"))}</h6>
+                </div>
+            </div>
 
-                    </c:forEach>
 
-                    </tbody>
-                </table>
-            </c:if>
 
         </div>
 
         <div class="col-2">
 
         </div>
+
 
     </div>
 

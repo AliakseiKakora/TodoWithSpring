@@ -88,7 +88,14 @@
 
                     <c:forEach items="${requestScope.users}" var="user">
                         <tr>
-                            <td>${user.name} ${user.surname}</td>
+                            <td>
+
+                                <form action="<c:url value="/"> <c:param name="command" value="UserCardView"/> </c:url>" method="post">
+                                    <input name="${ApplicationConstants.USER_ID_KEY}" type="hidden" value="${user.id}">
+                                    <input style="text-decoration: none" class="btn btn-link" type="submit" value=" ${user.name} ${user.surname}">
+                                </form>
+
+                            </td>
 
                             <c:choose>
                                 <c:when test="${user.roles.contains(Role.ADMIN)}">

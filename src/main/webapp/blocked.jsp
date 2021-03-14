@@ -32,7 +32,7 @@
 
                 <div class="input-group mb-4">
                     <span class="input-group-text">Message</span>
-                    <textarea class="form-control" name="message"></textarea>
+                    <textarea class="form-control" name="message" required></textarea>
                 </div>
 
                 <input name="${ApplicationConstants.USER_ID_KEY}" type="hidden" value="${requestScope.userId}">

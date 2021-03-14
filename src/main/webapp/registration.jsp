@@ -29,15 +29,15 @@
 
             <form action="<c:url value="/"> <c:param name="command" value="Registration"/> </c:url> " method="post">
                 <div class="mb-4">
-                    <input type="text" class="form-control " placeholder="Login" name="login">
+                    <input type="text" class="form-control " placeholder="Login" name="login" required>
                 </div>
 
                 <div class="mb-4">
-                    <input type="password" class="form-control" placeholder="Password" name="password">
+                    <input type="password" class="form-control" placeholder="Password" name="password" required>
                 </div>
 
                 <div class="mb-4">
-                    <input type="email" class="form-control" placeholder="Email" name="email">
+                    <input type="email" class="form-control" placeholder="Email" name="email" required>
                 </div>
 
                 <div class="mb-4">
