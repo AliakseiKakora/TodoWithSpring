@@ -7,7 +7,7 @@ public class MainViewCommand extends FrontCommand {
 
     @Override
     public void process() throws ServletException, IOException {
-        String context = request.getContextPath();
-        response.sendRedirect( context + "/main.jsp");
+        String contextPath = request.getContextPath();
+        response.sendRedirect(contextPath + "/main.jsp");
     }
 }

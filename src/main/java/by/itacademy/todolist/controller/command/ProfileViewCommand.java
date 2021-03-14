@@ -23,6 +23,7 @@ public class ProfileViewCommand extends FrontCommand {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        response.sendRedirect("/?command=MainView");
+        String contextPath = request.getContextPath();
+        response.sendRedirect(contextPath + "/?command=MainView");
     }
 }

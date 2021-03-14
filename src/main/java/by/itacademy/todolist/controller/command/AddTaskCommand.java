@@ -23,6 +23,8 @@ public class AddTaskCommand extends FrontCommand {
 
         String today = String.format("%sT23:59", LocalDate.now().toString());
 
+        String contextPath = request.getContextPath();
+
         try {
             Task task = Task.builder().name(name).description(description).dateAdded(LocalDateTime.now()).build();
             switch (section) {
@@ -41,11 +43,11 @@ public class AddTaskCommand extends FrontCommand {
                     break;
             }
             taskService.createTaskForUser(task, user.getId());
-            response.sendRedirect("/?command=AddTaskView&section=" + section + "&successful=" + ApplicationConstants.SUCCESSFUL_TASK_ADDED_MSG );
+            response.sendRedirect(contextPath + "/?command=AddTaskView&section=" + section + "&successful=" + ApplicationConstants.SUCCESSFUL_TASK_ADDED_MSG );
             return;
         } catch (Exception e) {
             System.out.println("Task adding error");
         }
-        response.sendRedirect("/?command=AddTaskView&section=" + section + "&error=" + ApplicationConstants.ERROR_TASK_ADDED_MSG);
+        response.sendRedirect(contextPath + "/?command=AddTaskView&section=" + section + "&error=" + ApplicationConstants.ERROR_TASK_ADDED_MSG);
     }
 }

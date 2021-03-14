@@ -21,7 +21,7 @@ public class RegistrationCommand extends FrontCommand {
 
         try {
             if (profileService.existLoginAndEmail(login, email)) {
-                response.sendRedirect("/guest?command=RegistrationView&" +
+                response.sendRedirect(contextPath + "/guest?command=RegistrationView&" +
                         ApplicationConstants.ERROR_KEY + "=Login or email is busy");
                 return;
             }
@@ -36,7 +36,7 @@ public class RegistrationCommand extends FrontCommand {
         } catch (Exception e) {
             System.out.println("Registration error");
         }
-        response.sendRedirect("/guest?command=RegistrationView&" +
+        response.sendRedirect(contextPath + "/guest?command=RegistrationView&" +
                 ApplicationConstants.ERROR_KEY + "=Registration error");
     }
 }

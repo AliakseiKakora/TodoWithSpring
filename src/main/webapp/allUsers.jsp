@@ -161,6 +161,9 @@
 
             </c:if>
 
+            <c:import url="/WEB-INF/template/error_templ.jsp"/>
+            <c:import url="/WEB-INF/template/successful_template.jsp"/>
+
 
         </div>
 

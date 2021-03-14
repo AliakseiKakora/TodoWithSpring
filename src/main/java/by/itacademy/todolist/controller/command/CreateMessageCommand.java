@@ -12,6 +12,7 @@ public class CreateMessageCommand extends FrontCommand {
 
     @Override
     public void process() throws ServletException, IOException {
+        String contextPath = request.getContextPath();
         try {
             long userId = Long.parseLong(request.getParameter(ApplicationConstants.USER_ID_KEY));
             String userMessage = request.getParameter(ApplicationConstants.MESSAGE_KEY);
@@ -24,13 +25,13 @@ public class CreateMessageCommand extends FrontCommand {
                     build();
 
             messageService.create(message);
-            response.sendRedirect("/guest?command=LoginView&" +
+            response.sendRedirect(contextPath + "/guest?command=LoginView&" +
                     ApplicationConstants.SUCCESSFUL_KEY + "=submit message");
             return;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        response.sendRedirect("/guest?command=LoginView&" +
+        response.sendRedirect(contextPath + "/guest?command=LoginView&" +
                 ApplicationConstants.ERROR_KEY + "=submit message");
     }
 }

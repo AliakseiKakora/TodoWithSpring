@@ -19,7 +19,8 @@ public class MessageCardViewCommand extends FrontCommand {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        response.sendRedirect("/?command=AllMessages&" +
+        String contextPath = request.getContextPath();
+        response.sendRedirect(contextPath + "/?command=AllMessages&" +
                 ApplicationConstants.ERROR_KEY + "=search message");
     }
 }

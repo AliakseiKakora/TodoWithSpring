@@ -11,6 +11,7 @@ public class UpdateUserCommand extends FrontCommand {
 
     @Override
     public void process() throws ServletException, IOException {
+        String contextPath = request.getContextPath();
         try {
             String action = request.getParameter(ApplicationConstants.ACTION_KEY);
             long userId = Long.parseLong(request.getParameter(ApplicationConstants.USER_ID_KEY));
@@ -27,13 +28,13 @@ public class UpdateUserCommand extends FrontCommand {
             }
 
             profileService.update(profile);
-            response.sendRedirect("/?command=AllUsers");
+            response.sendRedirect(contextPath + "/?command=AllUsers");
             return;
         } catch (Exception e) {
             e.printStackTrace();
         }
         request.setAttribute(ApplicationConstants.ERROR_KEY, "blocking user");
-        response.sendRedirect("/?command=AllUsers&" +
+        response.sendRedirect(contextPath + "/?command=AllUsers&" +
                 ApplicationConstants.ERROR_KEY + "=blocking user");
     }
 }

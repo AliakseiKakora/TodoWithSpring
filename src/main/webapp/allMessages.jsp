@@ -77,7 +77,7 @@
                 <table class="table p-3 table-hover">
                     <thead>
                     <tr>
-                        <th scope="col">Message</th>
+                        <th scope="col">Sender</th>
                         <th scope="col">Date Added</th>
                         <th scope="col"></th>
                     </thead>
@@ -88,7 +88,7 @@
                             <td>
                                 <form action="<c:url value="/"> <c:param name="${ApplicationConstants.COMMAND_KEY}" value="MessageCardView"/> </c:url>" method="post">
                                     <input name="${ApplicationConstants.MESSAGE_ID}" type="hidden" value="${message.id}">
-                                    <input style="text-decoration: none" class="btn btn-link" type="submit" value="${message.message}">
+                                    <input style="text-decoration: none" class="btn btn-link" type="submit" value="${message.user.name} ${message.user.surname}">
                                 </form>
 
                             </td>

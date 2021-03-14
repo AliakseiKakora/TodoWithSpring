@@ -14,4 +14,6 @@ public interface MessageService {
 
     void delete(long id);
 
+    void deleteAllUserMessage(long userId);
+
 }

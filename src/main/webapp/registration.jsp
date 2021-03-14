@@ -46,6 +46,10 @@
 
             </form>
 
+            <a href="<c:url value="/guest"> <c:param name="command" value="LoginView"/> </c:url>">
+                <h6>Have an account? Sign in</h6>
+            </a>
+
             <c:import url="/WEB-INF/template/error_templ.jsp"/>
             <c:import url="/WEB-INF/template/successful_template.jsp"/>
 

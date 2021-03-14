@@ -21,6 +21,8 @@ public class UpdateProfileCommand extends FrontCommand {
         User user = (User) request.getSession().getAttribute(ApplicationConstants.USER_KEY);
         Profile profile = user.getProfile();
 
+        String contextPath = request.getContextPath();
+
         try {
             profile.setLogin(login);
             profile.setPassword(password);
@@ -34,13 +36,13 @@ public class UpdateProfileCommand extends FrontCommand {
 
             user = userService.getById(user.getId());
             request.getSession().setAttribute(ApplicationConstants.USER_KEY, user);
-            response.sendRedirect("/?command=ProfileView&" +
+            response.sendRedirect(contextPath + "/?command=ProfileView&" +
                     ApplicationConstants.SUCCESSFUL_KEY + "=" + ApplicationConstants.DATA_UPDATED_MSG);
             return;
         } catch (Exception e) {
             System.out.println("Error update user data");
         }
-        response.sendRedirect("/?command=ProfileView&" +
+        response.sendRedirect(contextPath + "/?command=ProfileView&" +
                 ApplicationConstants.ERROR_KEY + "=" + ApplicationConstants.DATA_UPDATED_MSG);
     }
 

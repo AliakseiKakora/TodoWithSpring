@@ -9,7 +9,7 @@ public class AdminPageViewCommand extends FrontCommand {
 
     @Override
     public void process() throws ServletException, IOException {
-        String context = request.getContextPath();
-        response.sendRedirect( context + ApplicationConstants.ADMIN_PAGE_JSP);
+        String contextPath = request.getContextPath();
+        response.sendRedirect( contextPath + ApplicationConstants.ADMIN_PAGE_JSP);
     }
 }

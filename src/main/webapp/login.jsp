@@ -43,6 +43,10 @@
 
             </form>
 
+            <a href="<c:url value="/guest"> <c:param name="command" value="RegistrationView"/> </c:url>">
+                <h6>Don't have an account? Register now </h6>
+            </a>
+
             <c:import url="/WEB-INF/template/error_templ.jsp"/>
             <c:import url="/WEB-INF/template/successful_template.jsp"/>
 

@@ -33,4 +33,9 @@ public class MessageServiceImpl implements MessageService {
     public void delete(long id) {
         messageDao.delete(id);
     }
+
+    @Override
+    public void deleteAllUserMessage(long userId) {
+        messageDao.deleteAllUserMessage(userId);
+    }
 }

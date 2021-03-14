@@ -19,7 +19,8 @@ public class UserCardViewCommand extends FrontCommand {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        response.sendRedirect("/?command=AllUsers&" +
+        String contextPath = request.getContextPath();
+        response.sendRedirect(contextPath + "/?command=AllUsers&" +
                 ApplicationConstants.ERROR_KEY + "=search user");
     }
 }

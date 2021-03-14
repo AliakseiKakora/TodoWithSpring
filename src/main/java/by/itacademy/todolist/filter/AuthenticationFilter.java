@@ -36,8 +36,7 @@ public class AuthenticationFilter implements Filter {
         HttpServletResponse res = (HttpServletResponse) response;
         HttpSession session = req.getSession(false);
 
-
-        String url = req.getRequestURI();
+        String url = req.getServletPath();
 
         User user = null;
 

@@ -113,10 +113,14 @@
                         </c:if>
                     </ul>
                 </div>
+
                 <div class="card-body">
                     <h4 class="card-title">${requestScope.user.name} ${requestScope.user.surname}</h4>
-                    <p class="card-text">${requestScope.user.email}</p>
-                    <h6 class="card-title">
+                    <p class="card-text"><strong>Email:</strong> ${requestScope.user.email}</p>
+                    <p class="card-text"><strong>Login:</strong> ${requestScope.user.profile.login}</p>
+                    <p class="card-text"><strong>Password:</strong> ${requestScope.user.profile.password}</p>
+
+                    <p class="card-text"> <strong>Role:</strong>
                         <c:choose>
                             <c:when test="${requestScope.user.roles.contains(Role.ADMIN)}">
                                 <td>${Role.ADMIN}</td>
@@ -125,7 +129,24 @@
                                 <td>${Role.USER}</td>
                             </c:otherwise>
                         </c:choose>
-                    </h6>
+                    </p>
+
+                    <p class="card-text"><strong>Status:</strong>
+                        <c:choose>
+                            <c:when test="${requestScope.user.profile.enable}">
+
+                                <td>${ApplicationConstants.USER_STATUS_ACTIVE}</td>
+
+                            </c:when>
+                            <c:otherwise>
+
+                                <td>${ApplicationConstants.USER_STATUS_BLOCKED}</td>
+
+                            </c:otherwise>
+                        </c:choose>
+
+                    </p>
+
                 </div>
             </div>
 

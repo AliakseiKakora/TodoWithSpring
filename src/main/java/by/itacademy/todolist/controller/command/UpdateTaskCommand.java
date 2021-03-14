@@ -11,6 +11,7 @@ public class UpdateTaskCommand extends FrontCommand {
     @Override
     public void process() throws ServletException, IOException {
         String section = request.getParameter(ApplicationConstants.SECTION_KEY);
+        String contextPath = request.getContextPath();
         try {
             String action = request.getParameter(ApplicationConstants.ACTION_KEY);
             long takId = Long.parseLong(request.getParameter(ApplicationConstants.TASK_ID));
@@ -32,14 +33,14 @@ public class UpdateTaskCommand extends FrontCommand {
                         fileService.delete(task.getFileInfo().getId());
                     }
                     taskService.deleteTask(takId);
-                    response.sendRedirect("/?command=SectionTasksView&section=" + section);
+                    response.sendRedirect(contextPath + "/?command=SectionTasksView&section=" + section);
                     return;
                 default:
                     throw new RuntimeException();
             }
 
             taskService.updateTask(task);
-            response.sendRedirect("/?command=SectionTasksView&section=" + section);
+            response.sendRedirect(contextPath + "/?command=SectionTasksView&section=" + section);
             return;
 
         } catch (Exception e) {
@@ -47,7 +48,7 @@ public class UpdateTaskCommand extends FrontCommand {
             System.out.println("Error fixed task");
         }
 
-        response.sendRedirect("/command=SectionTasksView&section=" +
+        response.sendRedirect(contextPath + "/command=SectionTasksView&section=" +
                 section + "&" + ApplicationConstants.ERROR_KEY + "=Error fixed task");
     }
 }
