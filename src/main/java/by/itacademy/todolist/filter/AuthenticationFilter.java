@@ -19,7 +19,7 @@ import java.util.List;
 public class AuthenticationFilter implements Filter {
 
 
-    private String [] guestPages = {"/index.jsp", "/login.jsp", "/registration.jsp", "/blocked.jsp", "/"};
+    private String [] guestPages = {"/index.jsp", "/login.jsp", "/registration.jsp", "/blocked.jsp", "/guest"};
     private String [] adminPages = {"/adminPage.jsp", "/allUsers.jsp"};
 
     List<String> guestPagesList = new ArrayList<>(Arrays.asList(guestPages));
@@ -48,7 +48,7 @@ public class AuthenticationFilter implements Filter {
         if (user != null && !user.getProfile().isEnable()) {
             session.invalidate();
             req.setAttribute(ApplicationConstants.USER_ID_KEY, user.getId());
-            req.getRequestDispatcher("/?command=BlockedView").forward(request, response);
+            req.getRequestDispatcher("/guest?command=BlockedView").forward(request, response);
             return;
         }
 
@@ -66,7 +66,7 @@ public class AuthenticationFilter implements Filter {
             chain.doFilter(request, response);
         } else {
             String context = req.getContextPath();
-            res.sendRedirect(context + "/login.jsp");
+            res.sendRedirect(context + "/index.jsp");
         }
 
      }

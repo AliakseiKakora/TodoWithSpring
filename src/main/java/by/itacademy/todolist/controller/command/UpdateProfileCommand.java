@@ -22,11 +22,10 @@ public class UpdateProfileCommand extends FrontCommand {
         Profile profile = user.getProfile();
 
         try {
-            if (!profile.getLogin().equals(login) || !profile.getPassword().equals(password)) {
-                profile.setLogin(login);
-                profile.setPassword(password);
-                profileService.update(profile);
-            }
+            profile.setLogin(login);
+            profile.setPassword(password);
+            profileService.update(profile);
+
             user.setEmail(email);
             user.setSurname(surname);
             user.setName(name);

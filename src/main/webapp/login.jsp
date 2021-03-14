@@ -27,7 +27,7 @@
                 <h1 class="text-muted">ToDo</h1>
             </div>
 
-            <form action="<c:url value="/"> <c:param name="command" value="Login"/> </c:url> " method="post">
+            <form action="<c:url value="/guest"> <c:param name="command" value="Login"/> </c:url> " method="post">
 
                 <div class="mb-4">
                     <input type="text" class="form-control " placeholder="Login" name="login" required>

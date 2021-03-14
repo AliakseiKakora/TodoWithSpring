@@ -22,7 +22,7 @@ public class LoginCommand extends FrontCommand {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        response.sendRedirect("/?command=LoginView&" +
+        response.sendRedirect("/guest?command=LoginView&" +
                 ApplicationConstants.ERROR_KEY + "=Invalid user data");
     }
 }

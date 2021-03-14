@@ -35,27 +35,27 @@
 
                     <div class="mb-3">
                         <label for="login" class="form-label">Login</label>
-                        <input type="text" class="form-control" id="login" name="login" value="${sessionScope.user.profile.login}">
+                        <input type="text" class="form-control" id="login" name="login" value="${requestScope.user.profile.login}">
                     </div>
 
                     <div class="mb-3">
                         <label for="password" class="form-label">Password</label>
-                        <input type="text" class="form-control" id="password" name="password" value="${sessionScope.user.profile.password}">
+                        <input type="text" class="form-control" id="password" name="password" value="${requestScope.user.profile.password}">
                     </div>
 
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" value="${sessionScope.user.email}">
+                        <input type="email" class="form-control" id="email" name="email" value="${requestScope.user.email}">
                     </div>
 
                     <div class="mb-3">
                         <label for="name" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="name" name="name" value="${sessionScope.user.name}">
+                        <input type="text" class="form-control" id="name" name="name" value="${requestScope.user.name}">
                     </div>
 
                     <div class="mb-3">
                         <label for="surname" class="form-label">Surname</label>
-                        <input type="text" class="form-control" id="surname" name="surname" value="${sessionScope.user.surname}">
+                        <input type="text" class="form-control" id="surname" name="surname" value="${requestScope.user.surname}">
                     </div>
 
                     <button type="submit" class="btn btn-primary">Update</button>

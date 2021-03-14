@@ -26,8 +26,8 @@
       </div>
 
       <div class="mb-2">
-        <a href="<c:url value="/?command=LoginView" />" class="d-grid gap-2 mb-3"> <button type="button" class="btn btn-primary btn-lg">Sign In</button></a>
-        <a href="<c:url value="/?command=RegistrationView" />" class="d-grid gap-2"> <button type="button" class="btn btn-primary btn-lg">Sign Up</button></a>
+        <a href="<c:url value="/guest?command=LoginView" />" class="d-grid gap-2 mb-3"> <button type="button" class="btn btn-primary btn-lg">Sign In</button></a>
+        <a href="<c:url value="/guest?command=RegistrationView" />" class="d-grid gap-2"> <button type="button" class="btn btn-primary btn-lg">Sign Up</button></a>
       </div>
 
     </div>

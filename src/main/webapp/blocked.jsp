@@ -28,7 +28,7 @@
                 <h4 class="text-muted">Your account has been blocked. You can contact the administrator.</h4>
             </div>
 
-            <form action="<c:url value="/"> <c:param name="command" value="CreateMessage"/> </c:url> " method="post">
+            <form action="<c:url value="/guest"> <c:param name="command" value="CreateMessage"/> </c:url> " method="post">
 
                 <div class="input-group mb-4">
                     <span class="input-group-text">Message</span>
