@@ -1,5 +1,5 @@
-<%@ page import="java.time.format.DateTimeFormatter" %>
 <%@ page import="by.itacademy.todolist.constants.ApplicationConstants" %>
+<%@ page import="java.time.format.DateTimeFormatter" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -73,12 +73,49 @@
 
         <div class="col-6 text-center" >
 
+            <c:if test="${!empty requestScope.messages}">
+                <table class="table p-3 table-hover">
+                    <thead>
+                    <tr>
+                        <th scope="col">Message</th>
+                        <th scope="col">Date Added</th>
+                        <th scope="col"></th>
+                    </thead>
+                    <tbody>
+
+                    <c:forEach items="${requestScope.messages}" var="message">
+                        <tr>
+                            <td>
+                                <form action="<c:url value="/"> <c:param name="${ApplicationConstants.COMMAND_KEY}" value="MessageView"/> </c:url>" method="post">
+                                    <input name="${ApplicationConstants.MESSAGE_ID}" type="hidden" value="${message.id}">
+                                    <input style="text-decoration: none" class="btn btn-link" type="submit" value="${message.message}">
+                                </form>
+
+                            </td>
+                            <td>${message.dateAdded.format(DateTimeFormatter.ofPattern("dd:MM:uuuu"))}</td>
+
+                            <td>
+                                <form action="<c:url value="/" > <c:param name="${ApplicationConstants.COMMAND_KEY}" value="DeleteMessage"/>
+                                                    </c:url>" method="post">
+                                    <input name="${ApplicationConstants.MESSAGE_ID}" type="hidden" value="${message.id}">
+                                    <input class="btn btn-danger btn-sm" type="submit" value="Delete">
+                                </form>
+
+                            </td>
+
+                        </tr>
+
+                    </c:forEach>
+
+                    </tbody>
+                </table>
+            </c:if>
+
         </div>
 
         <div class="col-2">
 
         </div>
-
 
     </div>
 

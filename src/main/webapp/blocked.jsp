@@ -41,6 +41,8 @@
                     <input type="submit" class="form-control" value="Submit">
                 </div>
 
+                <a href="<c:url value="/"> <c:param name="command" value="LoginView"/> </c:url>">Back</a>
+
             </form>
 
             <c:import url="/WEB-INF/template/error_templ.jsp"/>

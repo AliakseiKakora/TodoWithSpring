@@ -12,4 +12,6 @@ public interface MessageService {
 
     Message create(Message message);
 
+    void delete(long id);
+
 }

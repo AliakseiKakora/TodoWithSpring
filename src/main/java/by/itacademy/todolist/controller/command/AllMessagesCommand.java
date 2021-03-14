@@ -1,27 +1,27 @@
 package by.itacademy.todolist.controller.command;
 
 import by.itacademy.todolist.constants.ApplicationConstants;
-import by.itacademy.todolist.model.User;
+import by.itacademy.todolist.model.Message;
 
 import javax.servlet.ServletException;
 import java.io.IOException;
 import java.util.List;
 
-public class AllUsersCommand extends FrontCommand {
+public class AllMessagesCommand extends FrontCommand {
 
     @Override
     public void process() throws ServletException, IOException {
         try {
             String errorMessage = request.getParameter(ApplicationConstants.ERROR_KEY);
-            List<User> allUsers = userService.getAllUsers();
-            request.setAttribute(ApplicationConstants.USERS_KEY, allUsers);
+            List<Message> messages = messageService.getAll();
+            request.setAttribute(ApplicationConstants.MESSAGES_KEY, messages);
             request.setAttribute(ApplicationConstants.ERROR_KEY, errorMessage);
-            context.getRequestDispatcher(ApplicationConstants.ALL_USERS_JSP).forward(request, response);
+            context.getRequestDispatcher(ApplicationConstants.ALL_MESSAGES_JSP).forward(request, response);
             return;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        request.setAttribute(ApplicationConstants.ERROR_KEY, "search users");
-        context.getRequestDispatcher(ApplicationConstants.ALL_USERS_JSP).forward(request, response);
+        request.setAttribute(ApplicationConstants.ERROR_KEY, "search messages");
+        context.getRequestDispatcher(ApplicationConstants.ALL_MESSAGES_JSP).forward(request, response);
     }
 }

@@ -24,13 +24,13 @@ public class CreateMessageCommand extends FrontCommand {
                     build();
 
             messageService.create(message);
-            response.sendRedirect("/?command=BlockedView&" +
+            response.sendRedirect("/?command=LoginView&" +
                     ApplicationConstants.SUCCESSFUL_KEY + "=submit message");
             return;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        response.sendRedirect("/?command=BlockedView&" +
+        response.sendRedirect("/?command=LoginView&" +
                 ApplicationConstants.ERROR_KEY + "=submit message");
     }
 }

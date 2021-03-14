@@ -28,4 +28,9 @@ public class MessageServiceImpl implements MessageService {
     public Message create(Message message) {
         return messageDao.create(message);
     }
+
+    @Override
+    public void delete(long id) {
+        messageDao.delete(id);
+    }
 }

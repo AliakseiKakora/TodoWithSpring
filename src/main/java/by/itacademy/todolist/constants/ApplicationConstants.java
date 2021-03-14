@@ -26,7 +26,6 @@ public class ApplicationConstants {
 
     public static final String USER_ACTION_UNBLOCK = "unblock";
     public static final String USER_ACTION_BLOCK = "block";
-    public static final String USER_ACTION_DELETE = "delete";
 
     public static final String ADD_TASK_JSP = "/addTask.jsp";
     public static final String PROFILE_JSP = "/profile.jsp";
@@ -39,6 +38,7 @@ public class ApplicationConstants {
     public static final String MAIN_JSP = "/main.jsp";
     public static final String REGISTRATION_JSP = "/registration.jsp";
     public static final String BLOCKED_JSP = "/blocked.jsp";
+    public static final String ALL_MESSAGES_JSP = "/allMessages.jsp";
 
     public static final String SUCCESSFUL_KEY = "successful";
     public static final String ERROR_KEY = "error";
@@ -66,4 +66,6 @@ public class ApplicationConstants {
     public static final String USER_STATUS_BLOCKED = "BLOCKED";
 
     public static final String MESSAGE_KEY = "message";
+    public static final String MESSAGES_KEY = "messages";
+    public static final String MESSAGE_ID = "messageId";
 }

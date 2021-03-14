@@ -67,13 +67,7 @@
 
         <div class="col-2">
 
-            <div class="">
-
-                <form action="<c:url value="/"> <c:param name="command" value="AllUsers"/> </c:url>" method="post">
-                    <input type="submit" class="btn btn-outline-primary form-control" value="Show all users">
-                </form>
-
-            </div>
+            <c:import url="/WEB-INF/template/admin_navigate_template.jsp"/>
 
         </div>
 
