@@ -14,16 +14,16 @@ import java.util.List;
 public class TestRunner {
 
     // for connect with UI tool to database use url - jdbc:h2:tcp://localhost/d:/database/todolist-test
-//    private static final Server SERVER;
-//
-//    static {
-//        try {
-//            SERVER = Server.createTcpServer().start();
-//       } catch (SQLException e) {
-//            throw new RuntimeException("Failed start tcp H2 server");
-//        }
-//
-//    }
+    private static final Server SERVER;
+
+    static {
+        try {
+            SERVER = Server.createTcpServer().start();
+       } catch (SQLException e) {
+            throw new RuntimeException("Failed start tcp H2 server");
+        }
+
+    }
 
     public static void main(String[] args) {
         Connector connector = HikariConnector.getInstance();
@@ -33,28 +33,35 @@ public class TestRunner {
         TaskDao<Task> taskDao = new TaskJdbcDao(connector);
         UserDao<User> userDao = new UserJdbcDao(connector, profileDao, roleDao, taskDao);
 
-
-        FileInfo fileInfo = FileInfo.builder().name("file1").directory("directory1").path("directory1/file1").build();
-        FileInfo fileInfo1 = FileInfo.builder().name("file2").directory("directory1").path("directory1/file2").build();
-        FileInfo fileInfo2 = FileInfo.builder().name("file3").directory("directory1").path("directory1/file3").build();
+        MessageDao<Message> messageDao = new MessageJdbcDao(connector);
 
 
-        fileInfoDao.getAll().forEach(System.out::println);
+//        User user = userDao.getById(4);
+//
+//        Message message = new Message();
+//        message.setDateAdded(LocalDateTime.now());
+//        message.setMessage("testmessage");
+//        message.setUser(user);
+//
+//        message = messageDao.create(message);
+//        System.out.println(message);
 
-        fileInfoDao.delete(3);
-
-
-
-        System.out.println("------------------------------------------");
-
-        fileInfoDao.getAll().forEach(System.out::println);
-
-
-
-
+       // System.out.println("------------------------------");
 
 
+        //messageDao.getAll().forEach(System.out::println);
 
+        Message message = messageDao.getById(1);
+        System.out.println(message);
+
+
+        messageDao.getAll().forEach(System.out::println);
+
+        messageDao.delete(message.getId());
+
+        System.out.println("-------------------------");
+
+        messageDao.getAll().forEach(System.out::println);
         ////jdbc:h2:d:/database/test2
 
 

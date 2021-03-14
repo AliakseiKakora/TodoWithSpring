@@ -28,5 +28,4 @@ public class TaskStatementInitializer implements StatementInitializer<Task> {
         pStatement.setLong(7, task.getId());
         return task.getId();
     }
-
 }

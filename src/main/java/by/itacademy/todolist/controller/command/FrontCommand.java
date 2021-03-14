@@ -1,9 +1,6 @@
 package by.itacademy.todolist.controller.command;
 
-import by.itacademy.todolist.service.FileService;
-import by.itacademy.todolist.service.ProfileService;
-import by.itacademy.todolist.service.TaskService;
-import by.itacademy.todolist.service.UserService;
+import by.itacademy.todolist.service.*;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -20,6 +17,7 @@ public abstract class FrontCommand {
     protected ProfileService profileService;
     protected TaskService taskService;
     protected FileService fileService;
+    protected MessageService messageService;
 
     public void init(
             ServletContext servletContext,
@@ -28,7 +26,8 @@ public abstract class FrontCommand {
             UserService userService,
             ProfileService profileService,
             TaskService taskService,
-            FileService fileService) {
+            FileService fileService,
+            MessageService messageService) {
         this.context = servletContext;
         this.request = servletRequest;
         this.response = servletResponse;
@@ -36,6 +35,7 @@ public abstract class FrontCommand {
         this.profileService = profileService;
         this.taskService = taskService;
         this.fileService = fileService;
+        this.messageService = messageService;
     }
 
     public abstract void process() throws ServletException, IOException;

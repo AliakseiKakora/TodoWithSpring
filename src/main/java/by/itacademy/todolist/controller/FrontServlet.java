@@ -34,7 +34,8 @@ public class FrontServlet extends HttpServlet {
                 dependencyManager.getUsersService(),
                 dependencyManager.getProfileService(),
                 dependencyManager.getTaskService(),
-                dependencyManager.getFileService());
+                dependencyManager.getFileService(),
+                dependencyManager.getMessageService());
         command.process();
     }
 

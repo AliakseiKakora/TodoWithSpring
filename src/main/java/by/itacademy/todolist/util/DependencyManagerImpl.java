@@ -5,14 +5,8 @@ import by.itacademy.todolist.persistance.connector.Connector;
 import by.itacademy.todolist.persistance.connector.impl.HikariConnector;
 import by.itacademy.todolist.persistance.dao.*;
 import by.itacademy.todolist.persistance.dao.impl.*;
-import by.itacademy.todolist.service.FileService;
-import by.itacademy.todolist.service.ProfileService;
-import by.itacademy.todolist.service.TaskService;
-import by.itacademy.todolist.service.UserService;
-import by.itacademy.todolist.service.impl.FileServiceImpl;
-import by.itacademy.todolist.service.impl.ProfileServiceImpl;
-import by.itacademy.todolist.service.impl.TaskServiceImpl;
-import by.itacademy.todolist.service.impl.UserServiceImpl;
+import by.itacademy.todolist.service.*;
+import by.itacademy.todolist.service.impl.*;
 
 public class DependencyManagerImpl implements DependencyManager {
 
@@ -22,6 +16,7 @@ public class DependencyManagerImpl implements DependencyManager {
     private static final ProfileService PROFILE_SERVICE;
     private static final TaskService TASK_SERVICE;
     private static final FileService FILE_SERVICE;
+    private static final MessageService MESSAGE_SERVICE;
 
 
     static {
@@ -31,11 +26,13 @@ public class DependencyManagerImpl implements DependencyManager {
         FileInfoDao<FileInfo> fileInfoDao = new FileInfoJdbcDao(connector);
         TaskDao<Task> taskDao = new TaskJdbcDao(connector);
         UserDao<User> userDao = new UserJdbcDao(connector, profileDao, roleDao, taskDao);
+        MessageDao<Message> messageDao = new MessageJdbcDao(connector);
 
         USER_SERVICE = new UserServiceImpl(userDao);
         PROFILE_SERVICE = new ProfileServiceImpl(profileDao);
         FILE_SERVICE = new FileServiceImpl(fileInfoDao);
         TASK_SERVICE = new TaskServiceImpl(taskDao, FILE_SERVICE);
+        MESSAGE_SERVICE = new MessageServiceImpl(messageDao);
     }
 
     @Override
@@ -56,6 +53,11 @@ public class DependencyManagerImpl implements DependencyManager {
     @Override
     public FileService getFileService() {
         return FILE_SERVICE;
+    }
+
+    @Override
+    public MessageService getMessageService() {
+        return MESSAGE_SERVICE;
     }
 
     public static DependencyManager getInstance() {

@@ -6,7 +6,7 @@ import by.itacademy.todolist.service.ProfileService;
 
 public class ProfileServiceImpl implements ProfileService {
 
-    private ProfileDao<Profile> profileDao;
+    private final ProfileDao<Profile> profileDao;
 
     public ProfileServiceImpl(ProfileDao<Profile> profileDao) {
         this.profileDao = profileDao;
