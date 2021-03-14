@@ -47,7 +47,8 @@ public class AuthenticationFilter implements Filter {
 
         if (user != null && !user.getProfile().isEnable()) {
             session.invalidate();
-            res.sendRedirect("/blocked.jsp");
+            req.setAttribute(ApplicationConstants.USER_ID_KEY, user.getId());
+            req.getRequestDispatcher("/?command=BlockedView").forward(request, response);
             return;
         }
 

@@ -38,6 +38,7 @@ public class ApplicationConstants {
     public static final String LOGIN_JSP = "/login.jsp";
     public static final String MAIN_JSP = "/main.jsp";
     public static final String REGISTRATION_JSP = "/registration.jsp";
+    public static final String BLOCKED_JSP = "/blocked.jsp";
 
     public static final String SUCCESSFUL_KEY = "successful";
     public static final String ERROR_KEY = "error";
@@ -64,4 +65,5 @@ public class ApplicationConstants {
     public static final String USER_STATUS_ACTIVE = "ACTIVE";
     public static final String USER_STATUS_BLOCKED = "BLOCKED";
 
+    public static final String MESSAGE_KEY = "message";
 }
