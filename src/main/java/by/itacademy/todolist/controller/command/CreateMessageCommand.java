@@ -25,8 +25,13 @@ public class CreateMessageCommand extends FrontCommand {
                     build();
 
             messageService.create(message);
-            response.sendRedirect(contextPath + "/guest?command=LoginView&" +
-                    ApplicationConstants.SUCCESSFUL_KEY + "=submit message");
+            if (request.getSession().getAttribute("user") == null) {
+                response.sendRedirect(contextPath + "/guest?command=LoginView&" +
+                        ApplicationConstants.SUCCESSFUL_KEY + "=submit message");
+            } else {
+                response.sendRedirect(contextPath + "/?command=MainView&" +
+                        ApplicationConstants.SUCCESSFUL_KEY + "=submit message");
+            }
             return;
         } catch (Exception e) {
             e.printStackTrace();

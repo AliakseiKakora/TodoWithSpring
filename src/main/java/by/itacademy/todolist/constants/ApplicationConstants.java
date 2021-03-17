@@ -41,6 +41,7 @@ public class ApplicationConstants {
     public static final String ALL_MESSAGES_JSP = "/allMessages.jsp";
     public static final String USER_CARD_JSP = "/userCard.jsp";
     public static final String MESSAGE_CARD_JSP = "/messageCard.jsp";
+    public static final String ERROR_JSP = "/error.jsp";
 
     public static final String SUCCESSFUL_KEY = "successful";
     public static final String ERROR_KEY = "error";

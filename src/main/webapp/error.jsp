@@ -1,3 +1,4 @@
+<%@ page import="by.itacademy.todolist.constants.ApplicationConstants" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -27,13 +28,28 @@
                 <c:import url="/WEB-INF/template/header_templ.jsp"/>
             </div>
 
-            <h3 class="p-2">Welcome to todo!</h3>
             <p class="lead">
-                Here you can create tasks, decide when you need to complete them. You have all the rights to fully edit your tasks.
-                Enjoy your work.
+                An unknown error has occurred! Please describe the error, it will help us a lot!
             </p>
 
-            <c:import url="/WEB-INF/template/successful_template.jsp"/>
+            <form action="<c:url value="/guest"> <c:param name="command" value="CreateMessage"/> </c:url> " method="post">
+
+                <div class="input-group mb-4">
+                    <span class="input-group-text">Message</span>
+                    <label>
+                        <textarea class="form-control" name="message" required></textarea>
+                    </label>
+                </div>
+
+                <input name="${ApplicationConstants.USER_ID_KEY}" type="hidden" value="${requestScope.userId}">
+
+                <div class="mb-4">
+                    <input type="submit" class="form-control" value="Submit">
+                </div>
+
+            </form>
+
+
 
         </div>
 

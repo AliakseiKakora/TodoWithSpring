@@ -1,13 +1,16 @@
 package by.itacademy.todolist.controller;
 
+import by.itacademy.todolist.constants.ApplicationConstants;
 import by.itacademy.todolist.controller.command.FrontCommand;
-import by.itacademy.todolist.controller.command.UnknownCommand;
 import by.itacademy.todolist.util.DependencyManager;
 import by.itacademy.todolist.util.DependencyManagerImpl;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
-import javax.servlet.annotation.*;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet(name = "FrontServlet", urlPatterns = {"", "/guest"})
@@ -29,25 +32,30 @@ public class FrontServlet extends HttpServlet {
             response.sendRedirect("index.jsp");
             return;
         }
-        FrontCommand command = getCommand(request);
-        command.init(getServletContext(), request, response,
-                dependencyManager.getUsersService(),
-                dependencyManager.getProfileService(),
-                dependencyManager.getTaskService(),
-                dependencyManager.getFileService(),
-                dependencyManager.getMessageService());
-        command.process();
+
+        try {
+            FrontCommand command = getCommand(request);
+            command.init(getServletContext(), request, response,
+                    dependencyManager.getUsersService(),
+                    dependencyManager.getProfileService(),
+                    dependencyManager.getTaskService(),
+                    dependencyManager.getFileService(),
+                    dependencyManager.getMessageService());
+            command.process();
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendRedirect("/?command=ErrorView");
+        }
     }
 
     private FrontCommand getCommand(HttpServletRequest request) {
         try {
             Class type = Class.forName(String.format("by.itacademy.todolist.controller.command.%sCommand",
-                    request.getParameter("command")));
+                    request.getParameter(ApplicationConstants.COMMAND_KEY)));
 
             return (FrontCommand) type.asSubclass(FrontCommand.class).newInstance();
-
         } catch (Exception e) {
-            return new UnknownCommand();
+            throw  new RuntimeException("Error found command + " + request.getParameter(ApplicationConstants.COMMAND_KEY));
         }
     }
 }
