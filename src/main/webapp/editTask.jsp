@@ -87,7 +87,7 @@
 
                             <div class="input-group mb-4">
                                 <span class="input-group-text">File</span>
-                                <input class="form-control" type="file" name="file"/>
+                                <input class="form-control" type="file" name="file" required/>
                                 <input name="${ApplicationConstants.TASK_ID}" type="hidden" value="${requestScope.task.id}"/>
                             </div>
 

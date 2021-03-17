@@ -69,11 +69,18 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Task createTaskForUser(Task task, long userId) {
+        if (task.getName() == null || task.getName().equals("")
+                || task.getDateCompletion() == null || task.getDateAdded() == null) {
+            throw new RuntimeException("Task name or date completion cannot be empty");
+        }
         return taskDao.createTaskForUser(task, userId);
     }
 
     @Override
     public Task updateTask(Task task) {
+        if (task.getName() == null || task.getName().equals("") || task.getDateCompletion() == null) {
+            throw new RuntimeException("Task name or date completion cannot be empty");
+        }
         return taskDao.update(task);
     }
 

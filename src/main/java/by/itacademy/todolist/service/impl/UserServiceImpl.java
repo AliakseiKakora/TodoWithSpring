@@ -21,11 +21,29 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User create(User user) {
+        if (!isValidRegistrationData(user)) {
+            throw new RuntimeException("User credentials are not valid ");
+        }
         return userDao.create(user);
+    }
+
+    private boolean isValidRegistrationData(User user) {
+        if (user == null || user.getProfile() == null) {
+            return false;
+        }
+        return user.getEmail() != null && !user.getEmail().equals("")
+                && user.getProfile().getLogin() != null
+                && user.getProfile().getPassword() != null
+                && !user.getProfile().getLogin().equals("")
+                && !user.getProfile().getPassword().equals("");
     }
 
     @Override
     public User update(User user) {
+        if (user.getEmail() == null || user.getEmail().equals("")) {
+            throw new RuntimeException("Email not cannot be empty");
+        }
+
         return userDao.update(user);
     }
 
