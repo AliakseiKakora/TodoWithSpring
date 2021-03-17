@@ -1,7 +1,5 @@
 package by.itacademy.todolist.listener;
 
-import by.itacademy.todolist.persistance.connector.Connector;
-import by.itacademy.todolist.persistance.connector.impl.HikariConnector;
 import org.h2.tools.RunScript;
 import org.h2.tools.Server;
 
@@ -25,28 +23,28 @@ public class ApplicationStartUpListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-
-        try {
-            SERVER = Server.createTcpServer().start();
-        } catch (SQLException e) {
-            throw new RuntimeException("Failed start tcp H2 server");
-        }
-
-        final Connector DATABASE_CONNECTOR = HikariConnector.getInstance();
-
-        try (Connection connection = DATABASE_CONNECTOR.getConnection()) {
-
-            URL ddlSql = ApplicationStartUpListener.class.getResource(DDL_INITIALIZATION_SCRIPT_PATH);
-            URL dmlSql = ApplicationStartUpListener.class.getResource(DML_INITIALIZATION_SCRIPT_PATH);
-
-            RunScript.execute(connection, Files.newBufferedReader(Paths.get(ddlSql.toURI()), StandardCharsets.UTF_8));
-            RunScript.execute(connection, Files.newBufferedReader(Paths.get(dmlSql.toURI()), StandardCharsets.UTF_8));
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.err.println("Error initialization in-memory database: " + e.getMessage());
-            throw new RuntimeException("Error initialization in-memory database: " + e.getMessage());
-        }
+//
+//        try {
+//            SERVER = Server.createTcpServer().start();
+//        } catch (SQLException e) {
+//            throw new RuntimeException("Failed start tcp H2 server");
+//        }
+//
+//        final Connector DATABASE_CONNECTOR = HikariConnector.getInstance();
+//
+//        try (Connection connection = DATABASE_CONNECTOR.getConnection()) {
+//
+//            URL ddlSql = ApplicationStartUpListener.class.getResource(DDL_INITIALIZATION_SCRIPT_PATH);
+//            URL dmlSql = ApplicationStartUpListener.class.getResource(DML_INITIALIZATION_SCRIPT_PATH);
+//
+//            RunScript.execute(connection, Files.newBufferedReader(Paths.get(ddlSql.toURI()), StandardCharsets.UTF_8));
+//            RunScript.execute(connection, Files.newBufferedReader(Paths.get(dmlSql.toURI()), StandardCharsets.UTF_8));
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            System.err.println("Error initialization in-memory database: " + e.getMessage());
+//            throw new RuntimeException("Error initialization in-memory database: " + e.getMessage());
+//        }
 
     }
 

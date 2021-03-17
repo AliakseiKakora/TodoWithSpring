@@ -1,12 +1,11 @@
 package by.itacademy.todolist.util;
 
 import by.itacademy.todolist.model.*;
-import by.itacademy.todolist.persistance.connector.Connector;
-import by.itacademy.todolist.persistance.connector.impl.HikariConnector;
+
 import by.itacademy.todolist.persistance.dao.*;
-import by.itacademy.todolist.persistance.dao.impl.*;
 import by.itacademy.todolist.service.*;
 import by.itacademy.todolist.service.impl.*;
+import com.sun.jdi.connect.Connector;
 
 public class DependencyManagerImpl implements DependencyManager {
 
@@ -20,19 +19,26 @@ public class DependencyManagerImpl implements DependencyManager {
 
 
     static {
-        Connector connector = HikariConnector.getInstance();
-        ProfileDao<Profile> profileDao = new ProfileJdbcDao(connector);
-        RoleDao<Role> roleDao = new RoleJdbcDao(connector);
-        FileInfoDao<FileInfo> fileInfoDao = new FileInfoJdbcDao(connector);
-        TaskDao<Task> taskDao = new TaskJdbcDao(connector);
-        UserDao<User> userDao = new UserJdbcDao(connector, profileDao, roleDao, taskDao);
-        MessageDao<Message> messageDao = new MessageJdbcDao(connector);
+      //  Connector connector = HikariConnector.getInstance();
+//        ProfileDao<Profile> profileDao = new ProfileJdbcDao(connector);
+//        RoleDao<Role> roleDao = new RoleJdbcDao(connector);
+//        FileInfoDao<FileInfo> fileInfoDao = new FileInfoJdbcDao(connector);
+//        TaskDao<Task> taskDao = new TaskJdbcDao(connector);
+//        UserDao<User> userDao = new UserJdbcDao(connector, profileDao, roleDao, taskDao);
+//        MessageDao<Message> messageDao = new MessageJdbcDao(connector);
+//
+//        USER_SERVICE = new UserServiceImpl(userDao);
+//        PROFILE_SERVICE = new ProfileServiceImpl(profileDao);
+//        FILE_SERVICE = new FileServiceImpl(fileInfoDao);
+//        TASK_SERVICE = new TaskServiceImpl(taskDao, FILE_SERVICE);
+//        MESSAGE_SERVICE = new MessageServiceImpl(messageDao);
 
-        USER_SERVICE = new UserServiceImpl(userDao);
-        PROFILE_SERVICE = new ProfileServiceImpl(profileDao);
-        FILE_SERVICE = new FileServiceImpl(fileInfoDao);
-        TASK_SERVICE = new TaskServiceImpl(taskDao, FILE_SERVICE);
-        MESSAGE_SERVICE = new MessageServiceImpl(messageDao);
+
+        USER_SERVICE = null;
+        PROFILE_SERVICE = null;
+        FILE_SERVICE = null;
+        TASK_SERVICE = null;
+        MESSAGE_SERVICE = null;
     }
 
     @Override

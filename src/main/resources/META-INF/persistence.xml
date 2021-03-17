@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd"
+             version="2.2">
+
+  <persistence-unit name="PERSISTENCE">
+    <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+
+    <properties>
+      <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
+
+      <property name="hibernate.connection.provider_class"
+                value="org.hibernate.hikaricp.internal.HikariCPConnectionProvider"/>
+      <property name="hibernate.hikari.minimumIdle" value="20"/>
+      <property name="hibernate.hikari.maximumPoolSize" value="100"/>
+      <property name="hibernate.hikari.idleTimeout" value="30000"/>
+      <property name="hibernate.hikari.driverClassName" value="org.h2.Driver"/>
+      <property name="hibernate.hikari.jdbcUrl"
+                value="jdbc:h2:mem:persistence-example;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=TRUE"/>
+      <property name="hibernate.hikari.username" value="root"/>
+      <property name="hibernate.hikari.password" value="root"/>
+
+
+      <property name="javax.persistence.schema-generation.database.action" value="create"/>
+
+      <!--      <property name="javax.persistence.schema-generation.create-script-source"-->
+      <!--                value="scripts/DDL-initialization.sql"/>-->
+      <!--      <property name="javax.persistence.sql-load-script-source" value="scripts/DML-initialization.sql"/>-->
+
+      <property name="hibernate.use_sql_comments" value="true"/>
+      <property name="hibernate.show_sql" value="true"/>
+
+    </properties>
+
+  </persistence-unit>
+
+</persistence>
