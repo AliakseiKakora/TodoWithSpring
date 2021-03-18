@@ -1,7 +1,6 @@
 package by.itacademy.todolist.service.impl;
 
 import by.itacademy.todolist.model.Task;
-import by.itacademy.todolist.model.User;
 import by.itacademy.todolist.persistance.dao.TaskDao;
 import by.itacademy.todolist.service.FileService;
 import by.itacademy.todolist.service.TaskService;

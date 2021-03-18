@@ -26,11 +26,14 @@ public class RegistrationCommand extends FrontCommand {
                 return;
             }
             List<Role> roles = new ArrayList<>();
-            roles.add(Role.USER);
+
+            //todo change work with roles
+
+           // roles.add(Role.USER);
             Profile profile = Profile.builder().isEnable(true).login(login).password(password).build();
-            User user = User.builder().profile(profile).email(email).roles(roles).build();
-            user = userService.create(user);
-            request.getSession().setAttribute("user", user);
+           // User user = User.builder().profile(profile).email(email).roles(roles).build();
+           // user = userService.create(user);
+          //  request.getSession().setAttribute("user", user);
             response.sendRedirect(contextPath + ApplicationConstants.MAIN_JSP);
             return;
         } catch (Exception e) {

@@ -1,16 +1,42 @@
 package by.itacademy.todolist.model;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
-@Getter
-@RequiredArgsConstructor
-public enum Role {
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
-    ADMIN(1, "ADMIN"),
-    USER(2, "USER");
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+@Builder
+@EqualsAndHashCode(of = {"id", "role"})
+@ToString(of = {"id", "role"})
 
-    private final long id;
-    private final String role;
+@Entity
+@Table(name = "ROLES")
+public class Role {
+    @Id
+    @SequenceGenerator(name = "ROLE_ID_SEQ_GEN", sequenceName = "ROLE_ID_SEQ_GEN", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ROLE_ID_SEQ_GEN")
+    private Long id;
 
+    private String role;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "ROLE_USER",
+            joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id")
+    )
+    private Set<User> users = new HashSet<>();
+
+    public void addUser(User user) {
+        user.getRoles().add(this);
+        users.add(user);
+    }
+
+    public void removeUser(User user) {
+        user.getRoles().remove(this);
+        users.remove(user);
+    }
 }

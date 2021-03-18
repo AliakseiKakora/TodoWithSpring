@@ -1,23 +1,68 @@
 package by.itacademy.todolist.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
-@Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Data
+@Builder
+@EqualsAndHashCode(of = {"id", "name", "description", "dateAdded"})
+@ToString(of = {"id", "name", "description", "dateAdded"})
+
+@Entity
+@Table(name = "TASKS")
 public class Task {
-    private long id;
+    @Id
+    @SequenceGenerator(name = "TASK_ID_SEQ_GEN", sequenceName ="TASK_ID_SEQ_GEN", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "TASK_ID_SEQ_GEN")
+    private Long id;
+
     private String name;
+
     private String description;
+
+    @Column(name = "date_added")
     private LocalDateTime dateAdded;
+
+    @Column(name = "date_completion")
     private LocalDateTime dateCompletion;
-    private FileInfo fileInfo;
+
+    @Column(name = "completed")
     private boolean isCompleted;
+
+    @Column(name = "deleted")
     private boolean isDeleted;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
+
+    @OneToOne(mappedBy = "task", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private FileInfo fileInfo;
+
+    public void addFileInfo(FileInfo fileInfo) {
+        this.fileInfo = fileInfo;
+        fileInfo.setTask(this);
+    }
+
+    public void removeFileInfo(FileInfo fileInfo) {
+        this.fileInfo = null;
+        fileInfo.setTask(null);
+    }
+
+    public void addUser(User user) {
+        this.user = user;
+        user.getTasks().add(this);
+    }
+
+    public void removeUser(User user) {
+        user.getTasks().remove(this);
+        this.user = null;
+    }
+
 }

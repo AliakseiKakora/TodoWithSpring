@@ -5,7 +5,6 @@ import by.itacademy.todolist.model.*;
 import by.itacademy.todolist.persistance.dao.*;
 import by.itacademy.todolist.service.*;
 import by.itacademy.todolist.service.impl.*;
-import com.sun.jdi.connect.Connector;
 
 public class DependencyManagerImpl implements DependencyManager {
 

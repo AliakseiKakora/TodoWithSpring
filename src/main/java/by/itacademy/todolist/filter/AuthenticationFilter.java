@@ -51,10 +51,13 @@ public class AuthenticationFilter implements Filter {
             return;
         }
 
-        if (user != null && adminPagesList.contains(url) && !user.getRoles().contains(Role.ADMIN)) {
-            res.sendRedirect("/security.jsp");
-            return;
-        }
+        //todo change it
+        //достать роль из базы и положить в сессию и ее уже доставать тут из сессии и проверять на содержание
+        //можно даже не в сессию а в application context
+//        if (user != null && adminPagesList.contains(url) && !user.getRoles().contains(Role.ADMIN)) {
+//            res.sendRedirect("/security.jsp");
+//            return;
+//        }
 
         if ((session == null || session.getAttribute(ApplicationConstants.USER_KEY) == null) && guestPagesList.contains(url)) {
             chain.doFilter(request, response);
