@@ -1,7 +1,7 @@
 package by.itacademy.todolist.service.impl;
 
 import by.itacademy.todolist.model.User;
-import by.itacademy.todolist.persistance.dao.UserDao;
+import by.itacademy.todolist.persistence.dao.UserDao;
 import by.itacademy.todolist.service.UserService;
 
 import java.util.List;
@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
         if (!isValidRegistrationData(user)) {
             throw new RuntimeException("User credentials are not valid ");
         }
-        return userDao.create(user);
+        return userDao.save(user);
     }
 
     private boolean isValidRegistrationData(User user) {
@@ -59,6 +59,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteById(long id) {
-        userDao.delete(id);
+        userDao.deleteById(id);
     }
 }

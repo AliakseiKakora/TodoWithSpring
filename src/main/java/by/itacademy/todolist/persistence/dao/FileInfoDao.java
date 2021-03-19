@@ -1,4 +1,4 @@
-package by.itacademy.todolist.persistance.dao;
+package by.itacademy.todolist.persistence.dao;
 
 public interface FileInfoDao<FileInfo> extends CrudDao<FileInfo> {
 

@@ -23,6 +23,8 @@ public class ApplicationStartUpListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
+
+        //todo
 //
 //        try {
 //            SERVER = Server.createTcpServer().start();

@@ -1,7 +1,7 @@
 package by.itacademy.todolist.service.impl;
 
 import by.itacademy.todolist.model.Profile;
-import by.itacademy.todolist.persistance.dao.ProfileDao;
+import by.itacademy.todolist.persistence.dao.ProfileDao;
 import by.itacademy.todolist.service.ProfileService;
 
 public class ProfileServiceImpl implements ProfileService {
@@ -13,8 +13,8 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public boolean existLoginAndEmail(String login, String email) {
-        return profileDao.existLoginAndEmail(login, email);
+    public boolean existLoginOrEmail(String login, String email) {
+        return profileDao.existLoginOrEmail(login, email);
     }
 
     @Override

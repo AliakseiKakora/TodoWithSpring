@@ -1,4 +1,4 @@
-package by.itacademy.todolist.persistance.util;
+package by.itacademy.todolist.persistence.util;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;

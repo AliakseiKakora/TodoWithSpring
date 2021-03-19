@@ -1,7 +1,7 @@
 package by.itacademy.todolist.service.impl;
 
 import by.itacademy.todolist.model.Message;
-import by.itacademy.todolist.persistance.dao.MessageDao;
+import by.itacademy.todolist.persistence.dao.MessageDao;
 import by.itacademy.todolist.service.MessageService;
 
 import java.util.List;
@@ -26,12 +26,12 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public Message create(Message message) {
-        return messageDao.create(message);
+        return messageDao.save(message);
     }
 
     @Override
     public void delete(long id) {
-        messageDao.delete(id);
+        messageDao.deleteById(id);
     }
 
     @Override

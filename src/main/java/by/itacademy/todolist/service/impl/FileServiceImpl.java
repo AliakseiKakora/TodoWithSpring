@@ -2,7 +2,7 @@ package by.itacademy.todolist.service.impl;
 
 import by.itacademy.todolist.constants.ApplicationConstants;
 import by.itacademy.todolist.model.FileInfo;
-import by.itacademy.todolist.persistance.dao.FileInfoDao;
+import by.itacademy.todolist.persistence.dao.FileInfoDao;
 import by.itacademy.todolist.service.FileService;
 
 import javax.servlet.http.Part;
@@ -52,7 +52,7 @@ public class FileServiceImpl implements FileService {
             FileInfo fileInfo = getById(fileId);
             Path path = Paths.get(fileInfo.getPath());
             Files.delete(path);
-            fileInfoDao.delete(fileId);
+            fileInfoDao.deleteById(fileId);
         } catch (Exception e) {
             throw new RuntimeException("Error delete file (fileId - " + fileId  + ")");
         }

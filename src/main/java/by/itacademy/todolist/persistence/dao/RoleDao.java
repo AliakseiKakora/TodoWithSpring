@@ -1,10 +1,12 @@
-package by.itacademy.todolist.persistance.dao;
+package by.itacademy.todolist.persistence.dao;
 
 import by.itacademy.todolist.model.User;
 
 import java.util.List;
 
 public interface RoleDao<Role> extends CrudDao<Role> {
+
+    Role getByIdWithUsers(long id);
 
     List<Role> getRolesByUserId(long id);
 

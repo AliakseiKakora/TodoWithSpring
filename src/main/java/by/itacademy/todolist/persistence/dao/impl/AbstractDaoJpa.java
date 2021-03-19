@@ -1,8 +1,8 @@
-package by.itacademy.todolist.persistance.dao.impl;
+package by.itacademy.todolist.persistence.dao.impl;
 
-import by.itacademy.todolist.persistance.dao.CrudDao;
-import by.itacademy.todolist.persistance.exception.DaoException;
-import by.itacademy.todolist.persistance.util.JpaEntityManagerFactoryUtil;
+import by.itacademy.todolist.persistence.dao.CrudDao;
+import by.itacademy.todolist.persistence.exception.DaoException;
+import by.itacademy.todolist.persistence.util.JpaEntityManagerFactoryUtil;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -52,7 +52,7 @@ public abstract class AbstractDaoJpa<T> implements CrudDao<T> {
     }
 
     @Override
-    public T create(T t) {
+    public T save(T t) {
         EntityManager entityManager = null;
         try {
             entityManager = entityManagerFactory.createEntityManager();
@@ -98,7 +98,7 @@ public abstract class AbstractDaoJpa<T> implements CrudDao<T> {
     }
 
     @Override
-    public void delete(long id) {
+    public void deleteById(long id) {
         EntityManager entityManager = null;
         try {
             entityManager = entityManagerFactory.createEntityManager();

@@ -1,4 +1,4 @@
-package by.itacademy.todolist.persistance.exception;
+package by.itacademy.todolist.persistence.exception;
 
 public class DaoException extends RuntimeException {
     public DaoException() {

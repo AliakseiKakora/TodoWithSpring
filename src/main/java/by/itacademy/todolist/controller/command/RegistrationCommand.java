@@ -3,7 +3,6 @@ package by.itacademy.todolist.controller.command;
 import by.itacademy.todolist.constants.ApplicationConstants;
 import by.itacademy.todolist.model.Profile;
 import by.itacademy.todolist.model.Role;
-import by.itacademy.todolist.model.User;
 
 import javax.servlet.ServletException;
 import java.io.IOException;
@@ -20,7 +19,7 @@ public class RegistrationCommand extends FrontCommand {
         String contextPath = request.getContextPath();
 
         try {
-            if (profileService.existLoginAndEmail(login, email)) {
+            if (profileService.existLoginOrEmail(login, email)) {
                 response.sendRedirect(contextPath + "/guest?command=RegistrationView&" +
                         ApplicationConstants.ERROR_KEY + "=Login or email is busy");
                 return;

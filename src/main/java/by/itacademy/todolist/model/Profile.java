@@ -25,7 +25,7 @@ public class Profile {
     @Column(name = "is_enable")
     private boolean isEnable;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @MapsId
     @JoinColumn(name = "id")
     private User user;

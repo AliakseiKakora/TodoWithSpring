@@ -1,4 +1,4 @@
-package by.itacademy.todolist.persistance.dao;
+package by.itacademy.todolist.persistence.dao;
 
 import java.util.List;
 
@@ -8,10 +8,10 @@ public interface CrudDao<T> {
 
     List<T> getAll();
 
-    T create(T t);
+    T save(T t);
 
     T update(T t);
 
-    void delete(long id);
+    void deleteById(long id);
 
 }
