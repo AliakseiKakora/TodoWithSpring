@@ -1,6 +1,7 @@
 package by.itacademy.todolist;
 
 import by.itacademy.todolist.model.Message;
+import by.itacademy.todolist.model.Task;
 import by.itacademy.todolist.model.User;
 import by.itacademy.todolist.persistence.dao.impl.*;
 import by.itacademy.todolist.persistence.util.JpaEntityManagerFactoryUtil;
@@ -8,6 +9,7 @@ import org.h2.tools.Server;
 
 import javax.persistence.EntityManagerFactory;
 import java.sql.SQLException;
+import java.util.List;
 
 public class TestRunner {
 
@@ -29,7 +31,10 @@ public class TestRunner {
     }
 
     public static void main(String[] args) {
-        Message message = MESSAGE_DAO.getById(1);
+        List<Task> taskList = TASK_DAO.getAllUserTasks(1);
+        TASK_DAO.deleteAllUserTasks(1);
+
+        taskList = TASK_DAO.getAllUserTasks(1);
 
 
         System.out.println("fff");

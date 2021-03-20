@@ -99,7 +99,7 @@ public class TaskServiceImpl implements TaskService {
         if (deletedTasks.isEmpty()) {
             return;
         }
-        deletedTasks.stream().filter(task -> task.getFileInfo().getPath() != null)
+        deletedTasks.stream().filter(task -> task.getFileInfo() != null)
                 .forEach(task -> fileService.delete(task.getFileInfo().getId()));
         deletedTasks.forEach(task -> deleteTask(task.getId()));
     }
@@ -113,7 +113,7 @@ public class TaskServiceImpl implements TaskService {
 
         allUserTasks.stream().filter(task -> task.getFileInfo() != null)
                 .forEach(task -> fileService.delete(task.getFileInfo().getId()));
-        allUserTasks.forEach(task -> deleteTask(task.getId()));
+        taskDao.deleteAllUserTasks(userId);
     }
 
     private boolean isTodayOrBeforeTask(Task task) {

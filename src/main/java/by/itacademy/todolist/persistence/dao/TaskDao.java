@@ -8,4 +8,6 @@ public interface TaskDao<Task> extends CrudDao<Task> {
 
     List<Task> getAllUserTasks(long userId);
 
+    void deleteAllUserTasks(long userId);
+
 }
