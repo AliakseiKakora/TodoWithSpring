@@ -2,12 +2,10 @@ package by.itacademy.todolist.controller.command;
 
 import by.itacademy.todolist.constants.ApplicationConstants;
 import by.itacademy.todolist.model.Profile;
-import by.itacademy.todolist.model.Role;
+import by.itacademy.todolist.model.User;
 
 import javax.servlet.ServletException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class RegistrationCommand extends FrontCommand {
 
@@ -24,15 +22,12 @@ public class RegistrationCommand extends FrontCommand {
                         ApplicationConstants.ERROR_KEY + "=Login or email is busy");
                 return;
             }
-            List<Role> roles = new ArrayList<>();
-
-            //todo change work with roles
-
-           // roles.add(Role.USER);
             Profile profile = Profile.builder().isEnable(true).login(login).password(password).build();
-           // User user = User.builder().profile(profile).email(email).roles(roles).build();
-           // user = userService.create(user);
-          //  request.getSession().setAttribute("user", user);
+            User user = new User();
+            user.setEmail(email);
+            user.addProfile(profile);
+            user = userService.create(user);
+            request.getSession().setAttribute("user", user);
             response.sendRedirect(contextPath + ApplicationConstants.MAIN_JSP);
             return;
         } catch (Exception e) {

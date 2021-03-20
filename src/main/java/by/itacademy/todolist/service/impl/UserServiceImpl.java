@@ -1,7 +1,10 @@
 package by.itacademy.todolist.service.impl;
 
+import by.itacademy.todolist.constants.ApplicationConstants;
+import by.itacademy.todolist.model.Role;
 import by.itacademy.todolist.model.User;
 import by.itacademy.todolist.persistence.dao.UserDao;
+import by.itacademy.todolist.service.RoleService;
 import by.itacademy.todolist.service.UserService;
 
 import java.util.List;
@@ -9,9 +12,11 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private final UserDao<User> userDao;
+    private final RoleService roleService;
 
-    public UserServiceImpl(UserDao<User> userDao) {
+    public UserServiceImpl(UserDao<User> userDao, RoleService roleService) {
         this.userDao = userDao;
+        this.roleService = roleService;
     }
 
     @Override
@@ -24,7 +29,10 @@ public class UserServiceImpl implements UserService {
         if (!isValidRegistrationData(user)) {
             throw new RuntimeException("User credentials are not valid ");
         }
-        return userDao.save(user);
+        Role userRole = roleService.getByNameWithUsers(ApplicationConstants.ROLE_USER_KEY);
+        user = userDao.save(user);
+        user.addRole(userRole);
+        return userDao.update(user);
     }
 
     private boolean isValidRegistrationData(User user) {

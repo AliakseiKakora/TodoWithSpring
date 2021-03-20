@@ -1,4 +1,3 @@
-<%@ page import="by.itacademy.todolist.model.Role" %>
 <%@ page import="by.itacademy.todolist.constants.ApplicationConstants" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -98,11 +97,11 @@
                             </td>
 
                             <c:choose>
-                                <c:when test="${user.roles.contains(Role.ADMIN)}">
-                                    <td>${Role.ADMIN}</td>
+                                <c:when test="${user.roles.contains(applicationScope.adminRole)}">
+                                    <td>ADMIN</td>
                                 </c:when>
                                 <c:otherwise>
-                                    <td>${Role.USER}</td>
+                                    <td>USER</td>
                                 </c:otherwise>
                             </c:choose>
 

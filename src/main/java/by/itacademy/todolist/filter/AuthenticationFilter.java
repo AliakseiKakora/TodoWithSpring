@@ -1,7 +1,6 @@
 package by.itacademy.todolist.filter;
 
 import by.itacademy.todolist.constants.ApplicationConstants;
-import by.itacademy.todolist.model.Role;
 import by.itacademy.todolist.model.User;
 
 import javax.servlet.*;
@@ -51,13 +50,10 @@ public class AuthenticationFilter implements Filter {
             return;
         }
 
-        //todo change it
-        //достать роль из базы и положить в сессию и ее уже доставать тут из сессии и проверять на содержание
-        //можно даже не в сессию а в application context
-//        if (user != null && adminPagesList.contains(url) && !user.getRoles().contains(Role.ADMIN)) {
-//            res.sendRedirect("/security.jsp");
-//            return;
-//        }
+        if (user != null && adminPagesList.contains(url) && !isAdmin(user)) {
+            res.sendRedirect("/security.jsp");
+            return;
+        }
 
         if ((session == null || session.getAttribute(ApplicationConstants.USER_KEY) == null) && guestPagesList.contains(url)) {
             chain.doFilter(request, response);
@@ -77,4 +73,9 @@ public class AuthenticationFilter implements Filter {
     public void destroy() {
 
     }
+
+    private boolean isAdmin(User user) {
+        return user.getRoles().stream().anyMatch(role -> role.getRole().equals(ApplicationConstants.ROLE_ADMIN_KEY));
+    }
+
 }

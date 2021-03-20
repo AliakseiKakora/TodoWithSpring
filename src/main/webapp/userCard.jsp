@@ -122,11 +122,11 @@
 
                     <p class="card-text"> <strong>Role:</strong>
                         <c:choose>
-                            <c:when test="${requestScope.user.roles.contains(Role.ADMIN)}">
-                                <td>${Role.ADMIN}</td>
+                            <c:when test="${requestScope.user.roles.contains(applicationScope.adminRole)}">
+                                <td>ADMIN</td>
                             </c:when>
                             <c:otherwise>
-                                <td>${Role.USER}</td>
+                                <td>USER</td>
                             </c:otherwise>
                         </c:choose>
                     </p>

@@ -1,6 +1,5 @@
 package by.itacademy.todolist;
 
-import by.itacademy.todolist.model.Task;
 import by.itacademy.todolist.model.User;
 import by.itacademy.todolist.persistence.dao.impl.ProfileDaoJpa;
 import by.itacademy.todolist.persistence.dao.impl.RoleDaoJpa;
@@ -11,7 +10,6 @@ import org.h2.tools.Server;
 
 import javax.persistence.EntityManagerFactory;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 
 public class TestRunner {
 
@@ -32,23 +30,29 @@ public class TestRunner {
     }
 
     public static void main(String[] args) {
+        System.out.println("fff");
+//
+    //    User user = USER_DAO.getById(1);
 
-        User user = USER_DAO.getById(1);
+   //     user.getProfile().setLogin("new");
+     //   PROFILE_DAO.update(user.getProfile());
+//
+//        Task task = new Task();
+//        task.setName("testname");
+//        task.setDateAdded(LocalDateTime.now());
+//        task.setDateCompletion(LocalDateTime.now());
+//        task.setDescription("description");
+//        task.setUser(user);
+//        TASK_DAO.save(task);
+//
 
-        Task task = new Task();
-        task.setName("testname");
-        task.setDateAdded(LocalDateTime.now());
-        task.setDateCompletion(LocalDateTime.now());
-        task.setDescription("description");
-        task.setUser(user);
-        TASK_DAO.save(task);
-
-        TASK_DAO.deleteById(task.getId());
 
 
 
-        // it work
-//        Role adminWithUsers = ROLE_DAO.getByIdWithUsers(1);
+         //it work
+  //  Role adminWithUsers = ROLE_DAO.getByIdWithUsers(1);
+
+
 //        User testUser = new User();
 //        testUser.setName("testname");
 //        testUser.setSurname("surnameTest");
@@ -56,9 +60,10 @@ public class TestRunner {
 //        testUser.addProfile(Profile.builder().login("testlogin1").password("testpassword").isEnable(true).build());
 //        USER_DAO.save(testUser);
 //        testUser.addRole(adminWithUsers);
-//         USER_DAO.update(testUser);
-//
-//        adminWithUsers = ROLE_DAO.getByIdWithUsers(1);
+//        USER_DAO.update(testUser);
+
+    //    testUser = USER_DAO.getById(testUser.getId());
+  //      adminWithUsers = ROLE_DAO.getByIdWithUsers(1);
 //        testUser.removeRole(adminWithUsers);
 //        ROLE_DAO.update(adminWithUsers);
 

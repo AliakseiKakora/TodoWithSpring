@@ -2,6 +2,7 @@ package by.itacademy.todolist.controller;
 
 import by.itacademy.todolist.constants.ApplicationConstants;
 import by.itacademy.todolist.controller.command.FrontCommand;
+import by.itacademy.todolist.model.Role;
 import by.itacademy.todolist.util.DependencyManager;
 import by.itacademy.todolist.util.DependencyManagerImpl;
 
@@ -57,5 +58,11 @@ public class FrontServlet extends HttpServlet {
         } catch (Exception e) {
             throw  new RuntimeException("Error found command + " + request.getParameter(ApplicationConstants.COMMAND_KEY));
         }
+    }
+
+    @Override
+    public void init() throws ServletException {
+        getServletContext().setAttribute("adminRole", new Role("ADMIN"));
+        getServletContext().setAttribute("userRole", new Role("USER"));
     }
 }

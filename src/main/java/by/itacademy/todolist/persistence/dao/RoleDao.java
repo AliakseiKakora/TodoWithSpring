@@ -8,6 +8,8 @@ public interface RoleDao<Role> extends CrudDao<Role> {
 
     Role getByIdWithUsers(long id);
 
+    Role getByNameWithUsers(String role);
+
     List<Role> getRolesByUserId(long id);
 
     void addUserRoles(User user);

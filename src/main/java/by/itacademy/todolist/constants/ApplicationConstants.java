@@ -71,4 +71,7 @@ public class ApplicationConstants {
     public static final String MESSAGE_KEY = "message";
     public static final String MESSAGES_KEY = "messages";
     public static final String MESSAGE_ID = "messageId";
+
+    public static final String ROLE_ADMIN_KEY = "ADMIN";
+    public static final String ROLE_USER_KEY = "USER";
 }

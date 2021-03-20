@@ -10,8 +10,8 @@ import java.util.Set;
 @AllArgsConstructor
 @Data
 @Builder
-@EqualsAndHashCode(of = {"id", "role"})
-@ToString(of = {"id", "role"})
+@EqualsAndHashCode(of = "role")
+@ToString(of = "role")
 
 @Entity
 @Table(name = "ROLES")
@@ -29,6 +29,10 @@ public class Role {
             inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id")
     )
     private Set<User> users = new HashSet<>();
+
+    public Role(String role) {
+        this.role = role;
+    }
 
     public void addUser(User user) {
         user.getRoles().add(this);

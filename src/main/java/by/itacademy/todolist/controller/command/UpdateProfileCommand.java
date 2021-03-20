@@ -26,16 +26,11 @@ public class UpdateProfileCommand extends FrontCommand {
         try {
             profile.setLogin(login);
             profile.setPassword(password);
-            profileService.update(profile);
-
             user.setEmail(email);
             user.setSurname(surname);
             user.setName(name);
-            user = userService.update(user);
+            userService.update(user);
 
-
-            user = userService.getById(user.getId());
-            request.getSession().setAttribute(ApplicationConstants.USER_KEY, user);
             response.sendRedirect(contextPath + "/?command=ProfileView&" +
                     ApplicationConstants.SUCCESSFUL_KEY + "=" + ApplicationConstants.DATA_UPDATED_MSG);
             return;
