@@ -67,12 +67,12 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Task createTaskForUser(Task task, long userId) {
+    public Task save(Task task) {
         if (task.getName() == null || task.getName().equals("")
                 || task.getDateCompletion() == null || task.getDateAdded() == null) {
             throw new RuntimeException("Task name or date completion cannot be empty");
         }
-        return taskDao.createTaskForUser(task, userId);
+        return taskDao.save(task);
     }
 
     @Override
@@ -95,13 +95,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public void deleteAllUserDeletedTask(long userId) {
-        List<Task> deletedTasks = getDeletedUserTasks(userId);
-        if (deletedTasks.isEmpty()) {
-            return;
-        }
-        deletedTasks.stream().filter(task -> task.getFileInfo() != null)
-                .forEach(task -> fileService.delete(task.getFileInfo().getId()));
-        deletedTasks.forEach(task -> deleteTask(task.getId()));
+        taskDao.deleteUserTasksMarkedAsDeleted(userId);
     }
 
     @Override

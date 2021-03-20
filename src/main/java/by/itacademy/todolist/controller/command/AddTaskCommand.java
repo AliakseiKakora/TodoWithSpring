@@ -27,6 +27,7 @@ public class AddTaskCommand extends FrontCommand {
 
         try {
             Task task = Task.builder().name(name).description(description).dateAdded(LocalDateTime.now()).build();
+            task.setUser(user);
             switch (section) {
                 case ApplicationConstants.SECTION_SOME_DAY:
                     LocalDate localDate = LocalDate.parse(date);
@@ -42,7 +43,7 @@ public class AddTaskCommand extends FrontCommand {
                     task.setDateCompletion(tomorrow);
                     break;
             }
-            taskService.createTaskForUser(task, user.getId());
+            taskService.save(task);
             response.sendRedirect(contextPath + "/?command=AddTaskView&section=" + section + "&successful=" + ApplicationConstants.SUCCESSFUL_TASK_ADDED_MSG );
             return;
         } catch (Exception e) {

@@ -19,7 +19,7 @@ public interface TaskService {
 
     List<Task> getDeletedUserTasks(long userId);
 
-    Task createTaskForUser(Task task, long userId);
+    Task save(Task task);
 
     Task updateTask(Task task);
 
