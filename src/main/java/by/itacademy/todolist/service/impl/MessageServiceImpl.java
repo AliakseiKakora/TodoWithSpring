@@ -25,7 +25,7 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public Message create(Message message) {
+    public Message save(Message message) {
         return messageDao.save(message);
     }
 
@@ -34,8 +34,4 @@ public class MessageServiceImpl implements MessageService {
         messageDao.deleteById(id);
     }
 
-    @Override
-    public void deleteAllUserMessage(long userId) {
-        messageDao.deleteAllUserMessage(userId);
-    }
 }

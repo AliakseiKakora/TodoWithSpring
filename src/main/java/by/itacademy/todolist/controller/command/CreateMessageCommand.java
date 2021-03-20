@@ -18,13 +18,13 @@ public class CreateMessageCommand extends FrontCommand {
             String userMessage = request.getParameter(ApplicationConstants.MESSAGE_KEY);
 
             User user = userService.getById(userId);
-            Message message = Message.builder().
-                    message(userMessage).
-                    dateAdded(LocalDateTime.now()).
-                    user(user).
-                    build();
+            Message message = Message.builder()
+                    .message(userMessage)
+                    .dateAdded(LocalDateTime.now())
+                    .user(user)
+                    .build();
 
-            messageService.create(message);
+            messageService.save(message);
             if (request.getSession().getAttribute("user") == null) {
                 response.sendRedirect(contextPath + "/guest?command=LoginView&" +
                         ApplicationConstants.SUCCESSFUL_KEY + "=submit message");

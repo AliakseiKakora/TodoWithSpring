@@ -1,7 +1,6 @@
 package by.itacademy.todolist.service;
 
 import by.itacademy.todolist.model.Task;
-import by.itacademy.todolist.model.User;
 
 import java.util.List;
 

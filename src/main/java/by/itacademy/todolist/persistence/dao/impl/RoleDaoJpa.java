@@ -1,15 +1,11 @@
 package by.itacademy.todolist.persistence.dao.impl;
 
 import by.itacademy.todolist.model.Role;
-import by.itacademy.todolist.model.User;
 import by.itacademy.todolist.persistence.dao.RoleDao;
 import by.itacademy.todolist.persistence.exception.DaoException;
-import org.hibernate.query.internal.QueryImpl;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import javax.persistence.TypedQuery;
-import java.util.List;
 import java.util.Optional;
 
 public class RoleDaoJpa extends AbstractDaoJpa<Role> implements RoleDao<Role> {
@@ -59,21 +55,6 @@ public class RoleDaoJpa extends AbstractDaoJpa<Role> implements RoleDao<Role> {
                 entityManager.close();
             }
         }
-    }
-
-
-
-    //todo
-    //использовался в jdbc для вывода юзера вместе с ролями сразу в юзер дао(то есть тут он не нужен будет но пока пуска висит)
-    @Override
-    public List<Role> getRolesByUserId(long id) {
-        return null;
-    }
-
-    //todo this method was needed for jdbc
-    @Override
-    public void addUserRoles(User user) {
-
     }
 
     @Override

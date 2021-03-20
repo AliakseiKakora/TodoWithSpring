@@ -77,5 +77,4 @@ public class UserDaoJpa extends AbstractDaoJpa<User> implements UserDao<User> {
         }
     }
 
-
 }

@@ -8,7 +8,7 @@ public interface UserService {
 
     User getUserByLoginAndPassword(String login, String password);
 
-    User create(User user);
+    User save(User user);
 
     User update(User user);
 

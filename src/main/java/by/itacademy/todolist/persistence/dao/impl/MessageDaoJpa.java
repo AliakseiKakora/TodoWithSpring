@@ -48,10 +48,4 @@ public class MessageDaoJpa extends AbstractDaoJpa<Message> implements MessageDao
             }
         }
     }
-
-    //todo it need for jdbc???
-    @Override
-    public void deleteAllUserMessage(long userId) {
-
-    }
 }

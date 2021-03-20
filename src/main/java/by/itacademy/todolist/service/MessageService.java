@@ -10,10 +10,8 @@ public interface MessageService {
 
     List<Message> getAll();
 
-    Message create(Message message);
+    Message save(Message message);
 
     void delete(long id);
-
-    void deleteAllUserMessage(long userId);
 
 }
