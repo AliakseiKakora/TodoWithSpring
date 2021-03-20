@@ -1,5 +1,6 @@
 package by.itacademy.todolist;
 
+import by.itacademy.todolist.model.FileInfo;
 import by.itacademy.todolist.model.Message;
 import by.itacademy.todolist.model.Task;
 import by.itacademy.todolist.model.User;
@@ -19,6 +20,7 @@ public class TestRunner {
     private static final TaskDaoJpa TASK_DAO = new TaskDaoJpa();
     private static final ProfileDaoJpa PROFILE_DAO = new ProfileDaoJpa();
     private static final MessageDaoJpa MESSAGE_DAO = new MessageDaoJpa();
+    private static final FileInfoDaoJpa FILE_DAO = new FileInfoDaoJpa();
 
     private static final Server SERVER;
 
@@ -31,13 +33,16 @@ public class TestRunner {
     }
 
     public static void main(String[] args) {
-        List<Task> taskList = TASK_DAO.getAllUserTasks(1);
-        TASK_DAO.deleteAllUserTasks(1);
-
-        taskList = TASK_DAO.getAllUserTasks(1);
 
 
-        System.out.println("fff");
+        FileInfo fileInfo = new FileInfo();
+        fileInfo.setDirectory("testdir");
+        fileInfo.setName("testname");
+        fileInfo.setPath("testpath");
+
+        FILE_DAO.addFileInfoForTask(fileInfo, 1);
+
+        System.out.println();
 //
     //    User user = USER_DAO.getById(1);
 

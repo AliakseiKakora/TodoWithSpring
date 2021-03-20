@@ -14,9 +14,11 @@ public class TaskViewCommand extends FrontCommand {
             long taskId = Long.parseLong(request.getParameter(ApplicationConstants.TASK_ID));
             String section = request.getParameter(ApplicationConstants.SECTION_KEY);
             Task task = taskService.getTaskById(taskId);
-            String filePath = task.getFileInfo().getDirectory() + task.getFileInfo().getName();
 
-            request.setAttribute(ApplicationConstants.FILE_PATH, filePath);
+            if (task.getFileInfo() != null) {
+                String filePath = task.getFileInfo().getDirectory() + task.getFileInfo().getName();
+                request.setAttribute(ApplicationConstants.FILE_PATH, filePath);
+            }
             request.setAttribute(ApplicationConstants.TASK_KEY, task);
             request.setAttribute(ApplicationConstants.SECTION_KEY, section);
             context.getRequestDispatcher(ApplicationConstants.TASK_CARD_JSP).forward(request, response);

@@ -103,7 +103,7 @@
                         </c:if>
 
 
-                        <c:if test="${!empty requestScope.task.fileInfo.path}">
+                        <c:if test="${!empty requestScope.filePath}">
 
                             <li>
                                 <a style="text-decoration: none" class="btn btn-info btn-sm ms-2 mb-0" href="<c:url value="${requestScope.filePath}"/>">Download File</a>

@@ -21,7 +21,7 @@ public class DeleteFileCommand extends FrontCommand {
             request.setAttribute(ApplicationConstants.TASK_KEY, task);
             request.setAttribute(ApplicationConstants.SUCCESSFUL_KEY, "file was deleted");
             context.getRequestDispatcher(ApplicationConstants.EDIT_TASK_JSP).forward(request, response);
-
+            return;
         } catch (Exception e) {
             e.printStackTrace();
         }
