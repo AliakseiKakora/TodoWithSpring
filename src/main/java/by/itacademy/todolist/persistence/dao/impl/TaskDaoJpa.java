@@ -9,6 +9,8 @@ import java.util.List;
 
 public class TaskDaoJpa extends AbstractDaoJpa<Task> implements TaskDao<Task> {
 
+    private static final String GET_ALL_USER_TASKS = "select distinct t from Task t left join fetch t.fileInfo where t.user.id =:id";
+
 
     //todo need for jdbc
     @Override
@@ -21,7 +23,7 @@ public class TaskDaoJpa extends AbstractDaoJpa<Task> implements TaskDao<Task> {
         EntityManager entityManager = null;
         try {
             entityManager = entityManagerFactory.createEntityManager();
-            return entityManager.createQuery("select t from Task t where t.user.id =:id", Task.class)
+            return entityManager.createQuery(GET_ALL_USER_TASKS, Task.class)
                     .setParameter("id", userId).getResultList();
         } catch (Exception e) {
             e.printStackTrace();

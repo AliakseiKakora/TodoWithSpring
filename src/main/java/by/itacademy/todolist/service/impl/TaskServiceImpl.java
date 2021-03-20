@@ -110,7 +110,8 @@ public class TaskServiceImpl implements TaskService {
         if (allUserTasks.isEmpty()) {
             return;
         }
-        allUserTasks.stream().filter(task -> task.getFileInfo().getPath() != null)
+
+        allUserTasks.stream().filter(task -> task.getFileInfo() != null)
                 .forEach(task -> fileService.delete(task.getFileInfo().getId()));
         allUserTasks.forEach(task -> deleteTask(task.getId()));
     }

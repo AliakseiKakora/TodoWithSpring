@@ -1,10 +1,8 @@
 package by.itacademy.todolist;
 
+import by.itacademy.todolist.model.Message;
 import by.itacademy.todolist.model.User;
-import by.itacademy.todolist.persistence.dao.impl.ProfileDaoJpa;
-import by.itacademy.todolist.persistence.dao.impl.RoleDaoJpa;
-import by.itacademy.todolist.persistence.dao.impl.TaskDaoJpa;
-import by.itacademy.todolist.persistence.dao.impl.UserDaoJpa;
+import by.itacademy.todolist.persistence.dao.impl.*;
 import by.itacademy.todolist.persistence.util.JpaEntityManagerFactoryUtil;
 import org.h2.tools.Server;
 
@@ -18,6 +16,7 @@ public class TestRunner {
     private static final RoleDaoJpa ROLE_DAO = new RoleDaoJpa();
     private static final TaskDaoJpa TASK_DAO = new TaskDaoJpa();
     private static final ProfileDaoJpa PROFILE_DAO = new ProfileDaoJpa();
+    private static final MessageDaoJpa MESSAGE_DAO = new MessageDaoJpa();
 
     private static final Server SERVER;
 
@@ -30,6 +29,9 @@ public class TestRunner {
     }
 
     public static void main(String[] args) {
+        Message message = MESSAGE_DAO.getById(1);
+
+
         System.out.println("fff");
 //
     //    User user = USER_DAO.getById(1);

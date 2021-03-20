@@ -5,6 +5,7 @@ import by.itacademy.todolist.model.Role;
 import by.itacademy.todolist.model.User;
 import by.itacademy.todolist.persistence.dao.UserDao;
 import by.itacademy.todolist.service.RoleService;
+import by.itacademy.todolist.service.TaskService;
 import by.itacademy.todolist.service.UserService;
 
 import java.util.List;
@@ -13,10 +14,12 @@ public class UserServiceImpl implements UserService {
 
     private final UserDao<User> userDao;
     private final RoleService roleService;
+    private final TaskService taskService;
 
-    public UserServiceImpl(UserDao<User> userDao, RoleService roleService) {
+    public UserServiceImpl(UserDao<User> userDao, RoleService roleService, TaskService taskService) {
         this.userDao = userDao;
         this.roleService = roleService;
+        this.taskService = taskService;
     }
 
     @Override
@@ -67,6 +70,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteById(long id) {
+        taskService.deleteAllUserTasks(id);
+        roleService.deleteAllUserRoles(id);
         userDao.deleteById(id);
     }
 }

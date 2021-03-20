@@ -12,8 +12,6 @@ public class DeleteUserCommand extends FrontCommand {
         String contextPath = request.getContextPath();
         try {
             long userId = Long.parseLong(request.getParameter(ApplicationConstants.USER_ID_KEY));
-            taskService.deleteAllUserTasks(userId);
-            messageService.deleteAllUserMessage(userId);
             userService.deleteById(userId);
             response.sendRedirect(contextPath + "/?command=AllUsers");
             return;
