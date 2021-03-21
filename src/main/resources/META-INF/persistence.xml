@@ -24,9 +24,9 @@
 
       <property name="javax.persistence.schema-generation.database.action" value="create"/>
 
-<!--            <property name="javax.persistence.schema-generation.create-script-source"-->
-<!--                      value="database/DDL-initialization-test.sql"/>-->
-            <property name="javax.persistence.sql-load-script-source" value="database/DML-initialization-test.sql"/>
+            <property name="javax.persistence.schema-generation.create-script-source"
+                      value="database/DDL-initialization.sql"/>
+            <property name="javax.persistence.sql-load-script-source" value="database/DML-initialization.sql"/>
 
       <property name="hibernate.use_sql_comments" value="true"/>
       <property name="hibernate.show_sql" value="true"/>
