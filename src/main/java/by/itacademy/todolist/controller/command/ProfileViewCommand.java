@@ -18,6 +18,7 @@ public class ProfileViewCommand extends FrontCommand {
             request.setAttribute(ApplicationConstants.ERROR_KEY, errorMessage);
             request.setAttribute(ApplicationConstants.SUCCESSFUL_KEY, successfulMessage);
             request.setAttribute(ApplicationConstants.USER_KEY, user);
+            request.getSession().setAttribute(ApplicationConstants.USER_KEY, user);
             context.getRequestDispatcher(ApplicationConstants.PROFILE_JSP).forward(request, response);
             return;
         } catch (Exception e) {

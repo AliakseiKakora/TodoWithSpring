@@ -9,15 +9,13 @@ import java.util.List;
 
 public class UserDaoJpa extends AbstractDaoJpa<User> implements UserDao<User> {
 
-    private static final String GET_BY_ID = "select distinct u from User u " +
+    private static final String GET_ALL = "select distinct u from User u " +
             "join fetch u.roles " +
-            "join fetch u.profile " +
-            "where u.id = :id";
+            "join fetch u.profile p";
 
-    private static final String GET_BY_LOGIN_AND_PASSWORD = "select distinct u from User u " +
-            "join fetch u.roles " +
-            "join fetch u.profile p " +
-            "where p.login = :login and p.password =:password";
+    private static final String GET_BY_ID = GET_ALL + " where u.id = :id";
+
+    private static final String GET_BY_LOGIN_AND_PASSWORD = GET_ALL + " where p.login = :login and p.password =:password";
 
     @Override
     public User getById(long id) {
@@ -42,9 +40,7 @@ public class UserDaoJpa extends AbstractDaoJpa<User> implements UserDao<User> {
         EntityManager entityManager = null;
         try {
             entityManager = entityManagerFactory.createEntityManager();
-            return entityManager.createQuery("select distinct u from User u " +
-                    "join fetch u.roles " +
-                    "join fetch u.profile", User.class)
+            return entityManager.createQuery(GET_ALL, User.class)
                     .getResultList();
         } catch (Exception e) {
             e.printStackTrace();

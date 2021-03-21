@@ -27,7 +27,7 @@ public class RegistrationCommand extends FrontCommand {
             user.setEmail(email);
             user.addProfile(profile);
             user = userService.save(user);
-            request.getSession().setAttribute("user", user);
+            request.getSession().setAttribute(ApplicationConstants.USER_KEY, user);
             response.sendRedirect(contextPath + ApplicationConstants.MAIN_JSP);
             return;
         } catch (Exception e) {

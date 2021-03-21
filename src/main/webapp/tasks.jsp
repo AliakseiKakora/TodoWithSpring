@@ -42,6 +42,10 @@
             </c:if>
 
 
+            <c:if test="${empty requestScope.tasks}">
+                <h4 class="text-center">The list is still empty.</h4>
+            </c:if>
+
             <c:if test="${!empty requestScope.tasks}">
                 <table class="table p-3 table-hover">
                     <thead>

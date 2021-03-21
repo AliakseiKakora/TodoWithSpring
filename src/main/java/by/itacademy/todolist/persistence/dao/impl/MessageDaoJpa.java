@@ -10,7 +10,8 @@ import java.util.List;
 public class MessageDaoJpa extends AbstractDaoJpa<Message> implements MessageDao<Message> {
 
     private static final String GET_ALL_WITH_USERS = "select distinct m from Message m " +
-            "left join fetch m.user";
+            "left join fetch m.user u " +
+            "left join fetch u.profile";
 
     private static final String GET_BY_ID_WITH_USERS = GET_ALL_WITH_USERS + " where m.id = :id";
 
