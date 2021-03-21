@@ -95,6 +95,9 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public void deleteAllUserDeletedTask(long userId) {
+        List<Task> deletedTasks = getDeletedUserTasks(userId);
+        deletedTasks.stream().filter(task -> task.getFileInfo() != null)
+                .forEach(task -> fileService.delete(task.getFileInfo()));
         taskDao.deleteUserTasksMarkedAsDeleted(userId);
     }
 
@@ -106,7 +109,7 @@ public class TaskServiceImpl implements TaskService {
         }
 
         allUserTasks.stream().filter(task -> task.getFileInfo() != null)
-                .forEach(task -> fileService.delete(task.getFileInfo().getId()));
+                .forEach(task -> fileService.delete(task.getFileInfo()));
         taskDao.deleteAllUserTasks(userId);
     }
 

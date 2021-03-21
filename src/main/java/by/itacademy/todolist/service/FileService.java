@@ -8,7 +8,7 @@ public interface FileService {
 
     FileInfo addFileInfoForTask(Part part, long task_id, long userId, String path);
 
-    void delete(long fileId);
+    void delete(FileInfo fileInfo);
 
     FileInfo getById(long fileId);
 

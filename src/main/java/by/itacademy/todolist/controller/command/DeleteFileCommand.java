@@ -1,6 +1,7 @@
 package by.itacademy.todolist.controller.command;
 
 import by.itacademy.todolist.constants.ApplicationConstants;
+import by.itacademy.todolist.model.FileInfo;
 import by.itacademy.todolist.model.Task;
 
 import javax.servlet.ServletException;
@@ -15,7 +16,8 @@ public class DeleteFileCommand extends FrontCommand {
         try {
             long fileId = Long.parseLong(request.getParameter(ApplicationConstants.FILE_ID));
             taskId = Long.parseLong(request.getParameter(ApplicationConstants.TASK_ID));
-            fileService.delete(fileId);
+            FileInfo fileInfo = fileService.getById(fileId);
+            fileService.delete(fileInfo);
 
             task = taskService.getTaskById(taskId);
             request.setAttribute(ApplicationConstants.TASK_KEY, task);

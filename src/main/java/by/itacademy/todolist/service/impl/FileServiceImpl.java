@@ -22,7 +22,7 @@ public class FileServiceImpl implements FileService {
     public FileInfo addFileInfoForTask(Part part, long task_id, long userId, String path) {
         try {
 
-            path = path + userId + "/";
+            path = path + userId + "/" + task_id + "/";
             File fileSaveDir = new File(path);
             if (!fileSaveDir.exists()) {
                 boolean a = fileSaveDir.mkdir();
@@ -47,14 +47,13 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public void delete(long fileId) {
+    public void delete(FileInfo fileInfo) {
         try {
-            FileInfo fileInfo = getById(fileId);
             Path path = Paths.get(fileInfo.getPath());
             Files.delete(path);
-            fileInfoDao.deleteById(fileId);
+            fileInfoDao.deleteById(fileInfo.getId());
         } catch (Exception e) {
-            throw new RuntimeException("Error delete file (fileId - " + fileId  + ")");
+            throw new RuntimeException("Error delete file (fileId - " + fileInfo.getId()  + ")");
         }
     }
 
