@@ -19,7 +19,7 @@ public class AuthenticationFilter implements Filter {
 
 
     private String [] guestPages = {"/index.jsp", "/login.jsp", "/registration.jsp", "/blocked.jsp", "/guest"};
-    private String [] adminPages = {"/adminPage.jsp", "/allUsers.jsp"};
+    private String [] adminPages = {"/adminPage.jsp", "/allUsers.jsp", "/messageCard.jsp", "/userCard.jsp", "/allMessages.jsp"};
 
     List<String> guestPagesList = new ArrayList<>(Arrays.asList(guestPages));
     List<String> adminPagesList = new ArrayList<>(Arrays.asList(adminPages));
@@ -35,6 +35,7 @@ public class AuthenticationFilter implements Filter {
         HttpServletResponse res = (HttpServletResponse) response;
         HttpSession session = req.getSession(false);
 
+        String context = req.getContextPath();
         String url = req.getServletPath();
 
         User user = null;
@@ -51,7 +52,7 @@ public class AuthenticationFilter implements Filter {
         }
 
         if (user != null && adminPagesList.contains(url) && !isAdmin(user)) {
-            res.sendRedirect("/security.jsp");
+            res.sendRedirect(context+ "/security.jsp");
             return;
         }
 
@@ -63,7 +64,6 @@ public class AuthenticationFilter implements Filter {
         if (session != null && session.getAttribute(ApplicationConstants.USER_KEY) != null) {
             chain.doFilter(request, response);
         } else {
-            String context = req.getContextPath();
             res.sendRedirect(context + "/index.jsp");
         }
 

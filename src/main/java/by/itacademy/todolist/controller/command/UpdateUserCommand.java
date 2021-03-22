@@ -11,6 +11,9 @@ public class UpdateUserCommand extends FrontCommand {
 
     @Override
     public void process() throws ServletException, IOException {
+        if (!checkAdminRole()) {
+            return;
+        }
         String contextPath = request.getContextPath();
         try {
             String action = request.getParameter(ApplicationConstants.ACTION_KEY);

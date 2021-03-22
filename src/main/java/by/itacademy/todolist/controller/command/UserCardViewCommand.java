@@ -10,6 +10,9 @@ public class UserCardViewCommand extends FrontCommand {
 
     @Override
     public void process() throws ServletException, IOException {
+        if (!checkAdminRole()) {
+            return;
+        }
         try {
             long userId = Long.parseLong(request.getParameter(ApplicationConstants.USER_ID_KEY));
             User user = userService.getById(userId);

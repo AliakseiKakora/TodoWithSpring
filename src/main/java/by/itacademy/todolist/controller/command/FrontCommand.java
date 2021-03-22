@@ -1,5 +1,8 @@
 package by.itacademy.todolist.controller.command;
 
+import by.itacademy.todolist.constants.ApplicationConstants;
+import by.itacademy.todolist.model.Role;
+import by.itacademy.todolist.model.User;
 import by.itacademy.todolist.service.*;
 
 import javax.servlet.ServletContext;
@@ -39,4 +42,16 @@ public abstract class FrontCommand {
     }
 
     public abstract void process() throws ServletException, IOException;
+
+    protected boolean checkAdminRole() throws IOException {
+        boolean result = true;
+        User user = (User) request.getSession().getAttribute(ApplicationConstants.USER_KEY);
+        Role adminRole = (Role) context.getAttribute("adminRole");
+        if (!user.getRoles().contains(adminRole)) {
+            String contextPath = request.getContextPath();
+            response.sendRedirect(contextPath+ "/security.jsp");
+            result = false;
+        }
+        return result;
+    }
 }

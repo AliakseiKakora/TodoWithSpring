@@ -11,6 +11,9 @@ public class AllUsersCommand extends FrontCommand {
 
     @Override
     public void process() throws ServletException, IOException {
+        if (!checkAdminRole()) {
+            return;
+        }
         try {
             String errorMessage = request.getParameter(ApplicationConstants.ERROR_KEY);
             List<User> allUsers = userService.getAllUsers();

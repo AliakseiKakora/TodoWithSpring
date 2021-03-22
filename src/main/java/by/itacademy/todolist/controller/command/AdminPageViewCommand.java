@@ -9,6 +9,9 @@ public class AdminPageViewCommand extends FrontCommand {
 
     @Override
     public void process() throws ServletException, IOException {
+        if (!checkAdminRole()) {
+            return;
+        }
         String contextPath = request.getContextPath();
         response.sendRedirect( contextPath + ApplicationConstants.ADMIN_PAGE_JSP);
     }

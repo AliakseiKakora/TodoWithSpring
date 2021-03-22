@@ -11,6 +11,9 @@ public class AllMessagesCommand extends FrontCommand {
 
     @Override
     public void process() throws ServletException, IOException {
+        if (!checkAdminRole()) {
+            return;
+        }
         try {
             String errorMessage = request.getParameter(ApplicationConstants.ERROR_KEY);
             List<Message> messages = messageService.getAll();

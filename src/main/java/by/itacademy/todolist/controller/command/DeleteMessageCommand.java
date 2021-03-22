@@ -9,6 +9,9 @@ public class DeleteMessageCommand extends FrontCommand {
 
     @Override
     public void process() throws ServletException, IOException {
+        if (!checkAdminRole()) {
+            return;
+        }
         String contextPath = request.getContextPath();
         try {
             long messageId = Long.parseLong(request.getParameter(ApplicationConstants.MESSAGE_ID));
