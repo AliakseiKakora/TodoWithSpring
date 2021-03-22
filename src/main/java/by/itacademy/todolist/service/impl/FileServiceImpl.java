@@ -22,8 +22,14 @@ public class FileServiceImpl implements FileService {
     public FileInfo addFileInfoForTask(Part part, long task_id, long userId, String path) {
         try {
 
-            path = path + userId + "/" + task_id + "/";
+            path = path + userId + "/";
             File fileSaveDir = new File(path);
+            if (!fileSaveDir.exists()) {
+                boolean a = fileSaveDir.mkdir();
+            }
+
+            path = path + task_id + "/";
+            fileSaveDir = new File(path);
             if (!fileSaveDir.exists()) {
                 boolean a = fileSaveDir.mkdir();
             }
