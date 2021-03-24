@@ -103,10 +103,16 @@
                         </c:if>
 
 
-                        <c:if test="${!empty requestScope.filePath}">
+                        <c:if test="${!empty requestScope.task.fileInfo}">
 
                             <li>
-                                <a style="text-decoration: none" class="btn btn-info btn-sm ms-2 mb-0" href="<c:url value="${requestScope.filePath}"/>">Download File</a>
+                                    <%-- Download file--%>
+                                <form action="<c:url value="/" > <c:param name="${ApplicationConstants.COMMAND_KEY}" value="DownloadFile"/>                                                                                 </c:url>" method="post">
+                                    <input name="fileName" type="hidden" value="${requestScope.task.fileInfo.name}">
+                                    <input name="path" type="hidden" value="${requestScope.task.fileInfo.path}">
+                                    <input style="text-decoration: none" class="btn btn-info btn-sm ms-2 mb-0" type="submit" value="${requestScope.task.fileInfo.name}">
+                                </form>
+
                             </li>
 
                         </c:if>

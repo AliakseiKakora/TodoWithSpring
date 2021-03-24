@@ -45,7 +45,8 @@ public class FrontServlet extends HttpServlet {
             command.process();
         } catch (Exception e) {
             e.printStackTrace();
-            response.sendRedirect("/?command=ErrorView");
+            String contextPath = request.getContextPath();
+            response.sendRedirect(contextPath + "/?command=ErrorView");
         }
     }
 

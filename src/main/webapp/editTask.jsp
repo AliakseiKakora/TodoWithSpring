@@ -81,7 +81,7 @@
                 </form>
 
                 <c:choose>
-                    <c:when test="${empty requestScope.task.fileInfo.path}" >
+                    <c:when test="${empty requestScope.task.fileInfo}" >
                         <form method="post" action="<c:url value="/"> <c:param name="command" value="UploadFile"/> </c:url>"
                               enctype="multipart/form-data">
 
@@ -96,15 +96,18 @@
                     </c:when>
                     <c:otherwise>
 
-                        <a class="btn btn-success" href="<c:url value="${requestScope.filePath}"/>">Download File</a>
+                        <%-- Download file--%>
+                        <form action="<c:url value="/" > <c:param name="${ApplicationConstants.COMMAND_KEY}" value="DownloadFile"/>                                                                                 </c:url>" method="post">
+                            <input name="fileName" type="hidden" value="${requestScope.task.fileInfo.name}">
+                            <input name="path" type="hidden" value="${requestScope.task.fileInfo.path}">
+                            <input style="text-decoration: none" class="btn btn-info btn-sm " type="submit" value="${requestScope.task.fileInfo.name}">
+                        </form>
 
                         <form method="post" action="<c:url value="/"> <c:param name="command" value="DeleteFile"/> </c:url>" >
-
                             <div class="input-group mb-4">
                                 <input name="${ApplicationConstants.TASK_ID}" type="hidden" value="${requestScope.task.id}"/>
                                 <input name="${ApplicationConstants.FILE_ID}" type="hidden" value="${requestScope.task.fileInfo.id}"/>
                             </div>
-
                             <input type="submit" class="btn btn-danger" value="Delete File"/>
                         </form>
                     </c:otherwise>
