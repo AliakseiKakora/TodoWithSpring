@@ -42,7 +42,7 @@ public class FileServiceImpl implements FileService {
             } else {
                 throw new RuntimeException("Error save file");
             }
-            String directory = ApplicationConstants.SAVE_DIRECTORY + userId + "/";
+            String directory = ApplicationConstants.SAVE_DIRECTORY + userId + "/" + task_id + "/";
             FileInfo fileInfo = FileInfo.builder().name(fileName).directory(directory).path(filePath).build();
             return fileInfoDao.addFileInfoForTask(fileInfo, task_id);
 

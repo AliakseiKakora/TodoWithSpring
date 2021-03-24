@@ -56,7 +56,7 @@
 
 
             <form action="<c:url value="/"> <c:param name="command" value="AddTask"/> <c:param name="section" value="${requestScope.section}"/>
-                </c:url> " method="post">
+                </c:url> " method="post" enctype="multipart/form-data">
 
                 <div class="input-group mb-4">
                     <span class="input-group-text" id="basic-addon1">Name</span>
@@ -75,6 +75,12 @@
                         <input type="time" name="time" required>
                     </div>
                 </c:if>
+
+                <div class="input-group mb-4">
+                    <span class="input-group-text">File</span>
+                    <input class="form-control" type="file" name="file"/>
+                </div>
+
 
                 <div class="mb-4">
                     <button type="submit" class="btn btn-info">Add Task</button>

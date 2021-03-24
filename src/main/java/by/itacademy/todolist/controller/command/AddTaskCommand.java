@@ -43,7 +43,11 @@ public class AddTaskCommand extends FrontCommand {
                     task.setDateCompletion(tomorrow);
                     break;
             }
-            taskService.save(task);
+            task = taskService.save(task);
+            long taskId = task.getId();
+            request.getRequestDispatcher("/?command=UploadFile&taskId="
+                    + taskId + "&create=create").include(request, response);
+
             response.sendRedirect(contextPath + "/?command=AddTaskView&section=" + section + "&successful=" + ApplicationConstants.SUCCESSFUL_TASK_ADDED_MSG );
             return;
         } catch (Exception e) {

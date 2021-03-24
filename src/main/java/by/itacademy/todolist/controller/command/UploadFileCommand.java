@@ -26,10 +26,18 @@ public class UploadFileCommand extends FrontCommand {
         long taskId = 0;
         try {
             Part part = request.getPart("file");
+            if (part.getSize() == 0) {
+                return;
+            }
             taskId = Long.parseLong(request.getParameter(ApplicationConstants.TASK_ID));
             User user = (User) request.getSession().getAttribute(ApplicationConstants.USER_KEY);
-
             fileService.addFileInfoForTask(part, taskId, user.getId(), fullSavePath);
+
+            String createTask = request.getParameter("create");
+            if (createTask != null && createTask.equals("create")) {
+                return;
+            }
+
             task = taskService.getTaskById(taskId);
             String filePath = task.getFileInfo().getDirectory() + task.getFileInfo().getName();
             request.setAttribute(ApplicationConstants.FILE_PATH, filePath);
@@ -47,5 +55,4 @@ public class UploadFileCommand extends FrontCommand {
         request.setAttribute(ApplicationConstants.ERROR_KEY, "file upload error ");
         context.getRequestDispatcher(ApplicationConstants.EDIT_TASK_JSP).forward(request, response);
     }
-
 }
