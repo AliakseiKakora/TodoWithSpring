@@ -88,12 +88,19 @@
                     <c:forEach items="${requestScope.users}" var="user">
                         <tr>
                             <td>
-
                                 <form action="<c:url value="/"> <c:param name="command" value="UserCardView"/> </c:url>" method="post">
                                     <input name="${ApplicationConstants.USER_ID_KEY}" type="hidden" value="${user.id}">
-                                    <input style="text-decoration: none" class="btn btn-link" type="submit" value=" ${user.name} ${user.surname}">
+                                    <input style="text-decoration: none" class="btn btn-link" type="submit"
+                                    <c:choose>
+                                        <c:when test="${!empty user.name or !empty user.surname}">
+                                            value="${user.name} ${user.surname}"
+                                        </c:when>
+                                        <c:otherwise>
+                                            value="No name"
+                                        </c:otherwise>
+                                    </c:choose>
+                                    >
                                 </form>
-
                             </td>
 
                             <c:choose>

@@ -116,6 +116,11 @@
 
                 <div class="card-body">
                     <h4 class="card-title">${requestScope.user.name} ${requestScope.user.surname}</h4>
+                    <c:if test="${empty requestScope.user.name or empty requestScope.user.surname}">
+                        <h4 class="card-title">No name</h4>
+                    </c:if>
+
+
                     <p class="card-text"><strong>Email:</strong> ${requestScope.user.email}</p>
                     <p class="card-text"><strong>Login:</strong> ${requestScope.user.profile.login}</p>
                     <p class="card-text"><strong>Password:</strong> ${requestScope.user.profile.password}</p>
