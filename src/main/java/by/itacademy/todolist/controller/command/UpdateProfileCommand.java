@@ -10,13 +10,15 @@ import java.io.IOException;
 
 public class UpdateProfileCommand extends FrontCommand {
 
+    private static final String COMMAND_PROFILE_VIEW = "/?command=ProfileView&";
+
     @Override
     public void process() throws ServletException, IOException {
-        String login = request.getParameter("login");
-        String password = request.getParameter("password");
-        String email = request.getParameter("email");
-        String surname = request.getParameter("surname");
-        String name = request.getParameter("name");
+        String login = request.getParameter(ApplicationConstants.LOGIN_KEY);
+        String password = request.getParameter(ApplicationConstants.PASSWORD_KEY);
+        String email = request.getParameter(ApplicationConstants.EMAIL_KEY);
+        String surname = request.getParameter(ApplicationConstants.USER_SURNAME_KEY);
+        String name = request.getParameter(ApplicationConstants.USER_NAME_KEY);
 
         User user = (User) request.getSession().getAttribute(ApplicationConstants.USER_KEY);
         Profile profile = user.getProfile();
@@ -31,13 +33,13 @@ public class UpdateProfileCommand extends FrontCommand {
             user.setName(name);
             userService.update(user);
 
-            response.sendRedirect(contextPath + "/?command=ProfileView&" +
+            response.sendRedirect(contextPath + COMMAND_PROFILE_VIEW +
                     ApplicationConstants.SUCCESSFUL_KEY + "=" + ApplicationConstants.DATA_UPDATED_MSG);
             return;
         } catch (Exception e) {
-            System.out.println("Error update user data");
+            e.printStackTrace();
         }
-        response.sendRedirect(contextPath + "/?command=ProfileView&" +
+        response.sendRedirect(contextPath + COMMAND_PROFILE_VIEW +
                 ApplicationConstants.ERROR_KEY + "=" + ApplicationConstants.DATA_UPDATED_MSG);
     }
 

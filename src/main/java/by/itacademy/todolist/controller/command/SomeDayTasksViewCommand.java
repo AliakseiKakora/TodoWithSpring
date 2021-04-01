@@ -23,9 +23,9 @@ public class SomeDayTasksViewCommand extends FrontCommand {
             context.getRequestDispatcher(ApplicationConstants.TASKS_JSP).forward(request, response);
             return;
         } catch (Exception e) {
-            System.out.println("A tasks search error has occurred. " + user);
+            e.printStackTrace();
         }
-        request.setAttribute(ApplicationConstants.ERROR_KEY, "A tasks search error has occurred.");
+        request.setAttribute(ApplicationConstants.ERROR_KEY, ApplicationConstants.TASK_SEARCH_ERROR_MSG);
         context.getRequestDispatcher(ApplicationConstants.TASKS_JSP).forward(request, response);
     }
 }

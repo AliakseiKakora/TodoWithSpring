@@ -12,6 +12,8 @@ import java.time.LocalTime;
 
 public class EditTaskCommand extends FrontCommand {
 
+    private static final String ERROR_MESSAGE = "task update error";
+
     @Override
     public void process() throws ServletException, IOException {
         try {
@@ -38,7 +40,7 @@ public class EditTaskCommand extends FrontCommand {
             e.printStackTrace();
         }
 
-        request.setAttribute(ApplicationConstants.ERROR_KEY, "task update error");
+        request.setAttribute(ApplicationConstants.ERROR_KEY, ERROR_MESSAGE);
         context.getRequestDispatcher(ApplicationConstants.EDIT_TASK_JSP).forward(request, response);
     }
 }

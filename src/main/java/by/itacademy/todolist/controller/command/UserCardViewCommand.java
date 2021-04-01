@@ -8,6 +8,9 @@ import java.io.IOException;
 
 public class UserCardViewCommand extends FrontCommand {
 
+    private static final String COMMAND_ALL_USERS = "/?command=AllUsers&";
+    private static final String ERROR_MESSAGE = "=search user";
+
     @Override
     public void process() throws ServletException, IOException {
         if (!checkAdminRole()) {
@@ -23,7 +26,7 @@ public class UserCardViewCommand extends FrontCommand {
             e.printStackTrace();
         }
         String contextPath = request.getContextPath();
-        response.sendRedirect(contextPath + "/?command=AllUsers&" +
-                ApplicationConstants.ERROR_KEY + "=search user");
+        response.sendRedirect(contextPath + COMMAND_ALL_USERS +
+                ApplicationConstants.ERROR_KEY + ERROR_MESSAGE);
     }
 }

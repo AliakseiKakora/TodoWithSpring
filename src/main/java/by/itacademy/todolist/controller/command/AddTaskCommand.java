@@ -12,6 +12,11 @@ import java.time.LocalTime;
 
 public class AddTaskCommand extends FrontCommand {
 
+    private static final String DATE_FORMAT = "%sT23:59";
+    private static final String UPLOAD_FILE = "/?command=UploadFile&taskId=";
+    private static final String CREATE_PARAMETER = "&create=create";
+    private static final String ADD_TASK_VIEW_SECTION = "/?command=AddTaskView&section=";
+
     @Override
     public void process() throws ServletException, IOException {
         User user = (User) request.getSession().getAttribute(ApplicationConstants.USER_KEY);
@@ -21,7 +26,7 @@ public class AddTaskCommand extends FrontCommand {
         String date = request.getParameter(ApplicationConstants.TASK_DATE);
         String time = request.getParameter(ApplicationConstants.TASK_TIME);
 
-        String today = String.format("%sT23:59", LocalDate.now().toString());
+        String today = String.format(DATE_FORMAT, LocalDate.now().toString());
 
         String contextPath = request.getContextPath();
 
@@ -45,14 +50,16 @@ public class AddTaskCommand extends FrontCommand {
             }
             task = taskService.save(task);
             long taskId = task.getId();
-            request.getRequestDispatcher("/?command=UploadFile&taskId="
-                    + taskId + "&create=create").include(request, response);
+            request.getRequestDispatcher(UPLOAD_FILE
+                    + taskId + CREATE_PARAMETER).include(request, response);
 
-            response.sendRedirect(contextPath + "/?command=AddTaskView&section=" + section + "&successful=" + ApplicationConstants.SUCCESSFUL_TASK_ADDED_MSG );
+            response.sendRedirect(contextPath + ADD_TASK_VIEW_SECTION + section + "&"
+                    + ApplicationConstants.SUCCESSFUL_KEY + "=" + ApplicationConstants.SUCCESSFUL_TASK_ADDED_MSG);
             return;
         } catch (Exception e) {
-            System.out.println("Task adding error");
+            e.printStackTrace();
         }
-        response.sendRedirect(contextPath + "/?command=AddTaskView&section=" + section + "&error=" + ApplicationConstants.ERROR_TASK_ADDED_MSG);
+        response.sendRedirect(contextPath + ADD_TASK_VIEW_SECTION + section + "&"
+                + ApplicationConstants.ERROR_KEY +  "=" + ApplicationConstants.ERROR_TASK_ADDED_MSG);
     }
 }

@@ -8,6 +8,9 @@ import java.io.IOException;
 
 public class UpdateTaskCommand extends FrontCommand {
 
+    private static final String COMMAND_TASKS_VIEW_SECTION = "/?command=SectionTasksView&section=";
+    private static final String ERROR_MESSAGE = "=Error fixed task";
+
     @Override
     public void process() throws ServletException, IOException {
         String section = request.getParameter(ApplicationConstants.SECTION_KEY);
@@ -33,22 +36,21 @@ public class UpdateTaskCommand extends FrontCommand {
                         fileService.delete(task.getFileInfo());
                     }
                     taskService.deleteTask(takId);
-                    response.sendRedirect(contextPath + "/?command=SectionTasksView&section=" + section);
+                    response.sendRedirect(contextPath + COMMAND_TASKS_VIEW_SECTION + section);
                     return;
                 default:
                     throw new RuntimeException();
             }
 
             taskService.updateTask(task);
-            response.sendRedirect(contextPath + "/?command=SectionTasksView&section=" + section);
+            response.sendRedirect(contextPath + COMMAND_TASKS_VIEW_SECTION + section);
             return;
 
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Error fixed task");
         }
 
-        response.sendRedirect(contextPath + "/command=SectionTasksView&section=" +
-                section + "&" + ApplicationConstants.ERROR_KEY + "=Error fixed task");
+        response.sendRedirect(contextPath + COMMAND_TASKS_VIEW_SECTION +
+                section + "&" + ApplicationConstants.ERROR_KEY + ERROR_MESSAGE);
     }
 }

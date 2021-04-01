@@ -10,6 +10,8 @@ import java.util.List;
 
 public class FixedTasksViewCommand extends FrontCommand {
 
+    private static final String ERROR_MESSAGE = "A tasks search error has occurred.";
+
     @Override
     public void process() throws ServletException, IOException {
         User user = (User) request.getSession().getAttribute(ApplicationConstants.USER_KEY);
@@ -23,9 +25,9 @@ public class FixedTasksViewCommand extends FrontCommand {
             context.getRequestDispatcher(ApplicationConstants.TASKS_JSP).forward(request, response);
             return;
         } catch (Exception e) {
-            System.out.println("A tasks search error has occurred. " + user);
+            e.printStackTrace();
         }
-        request.setAttribute(ApplicationConstants.ERROR_KEY, "A tasks search error has occurred.");
+        request.setAttribute(ApplicationConstants.ERROR_KEY, ERROR_MESSAGE);
         context.getRequestDispatcher(ApplicationConstants.TASKS_JSP).forward(request, response);
     }
 }

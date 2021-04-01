@@ -8,6 +8,9 @@ import java.io.IOException;
 
 public class MessageCardViewCommand extends FrontCommand {
 
+    private static final String ALL_MESSAGES = "/?command=AllMessages&";
+    private static final String ERROR_MESSAGE = "=search message";
+
     @Override
     public void process() throws ServletException, IOException {
         if (!checkAdminRole()) {
@@ -23,7 +26,7 @@ public class MessageCardViewCommand extends FrontCommand {
             e.printStackTrace();
         }
         String contextPath = request.getContextPath();
-        response.sendRedirect(contextPath + "/?command=AllMessages&" +
-                ApplicationConstants.ERROR_KEY + "=search message");
+        response.sendRedirect(contextPath + ALL_MESSAGES +
+                ApplicationConstants.ERROR_KEY + ERROR_MESSAGE);
     }
 }

@@ -1,5 +1,7 @@
 package by.itacademy.todolist.controller.command;
 
+import by.itacademy.todolist.constants.ApplicationConstants;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
@@ -13,6 +15,6 @@ public class LogoutCommand extends FrontCommand {
             session.invalidate();
         }
         String contextPath = request.getContextPath();
-        response.sendRedirect(contextPath + "/login.jsp");
+        response.sendRedirect(contextPath + ApplicationConstants.LOGIN_JSP);
     }
 }

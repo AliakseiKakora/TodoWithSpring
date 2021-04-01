@@ -9,6 +9,9 @@ import java.io.IOException;
 
 public class DeleteFileCommand extends FrontCommand {
 
+    private static final String SUCCESSFUL_MESSAGE = "file was deleted";
+    private static final String ERROR_MESSAGE = "file delete error";
+
     @Override
     public void process() throws ServletException, IOException {
         Task task = null;
@@ -21,7 +24,7 @@ public class DeleteFileCommand extends FrontCommand {
 
             task = taskService.getTaskById(taskId);
             request.setAttribute(ApplicationConstants.TASK_KEY, task);
-            request.setAttribute(ApplicationConstants.SUCCESSFUL_KEY, "file was deleted");
+            request.setAttribute(ApplicationConstants.SUCCESSFUL_KEY, SUCCESSFUL_MESSAGE);
             context.getRequestDispatcher(ApplicationConstants.EDIT_TASK_JSP).forward(request, response);
             return;
         } catch (Exception e) {
@@ -32,7 +35,7 @@ public class DeleteFileCommand extends FrontCommand {
             task = taskService.getTaskById(taskId);
         }
         request.setAttribute(ApplicationConstants.TASK_KEY, task);
-        request.setAttribute(ApplicationConstants.ERROR_KEY, "file delete error ");
+        request.setAttribute(ApplicationConstants.ERROR_KEY, ERROR_MESSAGE);
         context.getRequestDispatcher(ApplicationConstants.EDIT_TASK_JSP).forward(request, response);
     }
 }

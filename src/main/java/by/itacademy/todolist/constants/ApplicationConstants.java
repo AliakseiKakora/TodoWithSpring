@@ -11,6 +11,9 @@ public class ApplicationConstants {
     public static final String USER_KEY = "user";
     public static final String USERS_KEY = "users";
     public static final String USER_ID_KEY = "userId";
+    public static final String USER_NAME_KEY = "name";
+    public static final String USER_SURNAME_KEY = "surname";
+
 
     public static final String TASK_NAME = "name";
     public static final String TASK_DESCRIPTION = "description";
@@ -42,6 +45,7 @@ public class ApplicationConstants {
     public static final String USER_CARD_JSP = "/userCard.jsp";
     public static final String MESSAGE_CARD_JSP = "/messageCard.jsp";
     public static final String ERROR_JSP = "/error.jsp";
+    public static final String INDEX_JSP = "/index.jsp";
 
     public static final String SUCCESSFUL_KEY = "successful";
     public static final String ERROR_KEY = "error";
@@ -57,6 +61,7 @@ public class ApplicationConstants {
     public static final String TASK_TODAY_TITLE = "Today";
     public static final String TASK_FIXED_TITLE = "Fixed";
     public static final String TASK_DELETED_TITLE = "Deleted";
+    public static final String TASK_SEARCH_ERROR_MSG = "A tasks search error has occurred.";
 
     public static final String COMMAND_KEY = "command";
 
@@ -64,6 +69,7 @@ public class ApplicationConstants {
 
     public static final String FILE_ID = "fileId";
     public static final String FILE_PATH = "filePath";
+    public static final String FILE_NAME = "fileName";
 
     public static final String USER_STATUS_ACTIVE = "ACTIVE";
     public static final String USER_STATUS_BLOCKED = "BLOCKED";
@@ -72,6 +78,13 @@ public class ApplicationConstants {
     public static final String MESSAGES_KEY = "messages";
     public static final String MESSAGE_ID = "messageId";
 
-    public static final String ROLE_ADMIN_KEY = "ADMIN";
-    public static final String ROLE_USER_KEY = "USER";
+    public static final String ROLE_ADMIN_VALUE = "ADMIN";
+    public static final String ROLE_USER_VALUE = "USER";
+    public static final String ROLE_ADMIN_KEY = "adminRole";
+    public static final String ROLE_USER_KEY = "userRole";
+
+    public static final String LOGIN_KEY = "login";
+    public static final String PASSWORD_KEY = "password";
+    public static final String EMAIL_KEY = "email";
+
 }

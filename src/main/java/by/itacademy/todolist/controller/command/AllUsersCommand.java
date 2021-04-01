@@ -9,6 +9,8 @@ import java.util.List;
 
 public class AllUsersCommand extends FrontCommand {
 
+    private static final String ERROR_MESSAGE = "search users";
+
     @Override
     public void process() throws ServletException, IOException {
         if (!checkAdminRole()) {
@@ -24,7 +26,7 @@ public class AllUsersCommand extends FrontCommand {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        request.setAttribute(ApplicationConstants.ERROR_KEY, "search users");
+        request.setAttribute(ApplicationConstants.ERROR_KEY, ERROR_MESSAGE);
         context.getRequestDispatcher(ApplicationConstants.ALL_USERS_JSP).forward(request, response);
     }
 }

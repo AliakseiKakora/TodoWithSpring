@@ -8,6 +8,8 @@ import java.io.IOException;
 
 public class ErrorViewCommand extends FrontCommand {
 
+    private static final String MAIN_VIEW = "/?command=MainView";
+
     @Override
     public void process() throws ServletException, IOException {
         try {
@@ -20,6 +22,6 @@ public class ErrorViewCommand extends FrontCommand {
             e.printStackTrace();
         }
         String contextPath = request.getContextPath();
-        response.sendRedirect(contextPath + "/?command=MainView");
+        response.sendRedirect(contextPath + MAIN_VIEW);
     }
 }

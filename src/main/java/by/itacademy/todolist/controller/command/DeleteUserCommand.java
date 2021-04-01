@@ -7,6 +7,9 @@ import java.io.IOException;
 
 public class DeleteUserCommand extends FrontCommand {
 
+    private static final String ALL_USERS = "/?command=AllUsers";
+    private static final String ERROR_MESSAGE = "=deleting user";
+
     @Override
     public void process() throws ServletException, IOException {
         if (!checkAdminRole()) {
@@ -16,12 +19,12 @@ public class DeleteUserCommand extends FrontCommand {
         try {
             long userId = Long.parseLong(request.getParameter(ApplicationConstants.USER_ID_KEY));
             userService.deleteById(userId);
-            response.sendRedirect(contextPath + "/?command=AllUsers");
+            response.sendRedirect(contextPath + ALL_USERS);
             return;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        response.sendRedirect(contextPath + "/?command=AllUsers&" +
-                ApplicationConstants.ERROR_KEY + "=deleting user");
+        response.sendRedirect(contextPath + ALL_USERS + "&" +
+                ApplicationConstants.ERROR_KEY + ERROR_MESSAGE);
     }
 }

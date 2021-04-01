@@ -8,6 +8,8 @@ import java.io.IOException;
 
 public class EditTaskViewCommand extends FrontCommand {
 
+    private static final String ERROR_MESSAGE = "task search error";
+
     @Override
     public void process() throws ServletException, IOException {
 
@@ -21,7 +23,7 @@ public class EditTaskViewCommand extends FrontCommand {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        request.setAttribute(ApplicationConstants.ERROR_KEY, "task search error");
+        request.setAttribute(ApplicationConstants.ERROR_KEY, ERROR_MESSAGE);
         context.getRequestDispatcher(ApplicationConstants.EDIT_TASK_JSP).forward(request, response);
     }
 }

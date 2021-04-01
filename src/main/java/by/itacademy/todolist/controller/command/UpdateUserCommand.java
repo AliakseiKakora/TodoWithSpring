@@ -9,6 +9,9 @@ import java.io.IOException;
 
 public class UpdateUserCommand extends FrontCommand {
 
+    private static final String COMMAND_ALL_USERS = "/?command=AllUsers";
+    private static final String ERROR_MESSAGE = "blocking user";
+
     @Override
     public void process() throws ServletException, IOException {
         if (!checkAdminRole()) {
@@ -31,13 +34,15 @@ public class UpdateUserCommand extends FrontCommand {
             }
 
             profileService.update(profile);
-            response.sendRedirect(contextPath + "/?command=AllUsers");
+            response.sendRedirect(contextPath + COMMAND_ALL_USERS);
             return;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        request.setAttribute(ApplicationConstants.ERROR_KEY, "blocking user");
-        response.sendRedirect(contextPath + "/?command=AllUsers&" +
-                ApplicationConstants.ERROR_KEY + "=blocking user");
+        request.setAttribute(ApplicationConstants.ERROR_KEY, ERROR_MESSAGE);
+
+
+        response.sendRedirect(contextPath + COMMAND_ALL_USERS + "&" +
+                ApplicationConstants.ERROR_KEY + "=" + ERROR_MESSAGE);
     }
 }

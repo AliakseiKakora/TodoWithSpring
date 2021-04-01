@@ -10,6 +10,10 @@ import java.time.LocalDateTime;
 
 public class CreateMessageCommand extends FrontCommand {
 
+    private static final String LOGIN_VIEW = "/guest?command=LoginView&";
+    private static final String MAIN_VIEW = "/?command=MainView&";
+    private static final String MESSAGE = "=submit message";
+
     @Override
     public void process() throws ServletException, IOException {
         String contextPath = request.getContextPath();
@@ -25,18 +29,18 @@ public class CreateMessageCommand extends FrontCommand {
                     .build();
 
             messageService.save(message);
-            if (request.getSession().getAttribute("user") == null) {
-                response.sendRedirect(contextPath + "/guest?command=LoginView&" +
-                        ApplicationConstants.SUCCESSFUL_KEY + "=submit message");
+            if (request.getSession().getAttribute(ApplicationConstants.USER_KEY) == null) {
+                response.sendRedirect(contextPath + LOGIN_VIEW +
+                        ApplicationConstants.SUCCESSFUL_KEY + MESSAGE);
             } else {
-                response.sendRedirect(contextPath + "/?command=MainView&" +
-                        ApplicationConstants.SUCCESSFUL_KEY + "=submit message");
+                response.sendRedirect(contextPath + MAIN_VIEW +
+                        ApplicationConstants.SUCCESSFUL_KEY + MESSAGE);
             }
             return;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        response.sendRedirect(contextPath + "/guest?command=LoginView&" +
-                ApplicationConstants.ERROR_KEY + "=submit message");
+        response.sendRedirect(contextPath + LOGIN_VIEW +
+                ApplicationConstants.ERROR_KEY + MESSAGE);
     }
 }

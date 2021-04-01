@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
         if (!isValidRegistrationData(user)) {
             throw new RuntimeException("User credentials are not valid ");
         }
-        Role userRole = roleService.getByNameWithUsers(ApplicationConstants.ROLE_USER_KEY);
+        Role userRole = roleService.getByNameWithUsers(ApplicationConstants.ROLE_USER_VALUE);
         user = userDao.save(user);
         user.addRole(userRole);
         return userDao.update(user);

@@ -7,6 +7,9 @@ import java.io.IOException;
 
 public class DeleteMessageCommand extends FrontCommand {
 
+    private static final String ALL_MESSAGES = "/?command=AllMessages";
+    private static final String ERROR_MESSAGE = "=deleting message";
+
     @Override
     public void process() throws ServletException, IOException {
         if (!checkAdminRole()) {
@@ -16,12 +19,12 @@ public class DeleteMessageCommand extends FrontCommand {
         try {
             long messageId = Long.parseLong(request.getParameter(ApplicationConstants.MESSAGE_ID));
             messageService.delete(messageId);
-            response.sendRedirect(contextPath + "/?command=AllMessages");
+            response.sendRedirect(contextPath + ALL_MESSAGES);
             return;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        response.sendRedirect(contextPath + "/?command=AllMessages&" +
-                ApplicationConstants.ERROR_KEY + "=deleting message");
+        response.sendRedirect(contextPath + ALL_MESSAGES + "&" +
+                ApplicationConstants.ERROR_KEY + ERROR_MESSAGE);
     }
 }

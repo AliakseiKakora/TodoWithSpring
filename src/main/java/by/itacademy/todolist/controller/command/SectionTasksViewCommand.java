@@ -1,13 +1,17 @@
 package by.itacademy.todolist.controller.command;
 
 import by.itacademy.todolist.constants.ApplicationConstants;
-import by.itacademy.todolist.util.DependencyManager;
-import by.itacademy.todolist.util.DependencyManagerImpl;
 
 import javax.servlet.ServletException;
 import java.io.IOException;
 
 public class SectionTasksViewCommand extends FrontCommand {
+
+    private static final String COMMAND_TODAY_TASKS_VIEW = "/?command=TodayTasksView";
+    private static final String COMMAND_TOMORROW_TASKS_VIEW = "/?command=TomorrowTasksView";
+    private static final String COMMAND_SOMEDAY_TASKS_VIEW = "/?command=SomeDayTasksView";
+    private static final String COMMAND_FIXED_TASKS_VIEW = "/?command=FixedTasksView";
+    private static final String COMMAND_DELETED_TASKS_VIEW = "/?command=DeletedTasksView";
 
     @Override
     public void process() throws ServletException, IOException {
@@ -16,19 +20,19 @@ public class SectionTasksViewCommand extends FrontCommand {
 
         switch (section) {
             case ApplicationConstants.SECTION_TODAY:
-                context.getRequestDispatcher("/?command=TodayTasksView").forward(request, response);
+                context.getRequestDispatcher(COMMAND_TODAY_TASKS_VIEW).forward(request, response);
                 break;
             case ApplicationConstants.SECTION_TOMORROW:
-                context.getRequestDispatcher("/?command=TomorrowTasksView").forward(request, response);
+                context.getRequestDispatcher(COMMAND_TOMORROW_TASKS_VIEW).forward(request, response);
                 break;
             case ApplicationConstants.SECTION_SOME_DAY:
-                context.getRequestDispatcher("/?command=SomeDayTasksView").forward(request, response);
+                context.getRequestDispatcher(COMMAND_SOMEDAY_TASKS_VIEW).forward(request, response);
                 break;
             case ApplicationConstants.SECTION_FIXED:
-                context.getRequestDispatcher("/?command=FixedTasksView").forward(request, response);
+                context.getRequestDispatcher(COMMAND_FIXED_TASKS_VIEW).forward(request, response);
                 break;
             case ApplicationConstants.SECTION_DELETED:
-                context.getRequestDispatcher("/?command=DeletedTasksView").forward(request, response);
+                context.getRequestDispatcher(COMMAND_DELETED_TASKS_VIEW).forward(request, response);
                 break;
             default:
                 response.sendRedirect(contextPath + ApplicationConstants.MAIN_JSP);

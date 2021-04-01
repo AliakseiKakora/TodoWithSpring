@@ -75,7 +75,7 @@ public class AuthenticationFilter implements Filter {
     }
 
     private boolean isAdmin(User user) {
-        return user.getRoles().stream().anyMatch(role -> role.getRole().equals(ApplicationConstants.ROLE_ADMIN_KEY));
+        return user.getRoles().stream().anyMatch(role -> role.getRole().equals(ApplicationConstants.ROLE_ADMIN_VALUE));
     }
 
 }

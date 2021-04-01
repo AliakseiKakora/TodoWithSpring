@@ -10,6 +10,10 @@ import java.io.IOException;
 
 public class UploadFileCommand extends FrontCommand {
 
+    private static final String CREATING_TASK = "create";
+    private static final String FILE_KEY = "file";
+    private static final String MESSAGE = "file upload";
+
     @Override
     public void process() throws ServletException, IOException {
         String path = request.getServletContext().getRealPath("");
@@ -25,7 +29,7 @@ public class UploadFileCommand extends FrontCommand {
         Task task = null;
         long taskId = 0;
         try {
-            Part part = request.getPart("file");
+            Part part = request.getPart(FILE_KEY);
             if (part.getSize() == 0) {
                 return;
             }
@@ -33,8 +37,8 @@ public class UploadFileCommand extends FrontCommand {
             User user = (User) request.getSession().getAttribute(ApplicationConstants.USER_KEY);
             fileService.addFileInfoForTask(part, taskId, user.getId(), fullSavePath);
 
-            String createTask = request.getParameter("create");
-            if (createTask != null && createTask.equals("create")) {
+            String createTask = request.getParameter(CREATING_TASK);
+            if (createTask != null && createTask.equals(CREATING_TASK)) {
                 return;
             }
 
@@ -42,7 +46,7 @@ public class UploadFileCommand extends FrontCommand {
             String filePath = task.getFileInfo().getDirectory() + task.getFileInfo().getName();
             request.setAttribute(ApplicationConstants.FILE_PATH, filePath);
             request.setAttribute(ApplicationConstants.TASK_KEY, task);
-            request.setAttribute(ApplicationConstants.SUCCESSFUL_KEY, "file upload");
+            request.setAttribute(ApplicationConstants.SUCCESSFUL_KEY, MESSAGE);
             context.getRequestDispatcher(ApplicationConstants.EDIT_TASK_JSP).forward(request, response);
             return;
         } catch (Exception e) {
@@ -52,7 +56,7 @@ public class UploadFileCommand extends FrontCommand {
             task = taskService.getTaskById(taskId);
         }
         request.setAttribute(ApplicationConstants.TASK_KEY, task);
-        request.setAttribute(ApplicationConstants.ERROR_KEY, "file upload error ");
+        request.setAttribute(ApplicationConstants.ERROR_KEY, MESSAGE);
         context.getRequestDispatcher(ApplicationConstants.EDIT_TASK_JSP).forward(request, response);
     }
 }

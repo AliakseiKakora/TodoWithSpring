@@ -8,6 +8,8 @@ import java.io.IOException;
 
 public class ProfileViewCommand extends FrontCommand {
 
+    private static final String MAIN_VIEW = "/?command=MainView";
+
     @Override
     public void process() throws IOException, ServletException {
         try {
@@ -25,6 +27,6 @@ public class ProfileViewCommand extends FrontCommand {
             e.printStackTrace();
         }
         String contextPath = request.getContextPath();
-        response.sendRedirect(contextPath + "/?command=MainView");
+        response.sendRedirect(contextPath + MAIN_VIEW);
     }
 }

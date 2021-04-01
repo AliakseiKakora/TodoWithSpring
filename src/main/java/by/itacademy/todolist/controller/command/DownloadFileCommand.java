@@ -1,5 +1,7 @@
 package by.itacademy.todolist.controller.command;
 
+import by.itacademy.todolist.constants.ApplicationConstants;
+
 import javax.servlet.ServletException;
 import java.io.File;
 import java.io.FileInputStream;
@@ -9,11 +11,13 @@ import java.nio.file.Files;
 
 public class DownloadFileCommand extends FrontCommand {
 
+    private static final String ERROR_VIEW = "/?command=ErrorView";
+
     @Override
     public void process() throws ServletException, IOException {
         try {
-            String fileName = request.getParameter("fileName");
-            String path = request.getParameter("path");
+            String fileName = request.getParameter(ApplicationConstants.FILE_NAME);
+            String path = request.getParameter(ApplicationConstants.FILE_PATH);
             File file = new File(path);
             InputStream inputStream = new FileInputStream(file);
             byte[] bytes = Files.readAllBytes(file.toPath());
@@ -30,6 +34,6 @@ public class DownloadFileCommand extends FrontCommand {
             e.printStackTrace();
         }
         String contextPath = request.getContextPath();
-        response.sendRedirect(contextPath + "/?command=ErrorView");
+        response.sendRedirect(contextPath + ERROR_VIEW);
     }
 }

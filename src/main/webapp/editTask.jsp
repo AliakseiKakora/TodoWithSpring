@@ -99,7 +99,7 @@
                         <%-- Download file--%>
                         <form action="<c:url value="/" > <c:param name="${ApplicationConstants.COMMAND_KEY}" value="DownloadFile"/>                                                                                 </c:url>" method="post">
                             <input name="fileName" type="hidden" value="${requestScope.task.fileInfo.name}">
-                            <input name="path" type="hidden" value="${requestScope.task.fileInfo.path}">
+                            <input name="filePath" type="hidden" value="${requestScope.task.fileInfo.path}">
                             <input style="text-decoration: none" class="btn btn-info btn-sm " type="submit" value="${requestScope.task.fileInfo.name}">
                         </form>
 

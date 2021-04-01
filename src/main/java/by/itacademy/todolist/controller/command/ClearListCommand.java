@@ -8,18 +8,20 @@ import java.io.IOException;
 
 public class ClearListCommand extends FrontCommand {
 
+    private static final String DELETED_TASKS_VIEW = "/?command=DeletedTasksView";
+    private static final String ERROR_MESSAGE = "=deleting tasks";
+
     @Override
     public void process() throws ServletException, IOException {
         try {
             User user = (User) request.getSession().getAttribute(ApplicationConstants.USER_KEY);
             taskService.deleteAllUserDeletedTask(user.getId());
-            context.getRequestDispatcher("/?command=DeletedTasksView").forward(request, response);
+            response.sendRedirect(DELETED_TASKS_VIEW);
             return;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        request.setAttribute(ApplicationConstants.ERROR_KEY, "deleting tasks");
-        context.getRequestDispatcher("/?command=DeletedTasksView").forward(request, response);
-
+        response.sendRedirect(DELETED_TASKS_VIEW + "&"
+                + ApplicationConstants.ERROR_KEY + ERROR_MESSAGE);
     }
 }

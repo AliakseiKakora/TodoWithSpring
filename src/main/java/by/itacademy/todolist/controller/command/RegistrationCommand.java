@@ -9,16 +9,18 @@ import java.io.IOException;
 
 public class RegistrationCommand extends FrontCommand {
 
+    private static final String REGISTRATION_VIEW = "/guest?command=RegistrationView&";
+
     @Override
     public void process() throws ServletException, IOException {
-        String login = request.getParameter("login");
-        String password = request.getParameter("password");
-        String email = request.getParameter("email");
+        String login = request.getParameter(ApplicationConstants.LOGIN_KEY);
+        String password = request.getParameter(ApplicationConstants.PASSWORD_KEY);
+        String email = request.getParameter(ApplicationConstants.EMAIL_KEY);
         String contextPath = request.getContextPath();
 
         try {
             if (profileService.existLoginOrEmail(login, email)) {
-                response.sendRedirect(contextPath + "/guest?command=RegistrationView&" +
+                response.sendRedirect(contextPath + REGISTRATION_VIEW +
                         ApplicationConstants.ERROR_KEY + "=Login or email is busy");
                 return;
             }
@@ -31,9 +33,9 @@ public class RegistrationCommand extends FrontCommand {
             response.sendRedirect(contextPath + ApplicationConstants.MAIN_JSP);
             return;
         } catch (Exception e) {
-            System.out.println("Registration error");
+            e.printStackTrace();
         }
-        response.sendRedirect(contextPath + "/guest?command=RegistrationView&" +
+        response.sendRedirect(contextPath + REGISTRATION_VIEW +
                 ApplicationConstants.ERROR_KEY + "=Registration error");
     }
 }
