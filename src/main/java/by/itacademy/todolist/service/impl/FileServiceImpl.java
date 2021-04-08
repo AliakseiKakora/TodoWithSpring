@@ -19,7 +19,7 @@ public class FileServiceImpl implements FileService {
         this.fileInfoDao = fileInfoDao;
     }
 
-    public FileInfo addFileInfoForTask(Part part, long task_id, long userId, String path) {
+    public FileInfo addFileInfoForTask(Part part, long taskId, long userId, String path) {
         try {
 
             path = path + userId + "/";
@@ -28,7 +28,7 @@ public class FileServiceImpl implements FileService {
                 boolean a = fileSaveDir.mkdir();
             }
 
-            path = path + task_id + "/";
+            path = path + taskId + "/";
             fileSaveDir = new File(path);
             if (!fileSaveDir.exists()) {
                 boolean a = fileSaveDir.mkdir();
@@ -42,9 +42,9 @@ public class FileServiceImpl implements FileService {
             } else {
                 throw new RuntimeException("Error save file");
             }
-            String directory = ApplicationConstants.SAVE_DIRECTORY + userId + "/" + task_id + "/";
+            String directory = ApplicationConstants.SAVE_DIRECTORY + userId + "/" + taskId + "/";
             FileInfo fileInfo = FileInfo.builder().name(fileName).directory(directory).path(filePath).build();
-            return fileInfoDao.addFileInfoForTask(fileInfo, task_id);
+            return fileInfoDao.addFileInfoForTask(fileInfo, taskId);
 
         } catch (Exception e) {
             e.printStackTrace();

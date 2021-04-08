@@ -6,7 +6,7 @@ import javax.servlet.http.Part;
 
 public interface FileService {
 
-    FileInfo addFileInfoForTask(Part part, long task_id, long userId, String path);
+    FileInfo addFileInfoForTask(Part part, long taskId, long userId, String path);
 
     void delete(FileInfo fileInfo);
 
