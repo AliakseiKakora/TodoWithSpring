@@ -6,13 +6,10 @@ import by.itacademy.todolist.model.User;
 
 import javax.servlet.ServletException;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 public class AddTaskCommand extends FrontCommand {
 
-    private static final String DATE_FORMAT = "%sT23:59";
     private static final String UPLOAD_FILE = "/?command=UploadFile&taskId=";
     private static final String CREATE_PARAMETER = "&create=create";
     private static final String ADD_TASK_VIEW_SECTION = "/?command=AddTaskView&section=";
@@ -25,30 +22,14 @@ public class AddTaskCommand extends FrontCommand {
         String description = request.getParameter(ApplicationConstants.TASK_DESCRIPTION);
         String date = request.getParameter(ApplicationConstants.TASK_DATE);
         String time = request.getParameter(ApplicationConstants.TASK_TIME);
-
-        String today = String.format(DATE_FORMAT, LocalDate.now().toString());
-
         String contextPath = request.getContextPath();
 
         try {
             Task task = Task.builder().name(name).description(description).dateAdded(LocalDateTime.now()).build();
             task.setUser(user);
-            switch (section) {
-                case ApplicationConstants.SECTION_SOME_DAY:
-                    LocalDate localDate = LocalDate.parse(date);
-                    LocalTime localTime = LocalTime.parse(time);
-                    LocalDateTime timeCompleted = LocalDateTime.of(localDate, localTime);
-                    task.setDateCompletion(timeCompleted);
-                    break;
-                case ApplicationConstants.SECTION_TODAY:
-                    task.setDateCompletion(LocalDateTime.parse(today));
-                    break;
-                case ApplicationConstants.SECTION_TOMORROW:
-                    LocalDateTime tomorrow = LocalDateTime.parse(today).plusDays(1);
-                    task.setDateCompletion(tomorrow);
-                    break;
-            }
-            task = taskService.save(task);
+
+            task = taskService.saveTaskToSection(task, section, date, time);
+
             long taskId = task.getId();
             request.getRequestDispatcher(UPLOAD_FILE
                     + taskId + CREATE_PARAMETER).include(request, response);

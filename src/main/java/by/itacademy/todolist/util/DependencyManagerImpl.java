@@ -25,9 +25,10 @@ public class DependencyManagerImpl implements DependencyManager {
         TaskDao<Task> taskDao = new TaskDaoJpa();
         UserDao<User> userDao = new UserDaoJpa();
         MessageDao<Message> messageDao = new MessageDaoJpa();
+        DateParser dateParser = new DateParserImpl();
 
         FILE_SERVICE = new FileServiceImpl(fileInfoDao);
-        TASK_SERVICE = new TaskServiceImpl(taskDao, FILE_SERVICE);
+        TASK_SERVICE = new TaskServiceImpl(taskDao, FILE_SERVICE, dateParser);
         ROLE_SERVICE = new RoleServiceImpl(roleDao);
         USER_SERVICE = new UserServiceImpl(userDao, ROLE_SERVICE, TASK_SERVICE);
         PROFILE_SERVICE = new ProfileServiceImpl(profileDao);
