@@ -2,30 +2,34 @@ package by.itacademy.todolist.service.impl;
 
 import by.itacademy.todolist.constants.ApplicationConstants;
 import by.itacademy.todolist.model.Task;
-import by.itacademy.todolist.persistence.dao.TaskDao;
+import by.itacademy.todolist.persistence.TaskRepository;
 import by.itacademy.todolist.service.FileService;
 import by.itacademy.todolist.service.TaskService;
 import by.itacademy.todolist.util.DateParser;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class TaskServiceImpl implements TaskService {
 
-    private final TaskDao<Task> taskDao;
+    private final TaskRepository taskRepository;
     private final FileService fileService;
     private final DateParser dateParser;
 
-    public TaskServiceImpl(TaskDao<Task> taskDao, FileService fileService, DateParser dateParser) {
-        this.taskDao = taskDao;
+    @Autowired
+    public TaskServiceImpl(TaskRepository taskRepository, FileService fileService, DateParser dateParser) {
+        this.taskRepository = taskRepository;
         this.fileService = fileService;
         this.dateParser = dateParser;
     }
 
     @Override
     public List<Task> getAllUserTasks(long userId) {
-        return taskDao.getAllUserTasks(userId);
+        return (List<Task>) taskRepository.findByUserId(userId);
     }
 
     @Override
@@ -81,7 +85,7 @@ public class TaskServiceImpl implements TaskService {
             throw new RuntimeException("Task date cannot be empty");
         }
 
-        return taskDao.save(task);
+        return taskRepository.save(task);
     }
 
     private void setDateForTask(Task task, String section, String date, String time) {
@@ -104,17 +108,18 @@ public class TaskServiceImpl implements TaskService {
         if (task.getName() == null || task.getName().equals("") || task.getDateCompletion() == null) {
             throw new RuntimeException("Task name or date completion cannot be empty");
         }
-        return taskDao.update(task);
+        return taskRepository.save(task);
     }
 
     @Override
     public Task getTaskById(long id) {
-        return taskDao.getById(id);
+        return taskRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("task with id " + id + " not found"));
     }
 
     @Override
     public void deleteTask(long id) {
-        taskDao.deleteById(id);
+        taskRepository.deleteById(id);
     }
 
     @Override
@@ -122,7 +127,8 @@ public class TaskServiceImpl implements TaskService {
         List<Task> deletedTasks = getDeletedUserTasks(userId);
         deletedTasks.stream().filter(task -> task.getFileInfo() != null)
                 .forEach(task -> fileService.delete(task.getFileInfo()));
-        taskDao.deleteUserTasksMarkedAsDeleted(userId);
+
+        taskRepository.deleteUserTasksMarkedAsDeleted(userId);
     }
 
     @Override
@@ -134,7 +140,9 @@ public class TaskServiceImpl implements TaskService {
 
         allUserTasks.stream().filter(task -> task.getFileInfo() != null)
                 .forEach(task -> fileService.delete(task.getFileInfo()));
-        taskDao.deleteAllUserTasks(userId);
+
+        taskRepository.deleteTasksByUserId(userId);
+//        taskDao.deleteAllUserTasks(userId);
     }
 
     private boolean isTodayOrBeforeTask(Task task) {

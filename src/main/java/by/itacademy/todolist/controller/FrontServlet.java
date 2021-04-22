@@ -1,10 +1,14 @@
 package by.itacademy.todolist.controller;
 
+import by.itacademy.todolist.Runner2;
+import by.itacademy.todolist.config.ApplicationConfig;
 import by.itacademy.todolist.constants.ApplicationConstants;
 import by.itacademy.todolist.controller.command.FrontCommand;
 import by.itacademy.todolist.model.Role;
 import by.itacademy.todolist.util.DependencyManager;
 import by.itacademy.todolist.util.DependencyManagerImpl;
+import lombok.Getter;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -18,9 +22,15 @@ import java.io.IOException;
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2,
         maxFileSize = 1024 * 1024 * 10,
         maxRequestSize = 1024 * 1024 * 50)
+
 public class FrontServlet extends HttpServlet {
 
-    private final DependencyManager dependencyManager = DependencyManagerImpl.getInstance();
+
+    public static final org.springframework.context.ApplicationContext APPLICATION_CONTEXT =
+            new AnnotationConfigApplicationContext(ApplicationConfig.class);
+
+    @Getter
+    private static DependencyManager dependencyManager = APPLICATION_CONTEXT.getBean(DependencyManager.class);
 
     private static final String ERROR_VIEW = "/?command=ErrorView";
     private static final String ERROR_MESSAGE = "Error found command + ";

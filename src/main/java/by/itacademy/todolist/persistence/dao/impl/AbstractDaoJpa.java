@@ -3,17 +3,24 @@ package by.itacademy.todolist.persistence.dao.impl;
 import by.itacademy.todolist.persistence.dao.CrudDao;
 import by.itacademy.todolist.persistence.exception.DaoException;
 import by.itacademy.todolist.persistence.util.JpaEntityManagerFactoryUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import javax.persistence.PersistenceUnit;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import java.util.Optional;
 
+//@Repository
 public abstract class AbstractDaoJpa<T> implements CrudDao<T> {
 
-    protected final EntityManagerFactory entityManagerFactory = JpaEntityManagerFactoryUtil.getEntityManagerFactory();
+//    protected final EntityManagerFactory entityManagerFactory = JpaEntityManagerFactoryUtil.getEntityManagerFactory();
+
+//    @PersistenceUnit
+    protected EntityManagerFactory entityManagerFactory;
 
     private final Class<T> clazz = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 

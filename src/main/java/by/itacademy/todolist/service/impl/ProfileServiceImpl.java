@@ -1,20 +1,24 @@
 package by.itacademy.todolist.service.impl;
 
 import by.itacademy.todolist.model.Profile;
-import by.itacademy.todolist.persistence.dao.ProfileDao;
+import by.itacademy.todolist.persistence.ProfileRepository;
 import by.itacademy.todolist.service.ProfileService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ProfileServiceImpl implements ProfileService {
 
-    private final ProfileDao<Profile> profileDao;
+    private final ProfileRepository profileRepository;
 
-    public ProfileServiceImpl(ProfileDao<Profile> profileDao) {
-        this.profileDao = profileDao;
+    @Autowired
+    public ProfileServiceImpl(ProfileRepository profileRepository) {
+        this.profileRepository = profileRepository;
     }
 
     @Override
     public boolean existLoginOrEmail(String login, String email) {
-        return profileDao.existLoginOrEmail(login, email);
+        return profileRepository.existsByLoginOrUserEmailIgnoreCase(login, email);
     }
 
     @Override
@@ -27,6 +31,6 @@ public class ProfileServiceImpl implements ProfileService {
             throw new RuntimeException("Password or login cannot be empty");
 
         }
-        return profileDao.update(profile);
+        return profileRepository.save(profile);
     }
 }

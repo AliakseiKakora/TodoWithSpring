@@ -1,66 +1,76 @@
 package by.itacademy.todolist.util;
 
-import by.itacademy.todolist.model.*;
-import by.itacademy.todolist.persistence.dao.*;
-import by.itacademy.todolist.persistence.dao.impl.*;
+import by.itacademy.todolist.config.ApplicationConfig;
 import by.itacademy.todolist.service.*;
-import by.itacademy.todolist.service.impl.*;
+import lombok.Getter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.stereotype.Component;
 
+@Component
 public class DependencyManagerImpl implements DependencyManager {
 
-    private static final DependencyManager DEPENDENCY_MANAGER = new DependencyManagerImpl();
+//    public static final org.springframework.context.ApplicationContext APPLICATION_CONTEXT =
+//            new AnnotationConfigApplicationContext(ApplicationConfig.class);
+//
+//    @Autowired
+//    private static DependencyManager DEPENDENCY_MANAGER= APPLICATION_CONTEXT.getBean(DependencyManager.class);
 
-    private static final UserService USER_SERVICE;
-    private static final ProfileService PROFILE_SERVICE;
-    private static final TaskService TASK_SERVICE;
-    private static final FileService FILE_SERVICE;
-    private static final MessageService MESSAGE_SERVICE;
-    private static final RoleService ROLE_SERVICE;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private ProfileService profileService;
+    @Autowired
+    private TaskService taskService;
+    @Autowired
+    private FileService fileService;
+    @Autowired
+    private MessageService messageService;
 
 
     static {
-        ProfileDao<Profile> profileDao = new ProfileDaoJpa();
-        RoleDao<Role> roleDao = new RoleDaoJpa();
-        FileInfoDao<FileInfo> fileInfoDao = new FileInfoDaoJpa();
-        TaskDao<Task> taskDao = new TaskDaoJpa();
-        UserDao<User> userDao = new UserDaoJpa();
-        MessageDao<Message> messageDao = new MessageDaoJpa();
-        DateParser dateParser = new DateParserImpl();
-
-        FILE_SERVICE = new FileServiceImpl(fileInfoDao);
-        TASK_SERVICE = new TaskServiceImpl(taskDao, FILE_SERVICE, dateParser);
-        ROLE_SERVICE = new RoleServiceImpl(roleDao);
-        USER_SERVICE = new UserServiceImpl(userDao, ROLE_SERVICE, TASK_SERVICE);
-        PROFILE_SERVICE = new ProfileServiceImpl(profileDao);
-        MESSAGE_SERVICE = new MessageServiceImpl(messageDao);
+//        ProfileDao<Profile> profileDao = new ProfileDaoJpa();
+//        RoleDao<Role> roleDao = new RoleDaoJpa();
+//        FileInfoDao<FileInfo> fileInfoDao = new FileInfoDaoJpa();
+//        TaskDao<Task> taskDao = new TaskDaoJpa();
+//        UserDao<User> userDao = new UserDaoJpa();
+//        MessageDao<Message> messageDao = new MessageDaoJpa();
+//        DateParser dateParser = new DateParserImpl();
+//
+//        FILE_SERVICE = new FileServiceImpl(fileInfoDao);
+//        TASK_SERVICE = new TaskServiceImpl(taskDao, FILE_SERVICE, dateParser);
+//        ROLE_SERVICE = new RoleServiceImpl(roleDao);
+//        USER_SERVICE = new UserServiceImpl(userDao, ROLE_SERVICE, TASK_SERVICE);
+//        PROFILE_SERVICE = new ProfileServiceImpl(profileDao);
+//        MESSAGE_SERVICE = new MessageServiceImpl(messageDao);
     }
 
     @Override
     public UserService getUsersService() {
-        return USER_SERVICE;
+        return userService;
     }
 
     @Override
     public ProfileService getProfileService() {
-        return PROFILE_SERVICE;
+        return profileService;
     }
 
     @Override
     public TaskService getTaskService() {
-        return TASK_SERVICE;
+        return taskService;
     }
 
     @Override
     public FileService getFileService() {
-        return FILE_SERVICE;
+        return fileService;
     }
 
     @Override
     public MessageService getMessageService() {
-        return MESSAGE_SERVICE;
+        return messageService;
     }
 
-    public static DependencyManager getInstance() {
-        return DEPENDENCY_MANAGER;
-    }
+//    public static DependencyManager getInstance() {
+//        return DEPENDENCY_MANAGER;
+//    }
 }

@@ -2,8 +2,12 @@ package by.itacademy.todolist.service.impl;
 
 import by.itacademy.todolist.constants.ApplicationConstants;
 import by.itacademy.todolist.model.FileInfo;
-import by.itacademy.todolist.persistence.dao.FileInfoDao;
+import by.itacademy.todolist.model.Task;
+import by.itacademy.todolist.persistence.FileInfoRepository;
+import by.itacademy.todolist.persistence.TaskRepository;
 import by.itacademy.todolist.service.FileService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.servlet.http.Part;
 import java.io.File;
@@ -11,28 +15,29 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+@Service
 public class FileServiceImpl implements FileService {
 
-    private final FileInfoDao<FileInfo> fileInfoDao;
+    private final FileInfoRepository fileInfoRepository;
+    private final TaskRepository taskRepository;
 
-    public FileServiceImpl(FileInfoDao<FileInfo> fileInfoDao) {
-        this.fileInfoDao = fileInfoDao;
+    @Autowired
+    public FileServiceImpl(FileInfoRepository fileInfoRepository, TaskRepository taskRepository) {
+        this.fileInfoRepository = fileInfoRepository;
+        this.taskRepository = taskRepository;
     }
 
     public FileInfo addFileInfoForTask(Part part, long taskId, long userId, String path) {
         try {
-
             path = path + userId + "/";
             File fileSaveDir = new File(path);
-            if (!fileSaveDir.exists()) {
-                boolean a = fileSaveDir.mkdir();
-            }
+
+            createDirectory(fileSaveDir);
 
             path = path + taskId + "/";
             fileSaveDir = new File(path);
-            if (!fileSaveDir.exists()) {
-                boolean a = fileSaveDir.mkdir();
-            }
+
+            createDirectory(fileSaveDir);
 
             String fileName = extractFileName(part);
             String filePath;
@@ -44,11 +49,21 @@ public class FileServiceImpl implements FileService {
             }
             String directory = ApplicationConstants.SAVE_DIRECTORY + userId + "/" + taskId + "/";
             FileInfo fileInfo = FileInfo.builder().name(fileName).directory(directory).path(filePath).build();
-            return fileInfoDao.addFileInfoForTask(fileInfo, taskId);
 
+            Task task = taskRepository.findById(taskId)
+                    .orElseThrow(() -> new RuntimeException("task with id" + taskId + "not found"));
+            fileInfo.addTask(task);
+
+            return taskRepository.save(task).getFileInfo();
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Error save file");
+        }
+    }
+
+    private void createDirectory(File fileSaveDir) {
+        if (!fileSaveDir.exists()) {
+            fileSaveDir.mkdir();
         }
     }
 
@@ -57,15 +72,16 @@ public class FileServiceImpl implements FileService {
         try {
             Path path = Paths.get(fileInfo.getPath());
             Files.delete(path);
-            fileInfoDao.deleteById(fileInfo.getId());
+            fileInfoRepository.deleteById(fileInfo.getId());
         } catch (Exception e) {
-            throw new RuntimeException("Error delete file (fileId - " + fileInfo.getId()  + ")");
+            throw new RuntimeException("Error delete file (fileId - " + fileInfo.getId() + ")", e);
         }
     }
 
     @Override
     public FileInfo getById(long fileId) {
-        return fileInfoDao.getById(fileId);
+        return fileInfoRepository.findById(fileId)
+                .orElseThrow(() -> new RuntimeException("file with id " + fileId + " not found"));
     }
 
     private String extractFileName(Part part) {

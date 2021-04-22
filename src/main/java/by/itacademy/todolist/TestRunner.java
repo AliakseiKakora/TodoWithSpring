@@ -1,12 +1,15 @@
 package by.itacademy.todolist;
 
+import by.itacademy.todolist.config.ApplicationConfig;
 import by.itacademy.todolist.model.FileInfo;
 import by.itacademy.todolist.model.Message;
 import by.itacademy.todolist.model.Task;
 import by.itacademy.todolist.model.User;
+import by.itacademy.todolist.persistence.dao.FileInfoDao;
 import by.itacademy.todolist.persistence.dao.impl.*;
 import by.itacademy.todolist.persistence.util.JpaEntityManagerFactoryUtil;
 import org.h2.tools.Server;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import javax.persistence.EntityManagerFactory;
 import java.sql.SQLException;
@@ -14,13 +17,16 @@ import java.util.List;
 
 public class TestRunner {
 
-    private static final EntityManagerFactory MANAGER_FACTORY = JpaEntityManagerFactoryUtil.getEntityManagerFactory();
+    public static final org.springframework.context.ApplicationContext APPLICATION_CONTEXT =
+            new AnnotationConfigApplicationContext(ApplicationConfig.class);
+
+//    private static final EntityManagerFactory MANAGER_FACTORY = JpaEntityManagerFactoryUtil.getEntityManagerFactory();
     private static final UserDaoJpa USER_DAO = new UserDaoJpa();
     private static final RoleDaoJpa ROLE_DAO = new RoleDaoJpa();
     private static final TaskDaoJpa TASK_DAO = new TaskDaoJpa();
     private static final ProfileDaoJpa PROFILE_DAO = new ProfileDaoJpa();
     private static final MessageDaoJpa MESSAGE_DAO = new MessageDaoJpa();
-    private static final FileInfoDaoJpa FILE_DAO = new FileInfoDaoJpa();
+    private static final FileInfoDao FILE_DAO = APPLICATION_CONTEXT.getBean(FileInfoDao.class);
 
     private static final Server SERVER;
 
@@ -35,14 +41,15 @@ public class TestRunner {
     public static void main(String[] args) {
 
 
-        FileInfo fileInfo = new FileInfo();
-        fileInfo.setDirectory("testdir");
-        fileInfo.setName("testname");
-        fileInfo.setPath("testpath");
 
-        FILE_DAO.addFileInfoForTask(fileInfo, 1);
-
-        System.out.println();
+//        FileInfo fileInfo = new FileInfo();
+//        fileInfo.setDirectory("testdir");
+//        fileInfo.setName("testname");
+//        fileInfo.setPath("testpath");
+//
+//        FILE_DAO.addFileInfoForTask(fileInfo, 1);
+//
+//        System.out.println();
 //
     //    User user = USER_DAO.getById(1);
 
