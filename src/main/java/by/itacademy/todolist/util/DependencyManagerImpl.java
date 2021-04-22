@@ -1,10 +1,7 @@
 package by.itacademy.todolist.util;
 
-import by.itacademy.todolist.config.ApplicationConfig;
 import by.itacademy.todolist.service.*;
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Component;
 
 @Component
