@@ -15,6 +15,7 @@
         <maven.compiler.target>8</maven.compiler.target>
 
         <lombok.version>1.18.16</lombok.version>
+        <logback.version>1.2.3</logback.version>
 
         <h2.version>1.4.200</h2.version>
         <hibernate-entitymanager.version>5.4.24.Final</hibernate-entitymanager.version>
@@ -48,6 +49,12 @@
         </dependency>
 
         <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <version>${h2.version}</version>
@@ -58,12 +65,14 @@
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <version>${javax.servlet-api.version}</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>javax.servlet.jsp</groupId>
             <artifactId>jsp-api</artifactId>
             <version>${jsp-api.version}</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -85,7 +94,27 @@
             <version>${spring-data-jpa.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
     </dependencies>
+
+    <build>
+        <finalName>webApp</finalName>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
     
 </project>

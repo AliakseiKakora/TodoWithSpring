@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Data
 @Builder
 @EqualsAndHashCode(of = {"id", "login", "password"})
-@ToString(of = {"id", "login", "password"})
+@ToString(of = {"id", "login"})
 
 @Entity
 @Table(name = "PROFILES")
@@ -23,7 +23,7 @@ public class Profile {
     private String password;
 
     @Column(name = "is_enable")
-    private boolean isEnable;
+    private boolean isEnable = true;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @MapsId

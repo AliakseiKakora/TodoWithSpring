@@ -91,7 +91,7 @@
                 </div>
                 <div class="card-body">
                     <h6 class="card-title">Sender</h6>
-                    <form class="mx-0 mb-2 px-0"  action="<c:url value="/"> <c:param name="command" value="UserCardView"/> </c:url>" method="post">
+                    <form class="mx-0 mb-2 px-0" action="<c:url value="/"> <c:param name="command" value="UserCardView"/> </c:url>" method="post">
                         <input name="${ApplicationConstants.USER_ID_KEY}" type="hidden" value="${requestScope.message.user.id}">
                         <input style="text-decoration: none" class="btn btn-link ms-2 mb-0" type="submit" value=" ${requestScope.message.user.name} ${requestScope.message.user.surname}">
                     </form>

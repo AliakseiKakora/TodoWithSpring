@@ -18,6 +18,6 @@ public interface UserRepository extends PagingAndSortingRepository<User, Long> {
     Iterable<User> findAll();
 
     @EntityGraph(attributePaths = {"roles", "profile"})
-    User findByProfileLoginAndProfilePassword(@Param("login") String login, @Param("password") String password);
+    Optional<User> findByProfileLoginAndProfilePassword(@Param("login") String login, @Param("password") String password);
 
 }

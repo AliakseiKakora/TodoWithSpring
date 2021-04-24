@@ -26,12 +26,12 @@
 
         <div class="col-8 rounded-3">
             <div style="margin-bottom: 5vh">
-                <c:import url="/WEB-INF/template/header_templ.jsp"/>
+                <c:import url="/WEB-INF/views/template/header_templ.jsp"/>
             </div>
 
             <h1 class="mb-3 p-2" >My Profile</h1>
             <c:if test="${!empty sessionScope.user}">
-                <form action="<c:url value="/" > <c:param name="command" value="UpdateProfile"/> </c:url>" method="post">
+                <form action="<c:url value="profile/update" > </c:url>" method="post">
 
                     <div class="mb-3">
                         <label for="login" class="form-label">Login</label>
@@ -62,8 +62,8 @@
                 </form>
             </c:if>
 
-            <c:import url="/WEB-INF/template/successful_template.jsp"/>
-            <c:import url="/WEB-INF/template/error_templ.jsp"/>
+            <c:import url="/WEB-INF/views/template/successful_template.jsp"/>
+            <c:import url="/WEB-INF/views/template/error_templ.jsp"/>
 
 
         </div>

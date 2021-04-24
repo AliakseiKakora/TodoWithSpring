@@ -3,17 +3,13 @@
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="<c:url value="/">
-                        <c:param name="command" value="MainView"/>
-                        </c:url>">ToDo</a>
+        <a class="navbar-brand" href="<c:url value="/main"> </c:url>">ToDo</a>
 
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav mb-2 mb-lg-0">
 
                 <li class="nav-item">
-                    <a class="nav-link" href="<c:url value="/">
-                        <c:param name="command" value="ProfileView"/>
-                        </c:url>">My profile</a>
+                    <a class="nav-link" href="<c:url value="/profile"> </c:url>">My profile</a>
                 </li>
 
                 <li class="nav-item dropdown">
@@ -42,10 +38,7 @@
 
             <ul class="navbar-nav ms-auto mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="<c:url value="/">
-                        <c:param name="command" value="Logout"/>
-                        </c:url> ">
-                        Log out</a>
+                    <a class="nav-link" href="<c:url value="/logout"/>">Log out </a>
                 </li>
             </ul>
 

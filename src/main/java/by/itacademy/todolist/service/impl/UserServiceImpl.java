@@ -28,7 +28,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserByLoginAndPassword(String login, String password) {
-        return userRepository.findByProfileLoginAndProfilePassword(login, password);
+        return userRepository
+                .findByProfileLoginAndProfilePassword(login, password)
+                .orElseThrow(() -> new RuntimeException("Invalid user data"));
     }
 
     @Override
@@ -58,8 +60,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User update(User user) {
-        if (user.getEmail() == null || user.getEmail().equals("")) {
-            throw new RuntimeException("Email not cannot be empty");
+//        if (user.getEmail() == null || user.getEmail().equals("")) {
+//            throw new RuntimeException("Email cannot be empty");
+//        }
+//        if (user.getProfile().getLogin() == null || user.getProfile().getLogin().equals("")) {
+//            throw new RuntimeException("Login cannot be empty");
+//        }
+
+        if (!isValidRegistrationData(user)) {
+            throw new RuntimeException("User credentials are not valid ");
         }
 
         return userRepository.save(user);
@@ -79,7 +88,7 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    //nark this method as transactional
+    //todo mark this method as transactional
     @Override
     public void deleteById(long id) {
         taskService.deleteAllUserTasks(id);
