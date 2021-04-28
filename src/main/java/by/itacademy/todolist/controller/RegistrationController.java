@@ -8,11 +8,9 @@ import by.itacademy.todolist.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Slf4j
@@ -23,18 +21,11 @@ public class RegistrationController {
     private static final String REGISTRATION_PAGE = "registration";
     private static final String MAIN_PAGE = "main";
 
-
     @Autowired
     private ProfileService profileService;
 
     @Autowired
     private UserService userService;
-
-    @GetMapping(value = "/registration")
-    public ModelAndView loadRegistrationPage(HttpServletRequest request) {
-        String errorKey = ApplicationConstants.ERROR_KEY;
-        return new ModelAndView(REGISTRATION_PAGE, errorKey, request.getParameter(errorKey));
-    }
 
     @PostMapping(value = "/registration")
     public ModelAndView registration(Profile profile, User user, HttpSession session) {

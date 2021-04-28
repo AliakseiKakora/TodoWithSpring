@@ -8,7 +8,6 @@ import by.itacademy.todolist.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,41 +26,6 @@ public class TaskController {
     private final TaskService taskService;
     private final FileService fileService;
 
-    @GetMapping("/task/add")
-    public ModelAndView loadAddTaskPage(HttpServletRequest request) {
-        try {
-            String section = request.getParameter(ApplicationConstants.SECTION_KEY);
-            String successfulMessage = request.getParameter(ApplicationConstants.SUCCESSFUL_KEY);
-            String errorMessage = request.getParameter(ApplicationConstants.ERROR_KEY);
-
-            ModelAndView modelAndView = new ModelAndView("addTask");
-            modelAndView.addObject(ApplicationConstants.SECTION_KEY, section);
-            modelAndView.addObject(ApplicationConstants.SUCCESSFUL_KEY, successfulMessage);
-            modelAndView.addObject(ApplicationConstants.ERROR_KEY, errorMessage);
-
-            return modelAndView;
-        } catch (Exception e) {
-            log.warn("exception in loadTaskPage method ", e);
-            return new ModelAndView("redirect:/error");
-        }
-
-    }
-
-    @PostMapping("task/edit")
-    public ModelAndView loadEditTaskPage(@RequestParam long taskId) {
-        try {
-            Task task = taskService.getTaskById(taskId);
-            ModelAndView modelAndView = new ModelAndView("editTask");
-            modelAndView.addObject(ApplicationConstants.TASK_KEY, task);
-            return modelAndView;
-
-        } catch (Exception e) {
-            log.warn("exception in loadEditTaskPage method ", e);
-            return new ModelAndView("redirect:/error");
-        }
-
-    }
-
     @PostMapping("/task/add")
     public ModelAndView addTask(HttpServletRequest request, @RequestParam MultipartFile file,
                                 @RequestParam String section, @RequestParam String name,
@@ -79,6 +43,8 @@ public class TaskController {
             ModelAndView modelAndView = new ModelAndView("redirect:/task/add");
             modelAndView.addObject(ApplicationConstants.SECTION_KEY, section);
             modelAndView.addObject(ApplicationConstants.SUCCESSFUL_KEY, "task added");
+
+            log.info("user added task {}", task);
             return modelAndView;
 
         } catch (Exception e) {
@@ -102,5 +68,4 @@ public class TaskController {
         }
         return fullSavePath;
     }
-
 }
