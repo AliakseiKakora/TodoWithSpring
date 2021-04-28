@@ -2,7 +2,6 @@ package by.itacademy.todolist.util;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 /**
  * This class provide functions that return date and time in end day format.
@@ -14,10 +13,9 @@ public class DateParserImpl implements DateParser {
     private static final String TODAY = String.format(DATE_FORMAT, LocalDate.now().toString());
 
     @Override
-    public LocalDateTime getLocalDateTime(String date, String time) {
+    public LocalDateTime getLocalDateTime(String date) {
         LocalDate localDate = LocalDate.parse(date);
-        LocalTime localTime = LocalTime.parse(time);
-        return LocalDateTime.of(localDate, localTime);
+        return LocalDateTime.parse(String.format(DATE_FORMAT, localDate));
     }
 
     @Override

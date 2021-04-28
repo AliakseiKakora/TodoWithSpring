@@ -8,9 +8,11 @@ import by.itacademy.todolist.persistence.TaskRepository;
 import by.itacademy.todolist.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.Part;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -27,7 +29,7 @@ public class FileServiceImpl implements FileService {
         this.taskRepository = taskRepository;
     }
 
-    public FileInfo addFileInfoForTask(Part part, long taskId, long userId, String path) {
+    public FileInfo addFileInfoForTask(MultipartFile file, long taskId, long userId, String path) {
         try {
             path = path + userId + "/";
             File fileSaveDir = new File(path);
@@ -39,11 +41,12 @@ public class FileServiceImpl implements FileService {
 
             createDirectory(fileSaveDir);
 
-            String fileName = extractFileName(part);
+            String fileName = file.getOriginalFilename();
             String filePath;
             if (fileName != null && fileName.length() > 0) {
                 filePath = path + File.separator + fileName;
-                part.write(filePath);
+                FileOutputStream stream = new FileOutputStream(filePath);
+                stream.write(file.getBytes());
             } else {
                 throw new RuntimeException("Error save file");
             }

@@ -27,14 +27,14 @@
 
 
             <div style="margin-bottom: 5vh">
-                <c:import url="/WEB-INF/template/header_templ.jsp"/>
+                <c:import url="/WEB-INF/views/template/header_templ.jsp"/>
             </div>
 
             <h3 class="p-2">${requestScope.title} tasks</h3>
 
             <c:if test="${!empty requestScope.section && (requestScope.section != ApplicationConstants.SECTION_DELETED
                             && requestScope.section != ApplicationConstants.SECTION_FIXED)}">
-                <a class="btn btn-info btn-sm" href="<c:url value="/"> <c:param name="command" value="AddTaskView"/> <c:param name="section" value="${requestScope.section}"/> </c:url>" role="button">Add Task</a>
+                <a class="btn btn-info btn-sm" href="<c:url value="/task/add"> <c:param name="section" value="${requestScope.section}"/> </c:url>" role="button">Add Task</a>
             </c:if>
 
             <c:if test="${!empty requestScope.section && (requestScope.section == ApplicationConstants.SECTION_DELETED)}">
@@ -98,9 +98,7 @@
                                         || requestScope.section == ApplicationConstants.SECTION_TOMORROW)}">
 
                                 <td>
-                                    <form action="<c:url value="/" >
-                                                   <c:param name="${ApplicationConstants.COMMAND_KEY}" value="EditTaskView"/>
-                                                 </c:url>" method="post">
+                                    <form action="<c:url value="/task/edit" />" method="post">
                                         <input name="${ApplicationConstants.TASK_ID}" type="hidden" value="${task.id}">
                                         <input class="btn btn-warning btn-sm" type="submit" value="Edit">
                                     </form>
@@ -144,8 +142,8 @@
                 </table>
             </c:if>
 
-            <c:import url="/WEB-INF/template/successful_template.jsp"/>
-            <c:import url="/WEB-INF/template/error_templ.jsp"/>
+            <c:import url="/WEB-INF/views/template/successful_template.jsp"/>
+            <c:import url="/WEB-INF/views/template/error_templ.jsp"/>
         </div>
 
         <div class="col-2" >

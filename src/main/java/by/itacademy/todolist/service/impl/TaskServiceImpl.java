@@ -75,11 +75,11 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Task saveTaskToSection(Task task, String section, String date, String time) {
+    public Task saveTaskToSection(Task task, String section, String date) {
         if (task.getName() == null || task.getName().equals("")) {
             throw new RuntimeException("Task name cannot be empty");
         }
-        setDateForTask(task, section, date, time);
+        setDateForTask(task, section, date);
 
         if (task.getDateCompletion() == null || task.getDateAdded() == null) {
             throw new RuntimeException("Task date cannot be empty");
@@ -88,10 +88,10 @@ public class TaskServiceImpl implements TaskService {
         return taskRepository.save(task);
     }
 
-    private void setDateForTask(Task task, String section, String date, String time) {
+    private void setDateForTask(Task task, String section, String date) {
         switch (section) {
             case ApplicationConstants.SECTION_SOME_DAY:
-                LocalDateTime timeCompleted = dateParser.getLocalDateTime(date, time);
+                LocalDateTime timeCompleted = dateParser.getLocalDateTime(date);
                 task.setDateCompletion(timeCompleted);
                 break;
             case ApplicationConstants.SECTION_TODAY:

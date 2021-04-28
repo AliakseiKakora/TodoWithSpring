@@ -13,11 +13,9 @@
           integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
 
 
-
     <title>ToDo</title>
 </head>
 <body>
-
 
 
 <div class="container-liquid " style="margin-bottom: 5vh">
@@ -33,7 +31,7 @@
 
         </div>
 
-        <div class="col-2" >
+        <div class="col-2">
 
         </div>
 
@@ -41,7 +39,6 @@
     </div>
 
 </div>
-
 
 
 <div class="container-liquid ">
@@ -53,26 +50,24 @@
 
         <div class="col-8 rounded-3">
 
+            <form action="<c:url value="/task/add" /> " method="post" enctype="multipart/form-data">
 
-
-            <form action="<c:url value="/"> <c:param name="command" value="AddTask"/> <c:param name="section" value="${requestScope.section}"/>
-                </c:url> " method="post" enctype="multipart/form-data">
+                <input name="section" type="hidden" value="${requestScope.section}">
 
                 <div class="input-group mb-4">
-                    <span class="input-group-text" id="basic-addon1">Name</span>
-                    <input type="text" class="form-control" placeholder="Todo" name="name" aria-describedby="basic-addon1" required>
+                    <label class="input-group-text" for="name">Name</label>
+                    <input type="text" class="form-control" placeholder="Todo" id="name" name="name" required>
                 </div>
 
                 <div class="input-group mb-4">
-                    <span class="input-group-text">Description</span>
-                    <textarea class="form-control" name="description"></textarea>
+                    <label class="input-group-text" for="description">Description</label>
+                    <textarea class="form-control" id="description" name="description"></textarea>
                 </div>
 
                 <c:if test="${(!empty requestScope.section) && requestScope.section == ApplicationConstants.SECTION_SOME_DAY}">
                     <div class="input-group mb-4">
-                        <span class="input-group-text">Date</span>
-                        <input type="date" name="date" required>
-                        <input type="time" name="time" required>
+                        <label class="input-group-text">Date</label>
+                        <input type="date" name="date" id="date" required>
                     </div>
                 </c:if>
 
@@ -81,19 +76,21 @@
                     <input class="form-control" type="file" name="file"/>
                 </div>
 
-
                 <div class="mb-4">
-                    <button type="submit" class="btn btn-info">Add Task</button>
+                    <input class="btn btn-info" type="submit" value="Add Task">
                 </div>
 
             </form>
+
+
+
 
             <c:import url="/WEB-INF/views/template/successful_template.jsp"/>
             <c:import url="/WEB-INF/views/template/error_templ.jsp"/>
 
         </div>
 
-        <div class="col-2" >
+        <div class="col-2">
 
         </div>
 
@@ -101,10 +98,6 @@
     </div>
 
 </div>
-
-
-
-
 
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"

@@ -6,8 +6,14 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import javax.servlet.Filter;
+import javax.servlet.MultipartConfigElement;
+import javax.servlet.ServletRegistration;
+import java.io.File;
 
 public class SpringWebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
+
+    private int maxUploadSizeInMb = 1024 * 1024; // 1 MB
+    private File uploadDirectory = new File("/todoFiles/");
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
@@ -27,5 +33,17 @@ public class SpringWebAppInitializer extends AbstractAnnotationConfigDispatcherS
     @Override
     protected Filter[] getServletFilters() {
         return new Filter[]{new CharacterEncodingFilter()};
+    }
+
+    private MultipartConfigElement getMultipartConfigElement() {
+        MultipartConfigElement multipartConfigElement = new
+                MultipartConfigElement(uploadDirectory.getAbsolutePath(),
+                maxUploadSizeInMb, maxUploadSizeInMb * 2, maxUploadSizeInMb / 2);
+        return multipartConfigElement;
+    }
+
+    @Override
+    protected void customizeRegistration(ServletRegistration.Dynamic registration) {
+        registration.setMultipartConfig(getMultipartConfigElement());
     }
 }

@@ -35,7 +35,7 @@ public class UploadFileCommand extends FrontCommand {
             }
             taskId = Long.parseLong(request.getParameter(ApplicationConstants.TASK_ID));
             User user = (User) request.getSession().getAttribute(ApplicationConstants.USER_KEY);
-            fileService.addFileInfoForTask(part, taskId, user.getId(), fullSavePath);
+//            fileService.addFileInfoForTask(part, taskId, user.getId(), fullSavePath);
 
             String createTask = request.getParameter(CREATING_TASK);
             if (createTask != null && createTask.equals(CREATING_TASK)) {

@@ -18,7 +18,7 @@ public interface TaskService {
 
     List<Task> getDeletedUserTasks(long userId);
 
-    Task saveTaskToSection(Task task, String section, String date, String time);
+    Task saveTaskToSection(Task task, String section, String date);
 
     Task updateTask(Task task);
 

@@ -1,5 +1,7 @@
 package by.itacademy.todolist.listener;
 
+import by.itacademy.todolist.constants.ApplicationConstants;
+import by.itacademy.todolist.model.Role;
 import org.h2.tools.Server;
 
 import javax.servlet.ServletContextEvent;
@@ -14,9 +16,14 @@ public class ApplicationStartUpListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
+        sce.getServletContext().setAttribute(ApplicationConstants.ROLE_ADMIN_KEY,
+                new Role(ApplicationConstants.ROLE_ADMIN_VALUE));
+        sce.getServletContext().setAttribute(ApplicationConstants.ROLE_USER_KEY,
+                new Role(ApplicationConstants.ROLE_USER_VALUE));
 
         try {
             SERVER = Server.createTcpServer().start();
+            System.out.println("server TCP was started $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
         } catch (SQLException e) {
             throw new RuntimeException("Failed start tcp H2 server");
         }

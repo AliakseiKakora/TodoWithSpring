@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public interface DateParser {
 
-    LocalDateTime getLocalDateTime(String date, String time);
+    LocalDateTime getLocalDateTime(String date);
 
     LocalDateTime getTodayLocalDateTime();
 

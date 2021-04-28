@@ -25,14 +25,14 @@
 
         <div class="col-8 rounded-3">
             <div style="margin-bottom: 5vh">
-                <c:import url="/WEB-INF/template/header_templ.jsp"/>
+                <c:import url="/WEB-INF/views/template/header_templ.jsp"/>
             </div>
 
             <p class="lead">
                 An unknown error has occurred! Please describe the error, it will help us a lot!
             </p>
 
-            <form action="<c:url value="/guest"> <c:param name="command" value="CreateMessage"/> </c:url> " method="post">
+            <form action="<c:url value="/message/add" /> " method="post">
 
                 <div class="input-group mb-4">
                     <span class="input-group-text">Message</span>
