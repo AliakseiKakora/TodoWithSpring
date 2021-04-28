@@ -87,11 +87,16 @@ public class PageController {
     }
 
     @PostMapping("task/edit")
-    public ModelAndView loadEditTaskPage(@RequestParam long taskId) {
+    public ModelAndView loadEditTaskPage(@RequestParam long taskId, HttpServletRequest request) {
         try {
+            String successfulMessage = request.getParameter(ApplicationConstants.SUCCESSFUL_KEY);
+            String errorMessage = request.getParameter(ApplicationConstants.ERROR_KEY);
+
             Task task = taskService.getTaskById(taskId);
             ModelAndView modelAndView = new ModelAndView("editTask");
             modelAndView.addObject(ApplicationConstants.TASK_KEY, task);
+            modelAndView.addObject(ApplicationConstants.SUCCESSFUL_KEY, successfulMessage);
+            modelAndView.addObject(ApplicationConstants.ERROR_KEY, errorMessage);
             return modelAndView;
 
         } catch (Exception e) {

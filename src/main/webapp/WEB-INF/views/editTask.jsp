@@ -55,7 +55,7 @@
 
 
             <c:if test="${!empty requestScope.task}">
-                <form action="<c:url value="/"> <c:param name="command" value="EditTask"/> </c:url> " method="post" enctype="multipart/form-data">
+                <form action="<c:url value="/task/update"></c:url> " method="post">
 
                     <div class="input-group mb-4">
                         <span class="input-group-text" id="basic-addon1">Name</span>
@@ -70,12 +70,11 @@
                     <div class="input-group mb-4">
                         <span class="input-group-text">Date</span>
                         <input type="date" name="date" required value="${requestScope.task.dateCompletion.format(DateTimeFormatter.ofPattern("uuuu-MM-dd"))}">
-                        <input type="time" name="time" required value="${requestScope.task.dateCompletion.format(DateTimeFormatter.ofPattern("HH:mm"))}">
                     </div>
 
                     <div class="mb-4">
                         <button type="submit" class="btn btn-info">Edit Task</button>
-                        <input name="${ApplicationConstants.TASK_ID}" type="hidden" value="${requestScope.task.id}">
+                        <input name="id" type="hidden" value="${requestScope.task.id}">
                     </div>
 
                 </form>
