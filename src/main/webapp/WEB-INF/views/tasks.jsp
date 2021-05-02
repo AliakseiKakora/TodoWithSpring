@@ -41,8 +41,7 @@
 
             <c:if test="${!empty requestScope.section && (requestScope.section == ApplicationConstants.SECTION_DELETED)}">
                 <a class="btn btn-info btn-sm"
-                   href="<c:url value="/"> <c:param name="command" value="ClearList"/> </c:url>" role="button">Clear
-                    list</a>
+                   href="<c:url value="/task/clearAll" /> " role="button">Clear list</a>
             </c:if>
 
 
@@ -69,8 +68,7 @@
 
                             <td>
 
-                                <form action="<c:url value="/"> <c:param name="command" value="TaskView"/> </c:url>"
-                                      method="post">
+                                <form action="<c:url value="/task" />" method="post">
                                     <input name="${ApplicationConstants.TASK_ID}" type="hidden" value="${task.id}">
                                     <input name="${ApplicationConstants.SECTION_KEY}" type="hidden"
                                            value="${requestScope.section}">
@@ -95,7 +93,6 @@
                                     <input name="${ApplicationConstants.SECTION_KEY}" type="hidden" value="${requestScope.section}">
                                     <input class="btn btn-danger btn-sm" type="submit" value="Delete">
                                 </form>
-
                             </td>
 
                             <c:if test="${!empty requestScope.section && (requestScope.section == ApplicationConstants.SECTION_SOME_DAY

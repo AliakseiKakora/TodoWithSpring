@@ -17,7 +17,6 @@
 <body>
 
 
-
 <div class="container-liquid " style="margin-bottom: 5vh">
     <div class="row ">
 
@@ -27,11 +26,11 @@
 
         <div class="col-8 rounded-3">
 
-            <c:import url="/WEB-INF/template/header_templ.jsp"/>
+            <c:import url="/WEB-INF/views/template/header_templ.jsp"/>
 
         </div>
 
-        <div class="col-2" >
+        <div class="col-2">
 
         </div>
 
@@ -39,9 +38,6 @@
     </div>
 
 </div>
-
-
-
 
 
 <div class="container-liqud">
@@ -57,19 +53,18 @@
                 <div class="card-header">
                     <ul class="nav nav-pills card-header-pills">
                         <li class="nav-item">
-                            <form action="<c:url value="/">
-                                             <c:param name="${ApplicationConstants.COMMAND_KEY}" value="UpdateTask"/>
-                                             <c:choose>
-                                                        <c:when test="${requestScope.section == ApplicationConstants.SECTION_DELETED}">
-                                                             <c:param name= "${ApplicationConstants.ACTION_KEY}" value="${ApplicationConstants.TASK_ACTION_FULL_DELETE}"/>
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                             <c:param name= "${ApplicationConstants.ACTION_KEY}" value="${ApplicationConstants.TASK_ACTION_DELETE}"/>
-                                                        </c:otherwise>
-                                             </c:choose>
-                                          </c:url>" method="post">
-                                <input name="${ApplicationConstants.TASK_ID}" type="hidden" value="${requestScope.task.id}">
-                                <input name="${ApplicationConstants.SECTION_KEY}" type="hidden" value="${requestScope.section}">
+                            <form
+                                    <c:choose>
+                                        <c:when test="${requestScope.section == ApplicationConstants.SECTION_DELETED}">
+                                            action="<c:url value="/task/fulDelete"/>"
+                                        </c:when>
+                                        <c:otherwise>
+                                            action="<c:url value="/task/delete"/>"
+                                        </c:otherwise>
+                                    </c:choose> method="post">
+                                <input name="${ApplicationConstants.TASK_ID}" type="hidden" value="${task.id}">
+                                <input name="${ApplicationConstants.SECTION_KEY}" type="hidden"
+                                       value="${requestScope.section}">
                                 <input style="text-decoration: none" class="btn btn-danger btn-sm ms-2 mb-0" type="submit" value="Delete">
                             </form>
                         </li>
@@ -79,23 +74,23 @@
 
                             <li class="nav-item">
 
-                                <form action="<c:url value="/" >
-                                                       <c:param name="${ApplicationConstants.COMMAND_KEY}" value="EditTaskView"/>
-                                                     </c:url>" method="post">
-                                    <input name="${ApplicationConstants.TASK_ID}" type="hidden" value="${requestScope.task.id}">
-                                    <input style="text-decoration: none" class="btn btn-warning btn-sm ms-2 mb-0" type="submit" value="Edit">
+                                <form action="<c:url value="/task/edit" />" method="post">
+                                    <input name="${ApplicationConstants.TASK_ID}" type="hidden"
+                                           value="${requestScope.task.id}">
+                                    <input style="text-decoration: none" class="btn btn-warning btn-sm ms-2 mb-0"
+                                           type="submit" value="Edit">
                                 </form>
 
                             </li>
 
                             <li class="nav-item">
-                                <form action="<c:url value="/" >
-                                                       <c:param name="${ApplicationConstants.COMMAND_KEY}" value="UpdateTask"/>
-                                                        <c:param name= "${ApplicationConstants.ACTION_KEY}" value="${ApplicationConstants.TASK_ACTION_FIXED}"/>
-                                                     </c:url>" method="post">
-                                    <input name="${ApplicationConstants.TASK_ID}" type="hidden" value="${requestScope.task.id}">
-                                    <input name="${ApplicationConstants.SECTION_KEY}" type="hidden" value="${requestScope.section}">
-                                    <input style="text-decoration: none" class="btn btn-success btn-sm ms-2 mb-0" type="submit" value="Fixed">
+                                <form action="<c:url value="/task/fix" />" method="post">
+                                    <input name="${ApplicationConstants.TASK_ID}" type="hidden"
+                                           value="${requestScope.task.id}">
+                                    <input name="${ApplicationConstants.SECTION_KEY}" type="hidden"
+                                           value="${requestScope.section}">
+                                    <input style="text-decoration: none" class="btn btn-success btn-sm ms-2 mb-0"
+                                           type="submit" value="Fixed">
                                 </form>
                             </li>
 
@@ -107,10 +102,12 @@
 
                             <li>
                                     <%-- Download file--%>
-                                <form action="<c:url value="/" > <c:param name="${ApplicationConstants.COMMAND_KEY}" value="DownloadFile"/>                                                                                 </c:url>" method="post">
+                                <form action="<c:url value="/" > <c:param name="${ApplicationConstants.COMMAND_KEY}" value="DownloadFile"/>                                                                                 </c:url>"
+                                      method="post">
                                     <input name="fileName" type="hidden" value="${requestScope.task.fileInfo.name}">
                                     <input name="filePath" type="hidden" value="${requestScope.task.fileInfo.path}">
-                                    <input style="text-decoration: none" class="btn btn-info btn-sm ms-2 mb-0" type="submit" value="${requestScope.task.fileInfo.name}">
+                                    <input style="text-decoration: none" class="btn btn-info btn-sm ms-2 mb-0"
+                                           type="submit" value="${requestScope.task.fileInfo.name}">
                                 </form>
 
                             </li>
@@ -122,19 +119,21 @@
                 <div class="card-body">
                     <h4 class="card-title">${requestScope.task.name}</h4>
                     <p class="card-text">${requestScope.task.description}</p>
-                    <h6 class="card-title">Date added - ${requestScope.task.dateAdded.format(DateTimeFormatter.ofPattern("dd:MM:uuuu"))}</h6>
-                    <h6 class="card-title">Date completion - ${requestScope.task.dateCompletion.format(DateTimeFormatter.ofPattern("dd:MM:uuuu"))}</h6>
+                    <h6 class="card-title">Date added
+                        - ${requestScope.task.dateAdded.format(DateTimeFormatter.ofPattern("dd:MM:uuuu"))}</h6>
+                    <h6 class="card-title">Date completion
+                        - ${requestScope.task.dateCompletion.format(DateTimeFormatter.ofPattern("dd:MM:uuuu"))}</h6>
                 </div>
             </div>
 
 
-            <c:import url="/WEB-INF/template/successful_template.jsp"/>
-            <c:import url="/WEB-INF/template/error_templ.jsp"/>
+            <c:import url="/WEB-INF/views/template/successful_template.jsp"/>
+            <c:import url="/WEB-INF/views/template/error_templ.jsp"/>
 
 
         </div>
 
-        <div class="col-2" >
+        <div class="col-2">
 
         </div>
 

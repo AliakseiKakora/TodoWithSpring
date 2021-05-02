@@ -10,15 +10,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.function.Function;
 
 @Slf4j
@@ -29,10 +27,27 @@ import java.util.function.Function;
 public class TaskController {
 
     private static final String ERROR_TASK_UPDATE_MESSAGE = "task update";
+    private static final String ERROR_SEARCH_TASK_MESSAGE = "task search";
 
     private final TaskService taskService;
     private final FileService fileService;
     private final DateParser dateParser;
+
+    @PostMapping
+    public ModelAndView loadTaskPage(@RequestParam long taskId, @RequestParam String section) {
+        ModelAndView modelAndView = new ModelAndView("taskCard");
+        try {
+            Task task = taskService.getTaskById(taskId);
+            modelAndView.addObject(ApplicationConstants.TASK_KEY, task);
+            modelAndView.addObject(ApplicationConstants.SECTION_KEY, section);
+            return modelAndView;
+        } catch (Exception e) {
+            log.warn("exception in method loadTaskPage", e);
+            modelAndView.setViewName("redirect:/tasks/" + section);
+            modelAndView.addObject(ApplicationConstants.ERROR_KEY, ERROR_SEARCH_TASK_MESSAGE);
+            return modelAndView;
+        }
+    }
 
     @PostMapping("/add")
     public ModelAndView addTask(HttpServletRequest request, @RequestParam MultipartFile file,
@@ -132,6 +147,7 @@ public class TaskController {
 
     @PostMapping("/fulDelete")
     public ModelAndView fulDeleteTask(@RequestParam long taskId, @RequestParam String section) {
+        log.info("user tries delete task");
         ModelAndView modelAndView = new ModelAndView("redirect:/tasks/" + section);
         try {
             Task task = taskService.getTaskById(taskId);
@@ -139,23 +155,43 @@ public class TaskController {
                 fileService.delete(task.getFileInfo());
             }
             taskService.deleteTask(taskId);
+            log.info("the user has successfully deleted the task");
             return modelAndView;
         } catch (Exception e) {
+            log.warn("exception in method fulDeleteTask", e);
             modelAndView.addObject(ApplicationConstants.ERROR_KEY, ERROR_TASK_UPDATE_MESSAGE);
             return modelAndView;
         }
+    }
 
+    @GetMapping("/clearAll")
+    public ModelAndView clearListDeletedTasks(HttpSession session) {
+        log.info("user tries clear list deleted tasks");
+        ModelAndView modelAndView = new ModelAndView("redirect:/tasks/deleted");
+        try {
+            User user = (User) session.getAttribute(ApplicationConstants.USER_KEY);
+            taskService.deleteAllUserDeletedTask(user.getId());
+            log.info("the user has successfully cleared the list of deleted tasks");
+            return modelAndView;
+        } catch (Exception e) {
+            log.warn("exception in method clearListDeletedTasks", e);
+            modelAndView.addObject(ApplicationConstants.ERROR_KEY, "clear list");
+            return modelAndView;
+        }
     }
 
     private ModelAndView updateTaskStatus(@RequestParam long taskId, @RequestParam String section, Function<Task, Task> function) {
+        log.info("user tries update task");
         ModelAndView modelAndView = new ModelAndView("redirect:/tasks/" + section);
         try {
             Task task = taskService.getTaskById(taskId);
             task = function.apply(task);
 
             taskService.updateTask(task);
+            log.info("the user has successfully updated the task");
             return modelAndView;
         } catch (Exception e) {
+            log.warn("exception in method updateTaskStatus", e);
             modelAndView.addObject(ApplicationConstants.ERROR_KEY, ERROR_TASK_UPDATE_MESSAGE);
             return modelAndView;
         }
