@@ -34,11 +34,15 @@
 
             <c:if test="${!empty requestScope.section && (requestScope.section != ApplicationConstants.SECTION_DELETED
                             && requestScope.section != ApplicationConstants.SECTION_FIXED)}">
-                <a class="btn btn-info btn-sm" href="<c:url value="/task/add"> <c:param name="section" value="${requestScope.section}"/> </c:url>" role="button">Add Task</a>
+                <a class="btn btn-info btn-sm"
+                   href="<c:url value="/task/add"> <c:param name="section" value="${requestScope.section}"/> </c:url>"
+                   role="button">Add Task</a>
             </c:if>
 
             <c:if test="${!empty requestScope.section && (requestScope.section == ApplicationConstants.SECTION_DELETED)}">
-                <a class="btn btn-info btn-sm" href="<c:url value="/"> <c:param name="command" value="ClearList"/> </c:url>" role="button">Clear list</a>
+                <a class="btn btn-info btn-sm"
+                   href="<c:url value="/"> <c:param name="command" value="ClearList"/> </c:url>" role="button">Clear
+                    list</a>
             </c:if>
 
 
@@ -65,27 +69,28 @@
 
                             <td>
 
-                                <form action="<c:url value="/"> <c:param name="command" value="TaskView"/> </c:url>" method="post">
+                                <form action="<c:url value="/"> <c:param name="command" value="TaskView"/> </c:url>"
+                                      method="post">
                                     <input name="${ApplicationConstants.TASK_ID}" type="hidden" value="${task.id}">
-                                    <input name="${ApplicationConstants.SECTION_KEY}" type="hidden" value="${requestScope.section}">
-                                    <input style="text-decoration: none" class="btn btn-link" type="submit" value="${task.name}">
+                                    <input name="${ApplicationConstants.SECTION_KEY}" type="hidden"
+                                           value="${requestScope.section}">
+                                    <input style="text-decoration: none" class="btn btn-link" type="submit"
+                                           value="${task.name}">
                                 </form>
 
                             </td>
                             <td>${task.dateAdded.format(DateTimeFormatter.ofPattern("dd:MM:uuuu"))}</td>
                             <td>${task.dateCompletion.format(DateTimeFormatter.ofPattern("dd:MM:uuuu"))}</td>
                             <td>
-                                <form action="<c:url value="/" >
-                                                    <c:param name="${ApplicationConstants.COMMAND_KEY}" value="UpdateTask"/>
-                                                    <c:choose>
-                                                        <c:when test="${requestScope.section == ApplicationConstants.SECTION_DELETED}">
-                                                             <c:param name= "${ApplicationConstants.ACTION_KEY}" value="${ApplicationConstants.TASK_ACTION_FULL_DELETE}"/>
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                             <c:param name= "${ApplicationConstants.ACTION_KEY}" value="${ApplicationConstants.TASK_ACTION_DELETE}"/>
-                                                        </c:otherwise>
-                                                    </c:choose>
-                                                    </c:url>" method="post">
+                                <form
+                                        <c:choose>
+                                            <c:when test="${requestScope.section == ApplicationConstants.SECTION_DELETED}">
+                                                action="<c:url value="/task/fulDelete"/>"
+                                            </c:when>
+                                            <c:otherwise>
+                                                action="<c:url value="/task/delete"/>"
+                                            </c:otherwise>
+                                        </c:choose> method="post">
                                     <input name="${ApplicationConstants.TASK_ID}" type="hidden" value="${task.id}">
                                     <input name="${ApplicationConstants.SECTION_KEY}" type="hidden" value="${requestScope.section}">
                                     <input class="btn btn-danger btn-sm" type="submit" value="Delete">
@@ -105,12 +110,10 @@
                                 </td>
 
                                 <td>
-                                    <form action="<c:url value="/" >
-                                                   <c:param name="${ApplicationConstants.COMMAND_KEY}" value="UpdateTask"/>
-                                                    <c:param name= "${ApplicationConstants.ACTION_KEY}" value="${ApplicationConstants.TASK_ACTION_FIXED}"/>
-                                                 </c:url>" method="post">
+                                    <form action="<c:url value="/task/fix" />" method="post">
                                         <input name="${ApplicationConstants.TASK_ID}" type="hidden" value="${task.id}">
-                                        <input name="${ApplicationConstants.SECTION_KEY}" type="hidden" value="${requestScope.section}">
+                                        <input name="${ApplicationConstants.SECTION_KEY}" type="hidden"
+                                               value="${requestScope.section}">
                                         <input class="btn btn-success btn-sm" type="submit" value="Fixed">
                                     </form>
 
@@ -120,12 +123,10 @@
                             <c:if test="${!empty requestScope.section && (requestScope.section == ApplicationConstants.SECTION_DELETED
                                             || requestScope.section == ApplicationConstants.SECTION_FIXED)}">
                                 <td>
-                                    <form action="<c:url value="/" >
-                                                   <c:param name="${ApplicationConstants.COMMAND_KEY}" value="UpdateTask"/>
-                                                    <c:param name= "${ApplicationConstants.ACTION_KEY}" value="${ApplicationConstants.TASK_ACTION_RESTORE}"/>
-                                                 </c:url>" method="post">
+                                    <form action="<c:url value="/task/restore" />" method="post">
                                         <input name="${ApplicationConstants.TASK_ID}" type="hidden" value="${task.id}">
-                                        <input name="${ApplicationConstants.SECTION_KEY}" type="hidden" value="${requestScope.section}">
+                                        <input name="${ApplicationConstants.SECTION_KEY}" type="hidden"
+                                               value="${requestScope.section}">
                                         <input class="btn btn-success btn-sm" type="submit" value="Restore">
                                     </form>
 
@@ -146,7 +147,7 @@
             <c:import url="/WEB-INF/views/template/error_templ.jsp"/>
         </div>
 
-        <div class="col-2" >
+        <div class="col-2">
 
         </div>
 
@@ -154,10 +155,6 @@
     </div>
 
 </div>
-
-
-
-
 
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"

@@ -47,6 +47,7 @@ public class FileServiceImpl implements FileService {
                 filePath = path + File.separator + fileName;
                 FileOutputStream stream = new FileOutputStream(filePath);
                 stream.write(file.getBytes());
+                stream.close();
             } else {
                 throw new RuntimeException("Error save file");
             }

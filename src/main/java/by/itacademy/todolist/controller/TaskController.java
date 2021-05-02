@@ -12,18 +12,20 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
 import javax.servlet.http.HttpServletRequest;
-import java.time.LocalDateTime;
+import java.util.function.Function;
 
 @Slf4j
 @RequiredArgsConstructor
 
 @Controller
+@RequestMapping("/task")
 public class TaskController {
 
     private static final String ERROR_TASK_UPDATE_MESSAGE = "task update";
@@ -32,19 +34,19 @@ public class TaskController {
     private final FileService fileService;
     private final DateParser dateParser;
 
-    @PostMapping("/task/add")
+    @PostMapping("/add")
     public ModelAndView addTask(HttpServletRequest request, @RequestParam MultipartFile file,
-                                @RequestParam String section, @RequestParam String name,
-                                @RequestParam String description) {
+                                @RequestParam String section, @ModelAttribute Task task,
+                                @RequestParam(required = false) String date) {
         log.info("user tries to add a task");
         try {
-            String date = request.getParameter("date");
             User user = (User) request.getSession().getAttribute(ApplicationConstants.USER_KEY);
-            Task task = Task.builder().name(name).description(description).dateAdded(LocalDateTime.now()).build();
             task.setUser(user);
-
             task = taskService.saveTaskToSection(task, section, date);
-            fileService.addFileInfoForTask(file, task.getId(), user.getId(), getPath(request));
+
+            if (!file.isEmpty()) {
+                fileService.addFileInfoForTask(file, task.getId(), user.getId(), getPath(request));
+            }
 
             ModelAndView modelAndView = new ModelAndView("redirect:/task/add");
             modelAndView.addObject(ApplicationConstants.SECTION_KEY, section);
@@ -75,7 +77,7 @@ public class TaskController {
         return fullSavePath;
     }
 
-    @PostMapping("/task/update")
+    @PostMapping("/update")
     public ModelAndView updateTask(@ModelAttribute Task task, @RequestParam String date, HttpServletRequest request) {
         try {
             log.info("user tries update task");
@@ -99,6 +101,62 @@ public class TaskController {
             ModelAndView modelAndView = new ModelAndView("redirect:/task/edit",
                     ApplicationConstants.ERROR_KEY, ERROR_TASK_UPDATE_MESSAGE);
             modelAndView.addObject(ApplicationConstants.TASK_ID, task.getId());
+            return modelAndView;
+        }
+    }
+
+    @PostMapping("/fix")
+    public ModelAndView fixTask(@RequestParam long taskId, @RequestParam String section) {
+        return updateTaskStatus(taskId, section, task -> {
+            task.setCompleted(true);
+            return task;
+        });
+    }
+
+    @PostMapping("/restore")
+    public ModelAndView restoreTask(@RequestParam long taskId, @RequestParam String section) {
+        return updateTaskStatus(taskId, section, task -> {
+            task.setCompleted(false);
+            task.setDeleted(false);
+            return task;
+        });
+    }
+
+    @PostMapping("/delete")
+    public ModelAndView deleteTask(@RequestParam long taskId, @RequestParam String section) {
+        return updateTaskStatus(taskId, section, task -> {
+            task.setDeleted(true);
+            return task;
+        });
+    }
+
+    @PostMapping("/fulDelete")
+    public ModelAndView fulDeleteTask(@RequestParam long taskId, @RequestParam String section) {
+        ModelAndView modelAndView = new ModelAndView("redirect:/tasks/" + section);
+        try {
+            Task task = taskService.getTaskById(taskId);
+            if (task.getFileInfo() != null) {
+                fileService.delete(task.getFileInfo());
+            }
+            taskService.deleteTask(taskId);
+            return modelAndView;
+        } catch (Exception e) {
+            modelAndView.addObject(ApplicationConstants.ERROR_KEY, ERROR_TASK_UPDATE_MESSAGE);
+            return modelAndView;
+        }
+
+    }
+
+    private ModelAndView updateTaskStatus(@RequestParam long taskId, @RequestParam String section, Function<Task, Task> function) {
+        ModelAndView modelAndView = new ModelAndView("redirect:/tasks/" + section);
+        try {
+            Task task = taskService.getTaskById(taskId);
+            task = function.apply(task);
+
+            taskService.updateTask(task);
+            return modelAndView;
+        } catch (Exception e) {
+            modelAndView.addObject(ApplicationConstants.ERROR_KEY, ERROR_TASK_UPDATE_MESSAGE);
             return modelAndView;
         }
     }

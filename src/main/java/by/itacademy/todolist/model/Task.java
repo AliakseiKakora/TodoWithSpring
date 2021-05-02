@@ -4,8 +4,6 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -27,7 +25,7 @@ public class Task {
     private String description;
 
     @Column(name = "date_added")
-    private LocalDateTime dateAdded;
+    private LocalDateTime dateAdded = LocalDateTime.now();
 
     @Column(name = "date_completion")
     private LocalDateTime dateCompletion;
