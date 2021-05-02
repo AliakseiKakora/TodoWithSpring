@@ -6,14 +6,13 @@ import by.itacademy.todolist.model.User;
 import by.itacademy.todolist.service.FileService;
 import by.itacademy.todolist.service.TaskService;
 import by.itacademy.todolist.util.DateParser;
+import by.itacademy.todolist.service.SecurityService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.View;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -32,12 +31,16 @@ public class TaskController {
     private final TaskService taskService;
     private final FileService fileService;
     private final DateParser dateParser;
+    private final SecurityService securityService;
 
-    @PostMapping
-    public ModelAndView loadTaskPage(@RequestParam long taskId, @RequestParam String section) {
+    @GetMapping
+    public ModelAndView loadTaskPage(@RequestParam long taskId, @RequestParam String section, HttpSession session) {
         ModelAndView modelAndView = new ModelAndView("taskCard");
         try {
             Task task = taskService.getTaskById(taskId);
+            User user = (User) session.getAttribute(ApplicationConstants.USER_KEY);
+            securityService.checkRightToTask(task, user);
+
             modelAndView.addObject(ApplicationConstants.TASK_KEY, task);
             modelAndView.addObject(ApplicationConstants.SECTION_KEY, section);
             return modelAndView;
@@ -54,6 +57,7 @@ public class TaskController {
                                 @RequestParam String section, @ModelAttribute Task task,
                                 @RequestParam(required = false) String date) {
         log.info("user tries to add a task");
+        ModelAndView modelAndView = new ModelAndView("redirect:/task/add");
         try {
             User user = (User) request.getSession().getAttribute(ApplicationConstants.USER_KEY);
             task.setUser(user);
@@ -62,8 +66,6 @@ public class TaskController {
             if (!file.isEmpty()) {
                 fileService.addFileInfoForTask(file, task.getId(), user.getId(), getPath(request));
             }
-
-            ModelAndView modelAndView = new ModelAndView("redirect:/task/add");
             modelAndView.addObject(ApplicationConstants.SECTION_KEY, section);
             modelAndView.addObject(ApplicationConstants.SUCCESSFUL_KEY, "task added");
 
@@ -72,7 +74,6 @@ public class TaskController {
 
         } catch (Exception e) {
             log.warn("exception in addTask method ", e);
-            ModelAndView modelAndView = new ModelAndView("redirect:/task/add");
             modelAndView.addObject(ApplicationConstants.SECTION_KEY, section);
             modelAndView.addObject(ApplicationConstants.ERROR_KEY, "task adding");
             return modelAndView;
@@ -93,64 +94,66 @@ public class TaskController {
     }
 
     @PostMapping("/update")
-    public ModelAndView updateTask(@ModelAttribute Task task, @RequestParam String date, HttpServletRequest request) {
+    public ModelAndView updateTask(@ModelAttribute Task task, @RequestParam String date, HttpSession session) {
+        ModelAndView modelAndView = new ModelAndView("redirect:/task/edit");
         try {
             log.info("user tries update task");
-            request.setAttribute(View.RESPONSE_STATUS_ATTRIBUTE, HttpStatus.TEMPORARY_REDIRECT);
-
+            User user = (User) session.getAttribute(ApplicationConstants.USER_KEY);
             Task taskForUpdate = taskService.getTaskById(task.getId());
+            securityService.checkRightToTask(taskForUpdate, user);
+
             taskForUpdate.setName(task.getName());
             taskForUpdate.setDescription(task.getDescription());
             taskForUpdate.setDateCompletion(dateParser.getLocalDateTime(date));
             taskService.updateTask(taskForUpdate);
 
             log.info("the user has successfully updated the task");
-            ModelAndView modelAndView = new ModelAndView("redirect:/task/edit");
             modelAndView.addObject(ApplicationConstants.SUCCESSFUL_KEY, ApplicationConstants.DATA_UPDATED_MSG);
             modelAndView.addObject(ApplicationConstants.TASK_ID, task.getId());
             return modelAndView;
 
         } catch (Exception e) {
             log.warn("exception in updateTask method", e);
-            request.setAttribute(View.RESPONSE_STATUS_ATTRIBUTE, HttpStatus.TEMPORARY_REDIRECT);
-            ModelAndView modelAndView = new ModelAndView("redirect:/task/edit",
-                    ApplicationConstants.ERROR_KEY, ERROR_TASK_UPDATE_MESSAGE);
             modelAndView.addObject(ApplicationConstants.TASK_ID, task.getId());
+            modelAndView.addObject(ApplicationConstants.ERROR_KEY, ERROR_TASK_UPDATE_MESSAGE);
             return modelAndView;
         }
     }
 
-    @PostMapping("/fix")
-    public ModelAndView fixTask(@RequestParam long taskId, @RequestParam String section) {
-        return updateTaskStatus(taskId, section, task -> {
+    @GetMapping("/fix")
+    public ModelAndView fixTask(@RequestParam long taskId, @RequestParam String section, HttpSession session) {
+        return updateTaskStatus(taskId, section, session, task -> {
             task.setCompleted(true);
             return task;
         });
     }
 
-    @PostMapping("/restore")
-    public ModelAndView restoreTask(@RequestParam long taskId, @RequestParam String section) {
-        return updateTaskStatus(taskId, section, task -> {
+    @GetMapping("/restore")
+    public ModelAndView restoreTask(@RequestParam long taskId, @RequestParam String section, HttpSession session) {
+        return updateTaskStatus(taskId, section, session, task -> {
             task.setCompleted(false);
             task.setDeleted(false);
             return task;
         });
     }
 
-    @PostMapping("/delete")
-    public ModelAndView deleteTask(@RequestParam long taskId, @RequestParam String section) {
-        return updateTaskStatus(taskId, section, task -> {
+    @GetMapping("/delete")
+    public ModelAndView deleteTask(@RequestParam long taskId, @RequestParam String section, HttpSession session) {
+        return updateTaskStatus(taskId, section, session, task -> {
             task.setDeleted(true);
             return task;
         });
     }
 
-    @PostMapping("/fulDelete")
-    public ModelAndView fulDeleteTask(@RequestParam long taskId, @RequestParam String section) {
+    @GetMapping("/fulDelete")
+    public ModelAndView fulDeleteTask(@RequestParam long taskId, @RequestParam String section, HttpSession session) {
         log.info("user tries delete task");
         ModelAndView modelAndView = new ModelAndView("redirect:/tasks/" + section);
         try {
             Task task = taskService.getTaskById(taskId);
+            User user = (User) session.getAttribute(ApplicationConstants.USER_KEY);
+            securityService.checkRightToTask(task, user);
+
             if (task.getFileInfo() != null) {
                 fileService.delete(task.getFileInfo());
             }
@@ -180,11 +183,15 @@ public class TaskController {
         }
     }
 
-    private ModelAndView updateTaskStatus(@RequestParam long taskId, @RequestParam String section, Function<Task, Task> function) {
+    private ModelAndView updateTaskStatus(@RequestParam long taskId, @RequestParam String section,
+                                          HttpSession session, Function<Task, Task> function) {
         log.info("user tries update task");
         ModelAndView modelAndView = new ModelAndView("redirect:/tasks/" + section);
         try {
             Task task = taskService.getTaskById(taskId);
+            User user = (User) session.getAttribute(ApplicationConstants.USER_KEY);
+            securityService.checkRightToTask(task, user);
+
             task = function.apply(task);
 
             taskService.updateTask(task);

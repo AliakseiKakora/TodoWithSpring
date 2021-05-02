@@ -18,6 +18,7 @@ public class ExceptionsFilter implements Filter {
             chain.doFilter(request, response);
         } catch (Exception e) {
             e.printStackTrace();
+            request.getRequestDispatcher("/error").forward(request, response);
         }
     }
 

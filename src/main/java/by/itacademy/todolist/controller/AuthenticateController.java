@@ -3,8 +3,8 @@ package by.itacademy.todolist.controller;
 import by.itacademy.todolist.constants.ApplicationConstants;
 import by.itacademy.todolist.model.User;
 import by.itacademy.todolist.service.UserService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpSession;
 
 @Slf4j
+@RequiredArgsConstructor
 
 @Controller
 public class AuthenticateController {
@@ -21,8 +22,7 @@ public class AuthenticateController {
     private static final String LOGIN_PAGE = "login";
     private static final String MAIN_PAGE = "main";
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
     @PostMapping("/login")
     public ModelAndView login(@RequestParam String login, @RequestParam String password, HttpSession session) {

@@ -5,11 +5,11 @@ import by.itacademy.todolist.model.Task;
 import by.itacademy.todolist.model.User;
 import by.itacademy.todolist.service.TaskService;
 import by.itacademy.todolist.service.UserService;
+import by.itacademy.todolist.service.SecurityService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Slf4j
+@RequiredArgsConstructor
 
 @Controller
 public class PageController {
@@ -27,11 +28,9 @@ public class PageController {
     private static final String PROFILE_PAGE = "profile";
     private static final String LOGIN_PAGE = "login";
 
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private TaskService taskService;
+    private final UserService userService;
+    private final TaskService taskService;
+    private final SecurityService securityService;
 
     @GetMapping("/")
     public ModelAndView loadWelcomePage() {
@@ -53,7 +52,7 @@ public class PageController {
         try {
             User user = (User) session.getAttribute(ApplicationConstants.USER_KEY);
             long userId = user.getId();
-            return new ModelAndView("error", ApplicationConstants.USER_ID_KEY, userId );
+            return new ModelAndView("error", ApplicationConstants.USER_ID_KEY, userId);
 
         } catch (Exception e) {
             log.warn("exception load error page ", e);
@@ -86,17 +85,19 @@ public class PageController {
         }
     }
 
-    @PostMapping("task/edit")
-    public ModelAndView loadEditTaskPage(@RequestParam long taskId, HttpServletRequest request) {
+    @GetMapping("task/edit")
+    public ModelAndView loadEditTaskPage2(@RequestParam Long taskId, @RequestParam(required = false) String successful,
+                                          @RequestParam(required = false) String error, HttpSession session) {
         try {
-            String successfulMessage = request.getParameter(ApplicationConstants.SUCCESSFUL_KEY);
-            String errorMessage = request.getParameter(ApplicationConstants.ERROR_KEY);
-
             Task task = taskService.getTaskById(taskId);
+
+            User user = (User) session.getAttribute(ApplicationConstants.USER_KEY);
+            securityService.checkRightToTask(task, user);
+
             ModelAndView modelAndView = new ModelAndView("editTask");
             modelAndView.addObject(ApplicationConstants.TASK_KEY, task);
-            modelAndView.addObject(ApplicationConstants.SUCCESSFUL_KEY, successfulMessage);
-            modelAndView.addObject(ApplicationConstants.ERROR_KEY, errorMessage);
+            modelAndView.addObject(ApplicationConstants.SUCCESSFUL_KEY, successful);
+            modelAndView.addObject(ApplicationConstants.ERROR_KEY, error);
             return modelAndView;
 
         } catch (Exception e) {
@@ -106,15 +107,17 @@ public class PageController {
     }
 
     @GetMapping("/profile")
-    public ModelAndView loadProfilePage(HttpServletRequest request) {
+    public ModelAndView loadProfilePage(@RequestParam(required = false) String successful,
+                                        @RequestParam(required = false) String error,
+                                        HttpSession session) {
         try {
             ModelAndView modelAndView = new ModelAndView(PROFILE_PAGE);
-            modelAndView.addObject(ApplicationConstants.ERROR_KEY, request.getParameter(ApplicationConstants.ERROR_KEY));
-            modelAndView.addObject(ApplicationConstants.SUCCESSFUL_KEY, request.getParameter(ApplicationConstants.SUCCESSFUL_KEY));
+            modelAndView.addObject(ApplicationConstants.ERROR_KEY, error);
+            modelAndView.addObject(ApplicationConstants.SUCCESSFUL_KEY, successful);
 
-            User user = (User) request.getSession().getAttribute(ApplicationConstants.USER_KEY);
+            User user = (User) session.getAttribute(ApplicationConstants.USER_KEY);
             user = userService.getById(user.getId());
-            request.getSession().setAttribute(ApplicationConstants.USER_KEY, user);
+            session.setAttribute(ApplicationConstants.USER_KEY, user);
             modelAndView.addObject(ApplicationConstants.USER_KEY, user);
             return modelAndView;
         } catch (Exception e) {

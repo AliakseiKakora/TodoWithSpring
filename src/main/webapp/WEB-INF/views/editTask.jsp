@@ -13,11 +13,9 @@
           integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
 
 
-
     <title>ToDo</title>
 </head>
 <body>
-
 
 
 <div class="container-liquid " style="margin-bottom: 5vh">
@@ -33,7 +31,7 @@
 
         </div>
 
-        <div class="col-2" >
+        <div class="col-2">
 
         </div>
 
@@ -41,7 +39,6 @@
     </div>
 
 </div>
-
 
 
 <div class="container-liquid ">
@@ -59,7 +56,8 @@
 
                     <div class="input-group mb-4">
                         <span class="input-group-text" id="basic-addon1">Name</span>
-                        <input type="text" class="form-control" placeholder="Todo" name="name" aria-describedby="basic-addon1" required value="${requestScope.task.name}">
+                        <input type="text" class="form-control" placeholder="Todo" name="name"
+                               aria-describedby="basic-addon1" required value="${requestScope.task.name}">
                     </div>
 
                     <div class="input-group mb-4">
@@ -69,7 +67,8 @@
 
                     <div class="input-group mb-4">
                         <span class="input-group-text">Date</span>
-                        <input type="date" name="date" required value="${requestScope.task.dateCompletion.format(DateTimeFormatter.ofPattern("uuuu-MM-dd"))}">
+                        <input type="date" name="date" required
+                               value="${requestScope.task.dateCompletion.format(DateTimeFormatter.ofPattern("uuuu-MM-dd"))}">
                     </div>
 
                     <div class="mb-4">
@@ -80,14 +79,16 @@
                 </form>
 
                 <c:choose>
-                    <c:when test="${empty requestScope.task.fileInfo}" >
-                        <form method="post" action="<c:url value="/"> <c:param name="command" value="UploadFile"/> </c:url>"
+                    <c:when test="${empty requestScope.task.fileInfo}">
+                        <form method="post"
+                              action="<c:url value="/"> <c:param name="command" value="UploadFile"/> </c:url>"
                               enctype="multipart/form-data">
 
                             <div class="input-group mb-4">
                                 <span class="input-group-text">File</span>
                                 <input class="form-control" type="file" name="file" required/>
-                                <input name="${ApplicationConstants.TASK_ID}" type="hidden" value="${requestScope.task.id}"/>
+                                <input name="${ApplicationConstants.TASK_ID}" type="hidden"
+                                       value="${requestScope.task.id}"/>
                             </div>
 
                             <input type="submit" class="btn btn-info" value="Upload File"/>
@@ -96,23 +97,22 @@
                     <c:otherwise>
 
                         <%-- Download file--%>
-                        <form action="<c:url value="/" > <c:param name="${ApplicationConstants.COMMAND_KEY}" value="DownloadFile"/>                                                                                 </c:url>" method="post">
+                        <form action="<c:url value="/" > <c:param name="${ApplicationConstants.COMMAND_KEY}" value="DownloadFile"/>                                                                                 </c:url>"
+                              method="post">
                             <input name="fileName" type="hidden" value="${requestScope.task.fileInfo.name}">
                             <input name="filePath" type="hidden" value="${requestScope.task.fileInfo.path}">
-                            <input style="text-decoration: none" class="btn btn-info btn-sm " type="submit" value="${requestScope.task.fileInfo.name}">
+                            <input style="text-decoration: none" class="btn btn-info btn-sm " type="submit"
+                                   value="${requestScope.task.fileInfo.name}">
                         </form>
 
-                        <form method="post" action="<c:url value="/"> <c:param name="command" value="DeleteFile"/> </c:url>" >
-                            <div class="input-group mb-4">
-                                <input name="${ApplicationConstants.TASK_ID}" type="hidden" value="${requestScope.task.id}"/>
-                                <input name="${ApplicationConstants.FILE_ID}" type="hidden" value="${requestScope.task.fileInfo.id}"/>
-                            </div>
-                            <input type="submit" class="btn btn-danger" value="Delete File"/>
-                        </form>
+                        <a class="btn btn-danger" href="<c:url value="/file/delete">
+                                        <c:param name="${ApplicationConstants.TASK_ID}" value="${task.id}"/>
+                                        <c:param name="${ApplicationConstants.FILE_ID}" value="${task.fileInfo.id}"/>
+                        </c:url>">Delete File</a>
+
                     </c:otherwise>
 
                 </c:choose>
-
 
 
             </c:if>
@@ -122,7 +122,7 @@
 
         </div>
 
-        <div class="col-2" >
+        <div class="col-2">
 
         </div>
 
@@ -130,10 +130,6 @@
     </div>
 
 </div>
-
-
-
-
 
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"
