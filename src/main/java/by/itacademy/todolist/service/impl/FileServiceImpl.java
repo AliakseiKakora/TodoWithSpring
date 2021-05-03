@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.Part;
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.file.Files;
@@ -29,17 +29,9 @@ public class FileServiceImpl implements FileService {
         this.taskRepository = taskRepository;
     }
 
-    public FileInfo addFileInfoForTask(MultipartFile file, long taskId, long userId, String path) {
+    public FileInfo addFileInfoForTask(MultipartFile file, long taskId, long userId, HttpServletRequest request) {
         try {
-            path = path + userId + "/";
-            File fileSaveDir = new File(path);
-
-            createDirectory(fileSaveDir);
-
-            path = path + taskId + "/";
-            fileSaveDir = new File(path);
-
-            createDirectory(fileSaveDir);
+            String path = getPath(request, taskId, userId);
 
             String fileName = file.getOriginalFilename();
             String filePath;
@@ -65,6 +57,28 @@ public class FileServiceImpl implements FileService {
         }
     }
 
+    private String getPath(HttpServletRequest request, long taskId, long userId) {
+        String path = request.getServletContext().getRealPath("");
+        path = path.replace('\\', '/');
+
+        String fullSavePath;
+        if (path.endsWith("/")) {
+            fullSavePath = path + ApplicationConstants.SAVE_DIRECTORY;
+        } else {
+            fullSavePath = path + "/" + ApplicationConstants.SAVE_DIRECTORY;
+        }
+        fullSavePath = fullSavePath + userId + "/";
+        File fileSaveDir = new File(fullSavePath);
+
+        createDirectory(fileSaveDir);
+
+        fullSavePath = fullSavePath + taskId + "/";
+        fileSaveDir = new File(fullSavePath);
+
+        createDirectory(fileSaveDir);
+        return fullSavePath;
+    }
+
     private void createDirectory(File fileSaveDir) {
         if (!fileSaveDir.exists()) {
             fileSaveDir.mkdir();
@@ -88,17 +102,4 @@ public class FileServiceImpl implements FileService {
                 .orElseThrow(() -> new RuntimeException("file with id " + fileId + " not found"));
     }
 
-    private String extractFileName(Part part) {
-        String contentDisp = part.getHeader("content-disposition");
-        String[] items = contentDisp.split(";");
-        for (String s : items) {
-            if (s.trim().startsWith("filename")) {
-                String clientFileName = s.substring(s.indexOf("=") + 2, s.length() - 1);
-                clientFileName = clientFileName.replace("\\", "/");
-                int i = clientFileName.lastIndexOf('/');
-                return clientFileName.substring(i + 1);
-            }
-        }
-        return null;
-    }
 }

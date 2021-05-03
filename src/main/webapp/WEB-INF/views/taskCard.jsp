@@ -55,14 +55,16 @@
                         <li class="nav-item">
                             <c:choose>
                                 <c:when test="${requestScope.section == ApplicationConstants.SECTION_DELETED}">
-                                    <a style="text-decoration: none" class="btn btn-danger btn-sm ms-2 mb-0" href="<c:url value="/task/fulDelete">
+                                    <a style="text-decoration: none" class="btn btn-danger btn-sm ms-2 mb-0"
+                                       href="<c:url value="/task/fulDelete">
                                                 <c:param name="${ApplicationConstants.TASK_ID}" value="${task.id}"/>
                                                 <c:param name="${ApplicationConstants.SECTION_KEY}" value="${section}"/>
                                             </c:url>">Delete</a>
 
                                 </c:when>
                                 <c:otherwise>
-                                    <a style="text-decoration: none" class="btn btn-danger btn-sm ms-2 mb-0" href="<c:url value="/task/delete">
+                                    <a style="text-decoration: none" class="btn btn-danger btn-sm ms-2 mb-0"
+                                       href="<c:url value="/task/delete">
                                                 <c:param name="${ApplicationConstants.TASK_ID}" value="${task.id}"/>
                                                 <c:param name="${ApplicationConstants.SECTION_KEY}" value="${section}"/>
                                             </c:url>">Delete</a>
@@ -93,13 +95,10 @@
 
                             <li>
                                     <%-- Download file--%>
-                                <form action="<c:url value="/" > <c:param name="${ApplicationConstants.COMMAND_KEY}" value="DownloadFile"/>                                                                                 </c:url>"
-                                      method="post">
-                                    <input name="fileName" type="hidden" value="${requestScope.task.fileInfo.name}">
-                                    <input name="filePath" type="hidden" value="${requestScope.task.fileInfo.path}">
-                                    <input style="text-decoration: none" class="btn btn-info btn-sm ms-2 mb-0"
-                                           type="submit" value="${requestScope.task.fileInfo.name}">
-                                </form>
+                                <a class="btn btn-info btn-sm ms-2 mb-0" href="<c:url value="/file/download">
+                                        <c:param name="${ApplicationConstants.TASK_ID}" value="${task.id}"/>
+                                        <c:param name="${ApplicationConstants.FILE_ID}" value="${task.fileInfo.id}"/>
+                                 </c:url>">Download File</a>
 
                             </li>
 

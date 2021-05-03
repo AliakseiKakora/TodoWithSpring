@@ -64,7 +64,7 @@ public class TaskController {
             task = taskService.saveTaskToSection(task, section, date);
 
             if (!file.isEmpty()) {
-                fileService.addFileInfoForTask(file, task.getId(), user.getId(), getPath(request));
+                fileService.addFileInfoForTask(file, task.getId(), user.getId(), request);
             }
             modelAndView.addObject(ApplicationConstants.SECTION_KEY, section);
             modelAndView.addObject(ApplicationConstants.SUCCESSFUL_KEY, "task added");
@@ -78,19 +78,6 @@ public class TaskController {
             modelAndView.addObject(ApplicationConstants.ERROR_KEY, "task adding");
             return modelAndView;
         }
-    }
-
-    private String getPath(HttpServletRequest request) {
-        String path = request.getServletContext().getRealPath("");
-        path = path.replace('\\', '/');
-
-        String fullSavePath;
-        if (path.endsWith("/")) {
-            fullSavePath = path + ApplicationConstants.SAVE_DIRECTORY;
-        } else {
-            fullSavePath = path + "/" + ApplicationConstants.SAVE_DIRECTORY;
-        }
-        return fullSavePath;
     }
 
     @PostMapping("/update")

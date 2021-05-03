@@ -79,36 +79,29 @@
                 </form>
 
                 <c:choose>
+                    <%-- Upload file  --%>
                     <c:when test="${empty requestScope.task.fileInfo}">
-                        <form method="post"
-                              action="<c:url value="/"> <c:param name="command" value="UploadFile"/> </c:url>"
-                              enctype="multipart/form-data">
-
+                        <form method="post" action="<c:url value="/file/upload/" />" enctype="multipart/form-data">
                             <div class="input-group mb-4">
                                 <span class="input-group-text">File</span>
                                 <input class="form-control" type="file" name="file" required/>
                                 <input name="${ApplicationConstants.TASK_ID}" type="hidden"
                                        value="${requestScope.task.id}"/>
                             </div>
-
                             <input type="submit" class="btn btn-info" value="Upload File"/>
                         </form>
                     </c:when>
                     <c:otherwise>
-
                         <%-- Download file--%>
-                        <form action="<c:url value="/" > <c:param name="${ApplicationConstants.COMMAND_KEY}" value="DownloadFile"/>                                                                                 </c:url>"
-                              method="post">
-                            <input name="fileName" type="hidden" value="${requestScope.task.fileInfo.name}">
-                            <input name="filePath" type="hidden" value="${requestScope.task.fileInfo.path}">
-                            <input style="text-decoration: none" class="btn btn-info btn-sm " type="submit"
-                                   value="${requestScope.task.fileInfo.name}">
-                        </form>
+                        <a class="btn btn-info" href="<c:url value="/file/download">
+                                        <c:param name="${ApplicationConstants.TASK_ID}" value="${task.id}"/>
+                                        <c:param name="${ApplicationConstants.FILE_ID}" value="${task.fileInfo.id}"/>
+                            </c:url>">Download File</a>
 
                         <a class="btn btn-danger" href="<c:url value="/file/delete">
                                         <c:param name="${ApplicationConstants.TASK_ID}" value="${task.id}"/>
                                         <c:param name="${ApplicationConstants.FILE_ID}" value="${task.fileInfo.id}"/>
-                        </c:url>">Delete File</a>
+                            </c:url>">Delete File</a>
 
                     </c:otherwise>
 
