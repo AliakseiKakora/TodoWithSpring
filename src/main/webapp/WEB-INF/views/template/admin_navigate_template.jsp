@@ -5,13 +5,12 @@
 
 <div class="">
 
-    <form action="<c:url value="/"> <c:param name="command" value="AllUsers"/> </c:url>" method="post">
-        <input type="submit" class="btn btn-outline-primary form-control" value="Users">
-    </form>
+    <div class="mb-3">
+        <a class="btn btn-outline-primary form-control" href="<c:url value="/admin/users" />">Users</a>
+    </div>
 
-
-    <form action="<c:url value="/"> <c:param name="command" value="AllMessages"/> </c:url>" method="post">
-        <input type="submit" class="btn btn-outline-primary form-control" value="Messages">
-    </form>
+    <div class="mb-3">
+        <a class="btn btn-outline-primary form-control" href="<c:url value="/admin/messages" />">Messages</a>
+    </div>
 
 </div>

@@ -7,4 +7,6 @@ public interface SecurityService {
 
     void checkRightToTask(Task task, User user);
 
+    void checkAdminRole(User user);
+
 }

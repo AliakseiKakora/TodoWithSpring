@@ -39,12 +39,10 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("User credentials are not valid ");
         }
         Role userRole = roleService.getByNameWithUsers(ApplicationConstants.ROLE_USER_VALUE);
-//        user = userDao.save(user);
         user = userRepository.save(user);
         user.addRole(userRole);
 
         return userRepository.save(user);
-//        return userDao.update(user);
     }
 
     private boolean isValidRegistrationData(User user) {
@@ -60,25 +58,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User update(User user) {
-//        if (user.getEmail() == null || user.getEmail().equals("")) {
-//            throw new RuntimeException("Email cannot be empty");
-//        }
-//        if (user.getProfile().getLogin() == null || user.getProfile().getLogin().equals("")) {
-//            throw new RuntimeException("Login cannot be empty");
-//        }
-
         if (!isValidRegistrationData(user)) {
             throw new RuntimeException("User credentials are not valid ");
         }
 
         return userRepository.save(user);
-//        return userDao.update(user);
     }
 
     @Override
     public List<User> getAllUsers() {
         return (List<User>) userRepository.findAll();
-//        return userDao.getAll();
     }
 
     @Override
@@ -95,6 +84,5 @@ public class UserServiceImpl implements UserService {
         roleService.deleteAllUserRoles(id);
 
         userRepository.deleteById(id);
-//        userDao.deleteById(id);
     }
 }

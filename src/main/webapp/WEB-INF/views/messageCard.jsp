@@ -29,7 +29,7 @@
 
         <div class="col-8 rounded-3">
 
-            <c:import url="/WEB-INF/template/header_templ.jsp"/>
+            <c:import url="/WEB-INF/views/template/header_templ.jsp"/>
 
         </div>
 
@@ -67,7 +67,7 @@
 
         <div class="col-2">
 
-            <c:import url="/WEB-INF/template/admin_navigate_template.jsp"/>
+            <c:import url="/WEB-INF/views/template/admin_navigate_template.jsp"/>
 
         </div>
 
@@ -79,11 +79,13 @@
                     <ul class="nav nav-pills card-header-pills">
 
                             <li>
-                                <form class="ms-2 mb-0" action="<c:url value="/" > <c:param name="${ApplicationConstants.COMMAND_KEY}" value="DeleteMessage"/>
-                                                    </c:url>" method="post">
-                                    <input name="${ApplicationConstants.MESSAGE_ID}" type="hidden" value="${requestScope.message.id}">
-                                    <input class="btn btn-danger btn-sm" type="submit" value="Delete message">
-                                </form>
+<%--                                <form class="ms-2 mb-0" action="<c:url value="/" > <c:param name="${ApplicationConstants.COMMAND_KEY}" value="DeleteMessage"/>--%>
+<%--                                                    </c:url>" method="post">--%>
+<%--                                    <input name="${ApplicationConstants.MESSAGE_ID}" type="hidden" value="${requestScope.message.id}">--%>
+<%--                                    <input class="btn btn-danger btn-sm" type="submit" value="Delete message">--%>
+<%--                                </form>--%>
+
+                                <a class="btn btn-danger btn-sm" href="<c:url value="/admin/message/delete/${message.id}" />">Delete message</a>
 
                             </li>
 

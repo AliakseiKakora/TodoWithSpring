@@ -29,7 +29,7 @@
                 <c:if test="${sessionScope.user.roles.contains(applicationScope.adminRole)}">
                     <li class="nav-item">
 
-                        <a class="nav-link" href="<c:url value="/"> <c:param name="command" value="AdminPageView"/> </c:url>">Admin Page</a>
+                        <a class="nav-link" href="<c:url value="/admin" /> ">Admin Page</a>
 
                     </li>
                 </c:if>

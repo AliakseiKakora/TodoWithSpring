@@ -13,11 +13,9 @@
           integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
 
 
-
     <title>ToDo</title>
 </head>
 <body>
-
 
 
 <div class="container-liquid " style="margin-bottom: 5vh">
@@ -29,11 +27,11 @@
 
         <div class="col-8 rounded-3">
 
-            <c:import url="/WEB-INF/template/header_templ.jsp"/>
+            <c:import url="/WEB-INF/views/template/header_templ.jsp"/>
 
         </div>
 
-        <div class="col-2" >
+        <div class="col-2">
 
         </div>
 
@@ -52,7 +50,7 @@
 
         </div>
 
-        <div class="col-2" >
+        <div class="col-2">
 
         </div>
 
@@ -67,11 +65,15 @@
 
         <div class="col-2">
 
-            <c:import url="/WEB-INF/template/admin_navigate_template.jsp"/>
+            <c:import url="/WEB-INF/views/template/admin_navigate_template.jsp"/>
 
         </div>
 
-        <div class="col-6 text-center" >
+        <div class="col-6 text-center">
+
+            <c:if test="${empty requestScope.messages}">
+                <h4 class="text-center">The list is still empty.</h4>
+            </c:if>
 
             <c:if test="${!empty requestScope.messages}">
                 <table class="table p-3 table-hover">
@@ -86,21 +88,12 @@
                     <c:forEach items="${requestScope.messages}" var="message">
                         <tr>
                             <td>
-                                <form action="<c:url value="/"> <c:param name="${ApplicationConstants.COMMAND_KEY}" value="MessageCardView"/> </c:url>" method="post">
-                                    <input name="${ApplicationConstants.MESSAGE_ID}" type="hidden" value="${message.id}">
-                                    <input style="text-decoration: none" class="btn btn-link" type="submit" value="${message.user.name} ${message.user.surname}">
-                                </form>
-
+                                <a style="text-decoration: none" class="btn btn-link" href="<c:url value="/admin/message/${message.id}" />">${message.user.name} ${message.user.surname}</a>
                             </td>
                             <td>${message.dateAdded.format(DateTimeFormatter.ofPattern("dd:MM:uuuu"))}</td>
 
                             <td>
-                                <form action="<c:url value="/" > <c:param name="${ApplicationConstants.COMMAND_KEY}" value="DeleteMessage"/>
-                                                    </c:url>" method="post">
-                                    <input name="${ApplicationConstants.MESSAGE_ID}" type="hidden" value="${message.id}">
-                                    <input class="btn btn-danger btn-sm" type="submit" value="Delete">
-                                </form>
-
+                                <a class="btn btn-danger btn-sm" href="<c:url value="/admin/message/delete/${message.id}" />">Delete</a>
                             </td>
 
                         </tr>
@@ -111,6 +104,9 @@
                 </table>
             </c:if>
 
+            <c:import url="/WEB-INF/views/template/successful_template.jsp"/>
+            <c:import url="/WEB-INF/views/template/error_templ.jsp"/>
+
         </div>
 
         <div class="col-2">
@@ -120,13 +116,6 @@
     </div>
 
 </div>
-
-
-
-
-
-
-
 
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"
