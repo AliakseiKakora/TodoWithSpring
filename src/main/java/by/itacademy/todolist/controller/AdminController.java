@@ -174,4 +174,19 @@ public class AdminController {
             return modelAndView;
         }
     }
+
+    @GetMapping("/user/{id}")
+    public ModelAndView loadUserPage(@PathVariable Long id, HttpSession session) {
+        try {
+            User sessionUser = (User) session.getAttribute(ApplicationConstants.USER_KEY);
+            securityService.checkAdminRole(sessionUser);
+            User user = userService.getById(id);
+            ModelAndView modelAndView = new ModelAndView("userCard");
+            modelAndView.addObject(ApplicationConstants.USER_KEY, user);
+            return modelAndView;
+        } catch (Exception e) {
+            log.warn("exception in loadUserPage method ", e);
+            return new ModelAndView("redirect:/error");
+        }
+    }
 }

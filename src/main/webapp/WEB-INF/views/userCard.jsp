@@ -29,7 +29,7 @@
 
         <div class="col-8 rounded-3">
 
-            <c:import url="/WEB-INF/template/header_templ.jsp"/>
+            <c:import url="/WEB-INF/views/template/header_templ.jsp"/>
 
         </div>
 
@@ -67,7 +67,7 @@
 
         <div class="col-2">
 
-            <c:import url="/WEB-INF/template/admin_navigate_template.jsp"/>
+            <c:import url="/WEB-INF/views/template/admin_navigate_template.jsp"/>
 
         </div>
 
@@ -80,10 +80,7 @@
 
                         <c:if test="${sessionScope.user.id != requestScope.user.id}">
                             <li>
-                                <form action="<c:url value="/"> <c:param name="command" value="DeleteUser"/> </c:url>" method="post">
-                                    <input name="${ApplicationConstants.USER_ID_KEY}" type="hidden" value="${requestScope.user.id}">
-                                    <input class="btn btn-danger btn-sm ms-2 mb-0" type="submit" value="Delete">
-                                </form>
+                                <a class="btn btn-danger btn-sm ms-2 mb-0" href="<c:url value="/admin/user/delete/${user.id}" />">Delete</a>
                             </li>
 
                             <li class="nav-item">
@@ -91,21 +88,13 @@
                                     <c:when test="${requestScope.user.profile.enable}">
 
                                         <td>
-                                            <form action="<c:url value="/"> <c:param name="command" value="UpdateUser"/> </c:url>" method="post">
-                                                <input name="${ApplicationConstants.USER_ID_KEY}" type="hidden" value="${requestScope.user.id}">
-                                                <input name="${ApplicationConstants.ACTION_KEY}" type="hidden" value="${ApplicationConstants.USER_ACTION_BLOCK}">
-                                                <input class="btn btn-warning btn-sm ms-2 mb-0" type="submit" value="Blocked">
-                                            </form>
+                                            <a class="btn btn-warning btn-sm ms-2 mb-0" href="<c:url value="/admin/user/block/${user.id}" />">Blocked</a>
                                         </td>
                                     </c:when>
                                     <c:otherwise>
 
                                         <td>
-                                            <form action="<c:url value="/"> <c:param name="command" value="UpdateUser"/> </c:url>" method="post">
-                                                <input name="${ApplicationConstants.USER_ID_KEY}" type="hidden" value="${requestScope.user.id}">
-                                                <input name="${ApplicationConstants.ACTION_KEY}" type="hidden" value="${ApplicationConstants.USER_ACTION_UNBLOCK}">
-                                                <input class="btn btn-success btn-sm ms-2 mb-0" type="submit" value="Unblock">
-                                            </form>
+                                            <a class="btn btn-success btn-sm ms-2 mb-0" href="<c:url value="/admin/user/unblock/${user.id}" />">Unblock</a>
                                         </td>
                                     </c:otherwise>
                                 </c:choose>

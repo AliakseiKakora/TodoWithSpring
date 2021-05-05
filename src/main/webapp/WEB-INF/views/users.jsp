@@ -12,11 +12,9 @@
           integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
 
 
-
     <title>ToDo</title>
 </head>
 <body>
-
 
 
 <div class="container-liquid " style="margin-bottom: 5vh">
@@ -32,7 +30,7 @@
 
         </div>
 
-        <div class="col-2" >
+        <div class="col-2">
 
         </div>
 
@@ -51,7 +49,7 @@
 
         </div>
 
-        <div class="col-2" >
+        <div class="col-2">
 
         </div>
 
@@ -70,7 +68,7 @@
 
         </div>
 
-        <div class="col-6 text-center" >
+        <div class="col-6 text-center">
             <c:if test="${!empty sessionScope}">
 
                 <table class="table">
@@ -88,19 +86,18 @@
                     <c:forEach items="${requestScope.users}" var="user">
                         <tr>
                             <td>
-                                <form action="<c:url value="/"> <c:param name="command" value="UserCardView"/> </c:url>" method="post">
-                                    <input name="${ApplicationConstants.USER_ID_KEY}" type="hidden" value="${user.id}">
-                                    <input style="text-decoration: none" class="btn btn-link" type="submit"
-                                    <c:choose>
-                                        <c:when test="${!empty user.name or !empty user.surname}">
-                                            value="${user.name} ${user.surname}"
-                                        </c:when>
-                                        <c:otherwise>
-                                            value="No name"
-                                        </c:otherwise>
-                                    </c:choose>
-                                    >
-                                </form>
+
+                                <c:choose>
+                                    <c:when test="${!empty user.name or !empty user.surname}">
+                                        <a style="text-decoration: none" class="btn btn-link"
+                                           href="<c:url value="/admin/user/${user.id}" />">${user.name} ${user.surname}</a>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <a style="text-decoration: none" class="btn btn-link"
+                                           href="<c:url value="/admin/block/${user.id}" />">No name</a>
+                                    </c:otherwise>
+                                </c:choose>
+
                             </td>
 
                             <c:choose>
@@ -131,19 +128,22 @@
                                     <c:when test="${user.profile.enable}">
 
                                         <td>
-                                            <a class="btn btn-warning btn-sm" href="<c:url value="/admin/user/block/${user.id}" />">Blocked</a>
+                                            <a class="btn btn-warning btn-sm"
+                                               href="<c:url value="/admin/user/block/${user.id}" />">Blocked</a>
                                         </td>
                                     </c:when>
                                     <c:otherwise>
 
                                         <td>
-                                            <a class="btn btn-success btn-sm" href="<c:url value="/admin/user/unblock/${user.id}" />">Unblock</a>
+                                            <a class="btn btn-success btn-sm"
+                                               href="<c:url value="/admin/user/unblock/${user.id}" />">Unblock</a>
                                         </td>
                                     </c:otherwise>
                                 </c:choose>
 
                                 <td>
-                                    <a class="btn btn-danger btn-sm" href="<c:url value="/admin/user/delete/${user.id}" />">Delete</a>
+                                    <a class="btn btn-danger btn-sm"
+                                       href="<c:url value="/admin/user/delete/${user.id}" />">Delete</a>
                                 </td>
 
                             </c:if>
@@ -170,13 +170,6 @@
     </div>
 
 </div>
-
-
-
-
-
-
-
 
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"
