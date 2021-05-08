@@ -2,7 +2,7 @@ package by.itacademy.todolist.constants;
 
 public class ApplicationConstants {
     public static final String SECTION_KEY = "section";
-    public static final String SECTION_SOME_DAY = "someDay";
+    public static final String SECTION_SOME_DAY = "someday";
     public static final String SECTION_TOMORROW = "tomorrow";
     public static final String SECTION_TODAY = "today";
     public static final String SECTION_FIXED = "fixed";

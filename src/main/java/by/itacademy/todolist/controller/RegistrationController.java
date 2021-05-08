@@ -5,8 +5,8 @@ import by.itacademy.todolist.model.Profile;
 import by.itacademy.todolist.model.User;
 import by.itacademy.todolist.service.ProfileService;
 import by.itacademy.todolist.service.UserService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpSession;
 
 @Slf4j
+@RequiredArgsConstructor
 
 @Controller
 public class RegistrationController {
@@ -21,11 +22,8 @@ public class RegistrationController {
     private static final String REGISTRATION_PAGE = "registration";
     private static final String MAIN_PAGE = "main";
 
-    @Autowired
-    private ProfileService profileService;
-
-    @Autowired
-    private UserService userService;
+    private final ProfileService profileService;
+    private final UserService userService;
 
     @PostMapping(value = "/registration")
     public ModelAndView registration(Profile profile, User user, HttpSession session) {

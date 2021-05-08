@@ -25,12 +25,29 @@
 
         <div class="col-8 rounded-3">
 
-
             <div style="margin-bottom: 5vh">
                 <c:import url="/WEB-INF/views/template/header_templ.jsp"/>
             </div>
 
-            <h3 class="p-2">${requestScope.title} tasks</h3>
+            <c:if test="${section == ApplicationConstants.SECTION_DELETED}">
+                <h3 class="p-2">Deleted tasks</h3>
+            </c:if>
+
+            <c:if test="${section == ApplicationConstants.SECTION_FIXED}">
+                <h3 class="p-2">Fixed tasks</h3>
+            </c:if>
+
+            <c:if test="${section == ApplicationConstants.SECTION_TOMORROW}">
+                <h3 class="p-2">Tomorrow tasks</h3>
+            </c:if>
+
+            <c:if test="${section == ApplicationConstants.SECTION_TODAY}">
+                <h3 class="p-2">Today tasks</h3>
+            </c:if>
+
+            <c:if test="${section == ApplicationConstants.SECTION_SOME_DAY}">
+                <h3 class="p-2">Someday tasks</h3>
+            </c:if>
 
             <c:if test="${!empty requestScope.section && (requestScope.section != ApplicationConstants.SECTION_DELETED
                             && requestScope.section != ApplicationConstants.SECTION_FIXED)}">

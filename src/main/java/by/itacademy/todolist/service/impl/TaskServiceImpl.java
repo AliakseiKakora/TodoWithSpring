@@ -6,12 +6,15 @@ import by.itacademy.todolist.persistence.TaskRepository;
 import by.itacademy.todolist.service.FileService;
 import by.itacademy.todolist.service.TaskService;
 import by.itacademy.todolist.util.DateParser;
-import org.springframework.beans.factory.annotation.Autowired;
+import by.itacademy.todolist.util.TaskPredicateManager;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
+
+@RequiredArgsConstructor
 
 @Service
 public class TaskServiceImpl implements TaskService {
@@ -19,59 +22,17 @@ public class TaskServiceImpl implements TaskService {
     private final TaskRepository taskRepository;
     private final FileService fileService;
     private final DateParser dateParser;
-
-    @Autowired
-    public TaskServiceImpl(TaskRepository taskRepository, FileService fileService, DateParser dateParser) {
-        this.taskRepository = taskRepository;
-        this.fileService = fileService;
-        this.dateParser = dateParser;
-    }
+    private final TaskPredicateManager predicateManager;
 
     @Override
     public List<Task> getAllUserTasks(long userId) {
-        return (List<Task>) taskRepository.findByUserId(userId);
+        return taskRepository.findByUserId(userId);
     }
 
-    @Override
-    public List<Task> getTodayUserTasks(long userId) {
+    public List<Task> getUserTasksBySection(long userId, String section) {
         List<Task> tasks = getAllUserTasks(userId);
-        return tasks.stream()
-                .filter(task -> !task.isCompleted() && !task.isDeleted())
-                .filter(this::isTodayOrBeforeTask)
+        return tasks.stream().filter(predicateManager.getPredicateBySection(section))
                 .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<Task> getTomorrowUserTasks(long userId) {
-        List<Task> tasks = getAllUserTasks(userId);
-        return tasks.stream()
-                .filter(task -> !task.isCompleted() && !task.isDeleted())
-                .filter(this::isTomorrowTask)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<Task> getSomeDayUserTasks(long userId) {
-        List<Task> tasks = getAllUserTasks(userId);
-        return tasks.stream()
-                .filter(task -> !task.isCompleted() && !task.isDeleted())
-                .filter(this::isSomeDayTask)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<Task> getFixedUserTasks(long userId) {
-        List<Task> tasks = getAllUserTasks(userId);
-        return tasks.stream()
-                .filter(task -> !task.isDeleted())
-                .filter(Task::isCompleted)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<Task> getDeletedUserTasks(long userId) {
-        List<Task> tasks = getAllUserTasks(userId);
-        return tasks.stream().filter(Task::isDeleted).collect(Collectors.toList());
     }
 
     @Override
@@ -124,7 +85,9 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public void deleteAllUserDeletedTask(long userId) {
-        List<Task> deletedTasks = getDeletedUserTasks(userId);
+        List<Task> deletedTasks = getAllUserTasks(userId).stream()
+                .filter(Task::isDeleted).collect(Collectors.toList());
+
         deletedTasks.stream().filter(task -> task.getFileInfo() != null)
                 .forEach(task -> fileService.delete(task.getFileInfo()));
 
@@ -142,31 +105,5 @@ public class TaskServiceImpl implements TaskService {
                 .forEach(task -> fileService.delete(task.getFileInfo()));
 
         taskRepository.deleteTasksByUserId(userId);
-//        taskDao.deleteAllUserTasks(userId);
-    }
-
-    private boolean isTodayOrBeforeTask(Task task) {
-        LocalDateTime dateCompletion = task.getDateCompletion();
-        LocalDateTime now = LocalDateTime.now();
-        return (now.getYear() == dateCompletion.getYear()
-                && now.getDayOfYear() == dateCompletion.getDayOfYear())
-                || now.isAfter(dateCompletion);
-    }
-
-    private boolean isTomorrowTask(Task task) {
-        LocalDateTime dateCompletion = task.getDateCompletion();
-        LocalDateTime now = LocalDateTime.now().plusDays(1);
-        return now.getYear() == dateCompletion.getYear()
-                && now.getDayOfYear() == dateCompletion.getDayOfYear();
-    }
-
-    private boolean isSomeDayTask(Task task) {
-        LocalDateTime dateCompletion = task.getDateCompletion();
-        LocalDateTime now = LocalDateTime.now().plusDays(1);
-        if (dateCompletion.getYear() > now.getYear()) {
-            return true;
-        }
-        return dateCompletion.getYear() == now.getYear()
-                && dateCompletion.getDayOfYear() > now.getDayOfYear();
     }
 }

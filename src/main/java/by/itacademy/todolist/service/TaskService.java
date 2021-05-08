@@ -8,15 +8,7 @@ public interface TaskService {
 
     List<Task> getAllUserTasks(long userId);
 
-    List<Task> getTodayUserTasks(long userId);
-
-    List<Task> getTomorrowUserTasks(long userId);
-
-    List<Task> getSomeDayUserTasks(long userId);
-
-    List<Task> getFixedUserTasks(long userId);
-
-    List<Task> getDeletedUserTasks(long userId);
+    List<Task> getUserTasksBySection(long userId, String section);
 
     Task saveTaskToSection(Task task, String section, String date);
 

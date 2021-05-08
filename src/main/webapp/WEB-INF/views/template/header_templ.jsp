@@ -20,7 +20,7 @@
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="<c:url value="/tasks/today" /> ">Today</a></li>
                         <li><a class="dropdown-item" href="<c:url value="/tasks/tomorrow" /> ">Tomorrow</a></li>
-                        <li><a class="dropdown-item" href="<c:url value="/tasks/someDay" /> ">Some day</a></li>
+                        <li><a class="dropdown-item" href="<c:url value="/tasks/someday" /> ">Some day</a></li>
                         <li><a class="dropdown-item" href="<c:url value="/tasks/fixed" /> ">Fixed</a></li>
                         <li><a class="dropdown-item" href="<c:url value="/tasks/deleted" /> ">Deleted</a></li>
                     </ul>

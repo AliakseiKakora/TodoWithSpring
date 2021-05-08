@@ -35,12 +35,12 @@
 
                     <div class="mb-3">
                         <label for="login" class="form-label">Login</label>
-                        <input type="text" class="form-control" id="login" name="login" required value="${requestScope.user.profile.login}">
+                        <input type="text" class="form-control" id="login" name="profile.login" required value="${requestScope.user.profile.login}">
                     </div>
 
                     <div class="mb-3">
                         <label for="password" class="form-label">Password</label>
-                        <input type="text" class="form-control" id="password" name="password" required value="${requestScope.user.profile.password}">
+                        <input type="text" class="form-control" id="password" name="profile.password" required value="${requestScope.user.profile.password}">
                     </div>
 
                     <div class="mb-3">

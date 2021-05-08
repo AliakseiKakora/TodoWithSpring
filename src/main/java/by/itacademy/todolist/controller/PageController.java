@@ -106,26 +106,6 @@ public class PageController {
         }
     }
 
-    @GetMapping("/profile")
-    public ModelAndView loadProfilePage(@RequestParam(required = false) String successful,
-                                        @RequestParam(required = false) String error,
-                                        HttpSession session) {
-        try {
-            ModelAndView modelAndView = new ModelAndView(PROFILE_PAGE);
-            modelAndView.addObject(ApplicationConstants.ERROR_KEY, error);
-            modelAndView.addObject(ApplicationConstants.SUCCESSFUL_KEY, successful);
-
-            User user = (User) session.getAttribute(ApplicationConstants.USER_KEY);
-            user = userService.getById(user.getId());
-            session.setAttribute(ApplicationConstants.USER_KEY, user);
-            modelAndView.addObject(ApplicationConstants.USER_KEY, user);
-            return modelAndView;
-        } catch (Exception e) {
-            log.warn("exception load profile page", e);
-            return new ModelAndView("redirect:/" + MAIN_PAGE);
-        }
-    }
-
     @GetMapping("/logout")
     public ModelAndView logout(HttpSession session) {
         if (session != null) {

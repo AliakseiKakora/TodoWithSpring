@@ -6,9 +6,7 @@ import by.itacademy.todolist.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
@@ -24,21 +22,37 @@ public class ProfileController {
 
     private final UserService userService;
 
-    @PostMapping("/update")
-    public ModelAndView updateProfile(@RequestParam String login, @RequestParam String password,
-                                      @RequestParam String email, @RequestParam String name,
-                                      @RequestParam String surname, HttpSession session) {
-        User user = (User) session.getAttribute(ApplicationConstants.USER_KEY);
+    @GetMapping
+    public ModelAndView loadProfilePage(@RequestParam(required = false) String successful,
+                                        @RequestParam(required = false) String error,
+                                        HttpSession session) {
         try {
-            user.getProfile().setLogin(login);
-            user.getProfile().setPassword(password);
-            user.setEmail(email);
-            user.setName(name);
-            user.setSurname(surname);
+            ModelAndView modelAndView = new ModelAndView(PROFILE_PAGE);
+            modelAndView.addObject(ApplicationConstants.ERROR_KEY, error);
+            modelAndView.addObject(ApplicationConstants.SUCCESSFUL_KEY, successful);
+
+            User user = (User) session.getAttribute(ApplicationConstants.USER_KEY);
+            user = userService.getById(user.getId());
+            session.setAttribute(ApplicationConstants.USER_KEY, user);
+            modelAndView.addObject(ApplicationConstants.USER_KEY, user);
+            return modelAndView;
+        } catch (Exception e) {
+            log.warn("exception load profile page", e);
+            return new ModelAndView("redirect:/main");
+        }
+    }
+
+    @PostMapping("/update")
+    public ModelAndView updateProfile(@ModelAttribute User userForm, @SessionAttribute User user) {
+        try {
+            user.setName(userForm.getName());
+            user.setSurname(userForm.getSurname());
+            user.setEmail(userForm.getEmail());
+            user.getProfile().setLogin(userForm.getProfile().getLogin());
+            user.getProfile().setPassword(userForm.getProfile().getPassword());
 
             userService.update(user);
-            log.info("user {} has updated his data", user);
-
+            log.info("user {} has updated his data", userForm);
             return new ModelAndView("redirect:/" + PROFILE_PAGE,
                     ApplicationConstants.SUCCESSFUL_KEY, ApplicationConstants.DATA_UPDATED_MSG);
 

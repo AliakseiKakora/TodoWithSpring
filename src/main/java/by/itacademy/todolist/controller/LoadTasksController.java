@@ -7,12 +7,9 @@ import by.itacademy.todolist.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Slf4j
@@ -24,99 +21,28 @@ public class LoadTasksController {
 
     private final TaskService taskService;
 
-    @GetMapping("/today")
-    public ModelAndView loadTodayTasks(HttpServletRequest request, @RequestParam(required = false) String error) {
+    @GetMapping("/{section}")
+    public ModelAndView loadTasks(@PathVariable String section, @RequestParam(required = false) String error,
+                                  @SessionAttribute User user) {
         try {
-            User user = (User) request.getSession().getAttribute(ApplicationConstants.USER_KEY);
             ModelAndView modelAndView = new ModelAndView("tasks");
-            List<Task> todayTasks = taskService.getTodayUserTasks(user.getId());
+            List<Task> tasks = taskService.getUserTasksBySection(user.getId(), section);
 
-            modelAndView.addObject(ApplicationConstants.TASKS_KEY, todayTasks);
-            modelAndView.addObject(ApplicationConstants.SECTION_KEY, ApplicationConstants.SECTION_TODAY);
-            modelAndView.addObject(ApplicationConstants.TASK_TITLE, ApplicationConstants.TASK_TODAY_TITLE);
+            modelAndView.addObject(ApplicationConstants.TASKS_KEY, tasks);
+            modelAndView.addObject(ApplicationConstants.SECTION_KEY, section);
             modelAndView.addObject(ApplicationConstants.ERROR_KEY, error);
             return modelAndView;
 
         } catch (Exception e) {
-            return handleException(e);
+            log.warn("exception in loadTasks method ", e);
+            return new ModelAndView("redirect:/error");
         }
     }
 
 
-    @GetMapping("/tomorrow")
-    public ModelAndView loadTomorrowTasks(HttpServletRequest request, @RequestParam(required = false) String error) {
-        try {
-            User user = (User) request.getSession().getAttribute(ApplicationConstants.USER_KEY);
-            ModelAndView modelAndView = new ModelAndView("tasks");
-            List<Task> tomorrowTasks = taskService.getTomorrowUserTasks(user.getId());
-
-            modelAndView.addObject(ApplicationConstants.TASKS_KEY, tomorrowTasks);
-            modelAndView.addObject(ApplicationConstants.SECTION_KEY, ApplicationConstants.SECTION_TOMORROW);
-            modelAndView.addObject(ApplicationConstants.TASK_TITLE, ApplicationConstants.TASK_TOMORROW_TITLE);
-            modelAndView.addObject(ApplicationConstants.ERROR_KEY, error);
-            return modelAndView;
-
-        } catch (Exception e) {
-            return handleException(e);
-        }
-    }
-
-    @GetMapping("/someDay")
-    public ModelAndView loadSomeDayTasks(HttpServletRequest request, @RequestParam(required = false) String error) {
-        try {
-            User user = (User) request.getSession().getAttribute(ApplicationConstants.USER_KEY);
-            ModelAndView modelAndView = new ModelAndView("tasks");
-            List<Task> someDayTasks = taskService.getSomeDayUserTasks(user.getId());
-
-            modelAndView.addObject(ApplicationConstants.TASKS_KEY, someDayTasks);
-            modelAndView.addObject(ApplicationConstants.SECTION_KEY, ApplicationConstants.SECTION_SOME_DAY);
-            modelAndView.addObject(ApplicationConstants.TASK_TITLE, ApplicationConstants.TASK_SOME_DAY_TITLE);
-            modelAndView.addObject(ApplicationConstants.ERROR_KEY, error);
-            return modelAndView;
-
-        } catch (Exception e) {
-            return handleException(e);
-        }
-    }
-
-    @GetMapping("/fixed")
-    public ModelAndView loadFixedTasks(HttpServletRequest request, @RequestParam(required = false) String error) {
-        try {
-            User user = (User) request.getSession().getAttribute(ApplicationConstants.USER_KEY);
-            ModelAndView modelAndView = new ModelAndView("tasks");
-            List<Task> fixedTasks = taskService.getFixedUserTasks(user.getId());
-
-            modelAndView.addObject(ApplicationConstants.TASKS_KEY, fixedTasks);
-            modelAndView.addObject(ApplicationConstants.SECTION_KEY, ApplicationConstants.SECTION_FIXED);
-            modelAndView.addObject(ApplicationConstants.TASK_TITLE, ApplicationConstants.TASK_FIXED_TITLE);
-            modelAndView.addObject(ApplicationConstants.ERROR_KEY, error);
-            return modelAndView;
-
-        } catch (Exception e) {
-            return handleException(e);
-        }
-    }
-
-    @GetMapping("/deleted")
-    public ModelAndView loadDeletedTasks(HttpServletRequest request, @RequestParam(required = false) String error) {
-        try {
-            User user = (User) request.getSession().getAttribute(ApplicationConstants.USER_KEY);
-            ModelAndView modelAndView = new ModelAndView("tasks");
-            List<Task> deletedTasks = taskService.getDeletedUserTasks(user.getId());
-
-            modelAndView.addObject(ApplicationConstants.TASKS_KEY, deletedTasks);
-            modelAndView.addObject(ApplicationConstants.SECTION_KEY, ApplicationConstants.SECTION_DELETED);
-            modelAndView.addObject(ApplicationConstants.TASK_TITLE, ApplicationConstants.TASK_DELETED_TITLE);
-            modelAndView.addObject(ApplicationConstants.ERROR_KEY, error);
-            return modelAndView;
-
-        } catch (Exception e) {
-            return handleException(e);
-        }
-    }
-
-    private ModelAndView handleException(Exception e) {
-        log.warn("exception in loadTasks method ", e);
-        return new ModelAndView("redirect:/error");
-    }
+//    @ExceptionHandler({Exception.class})
+//    private ModelAndView handleException(Exception e) {
+//        log.warn("exception in loadTasks method ", e);
+//        return new ModelAndView("redirect:/error");
+//    }
 }
