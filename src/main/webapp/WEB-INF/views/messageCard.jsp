@@ -79,24 +79,16 @@
                     <ul class="nav nav-pills card-header-pills">
 
                             <li>
-<%--                                <form class="ms-2 mb-0" action="<c:url value="/" > <c:param name="${ApplicationConstants.COMMAND_KEY}" value="DeleteMessage"/>--%>
-<%--                                                    </c:url>" method="post">--%>
-<%--                                    <input name="${ApplicationConstants.MESSAGE_ID}" type="hidden" value="${requestScope.message.id}">--%>
-<%--                                    <input class="btn btn-danger btn-sm" type="submit" value="Delete message">--%>
-<%--                                </form>--%>
-
                                 <a class="btn btn-danger btn-sm" href="<c:url value="/admin/message/delete/${message.id}" />">Delete message</a>
-
                             </li>
 
                     </ul>
                 </div>
                 <div class="card-body">
                     <h6 class="card-title">Sender</h6>
-                    <form class="mx-0 mb-2 px-0" action="<c:url value="/"> <c:param name="command" value="UserCardView"/> </c:url>" method="post">
-                        <input name="${ApplicationConstants.USER_ID_KEY}" type="hidden" value="${requestScope.message.user.id}">
-                        <input style="text-decoration: none" class="btn btn-link ms-2 mb-0" type="submit" value=" ${requestScope.message.user.name} ${requestScope.message.user.surname}">
-                    </form>
+                    <a style="text-decoration: none" class="btn btn-link ms-2 mb-0"
+                       href="<c:url value="/admin/user/${requestScope.message.user.id}" />">${requestScope.message.user.name} ${requestScope.message.user.surname}</a>
+
                     <h6 class="card-title">Message:</h6>
                     <p class="card-text">${requestScope.message.message}</p>
                     <h6 class="card-title">${requestScope.message.dateAdded.format(DateTimeFormatter.ofPattern("dd:MM:uuuu HH:mm"))}</h6>

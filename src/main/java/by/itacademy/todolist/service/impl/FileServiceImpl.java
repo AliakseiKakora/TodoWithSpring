@@ -6,7 +6,7 @@ import by.itacademy.todolist.model.Task;
 import by.itacademy.todolist.persistence.FileInfoRepository;
 import by.itacademy.todolist.persistence.TaskRepository;
 import by.itacademy.todolist.service.FileService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,17 +17,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+@RequiredArgsConstructor
+
 @Service
 public class FileServiceImpl implements FileService {
 
     private final FileInfoRepository fileInfoRepository;
     private final TaskRepository taskRepository;
-
-    @Autowired
-    public FileServiceImpl(FileInfoRepository fileInfoRepository, TaskRepository taskRepository) {
-        this.fileInfoRepository = fileInfoRepository;
-        this.taskRepository = taskRepository;
-    }
 
     public FileInfo addFileInfoForTask(MultipartFile file, long taskId, long userId, HttpServletRequest request) {
         try {

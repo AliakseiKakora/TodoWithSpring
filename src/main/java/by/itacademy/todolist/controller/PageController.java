@@ -113,4 +113,14 @@ public class PageController {
         }
         return new ModelAndView("redirect:/login");
     }
+
+    @GetMapping("/block")
+    public ModelAndView loadBlockedPage(@RequestParam(required = false) String error,
+                                        @RequestParam(required = false) String successful) {
+        ModelAndView modelAndView = new ModelAndView("blocked");
+        modelAndView.addObject(ApplicationConstants.ERROR_KEY, error);
+        modelAndView.addObject(ApplicationConstants.SUCCESSFUL_KEY, successful);
+        return modelAndView;
+    }
+
 }
