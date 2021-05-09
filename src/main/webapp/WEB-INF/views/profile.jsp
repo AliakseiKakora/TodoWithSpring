@@ -14,9 +14,6 @@
 <body>
 
 
-
-
-
 <div class="container-liqud text-center">
     <div class="row " style="height:100vh">
 
@@ -29,38 +26,42 @@
                 <c:import url="/WEB-INF/views/template/header_templ.jsp"/>
             </div>
 
-            <h1 class="mb-3 p-2" >My Profile</h1>
-            <c:if test="${!empty sessionScope.user}">
-                <form action="<c:url value="profile/update" > </c:url>" method="post">
+            <h1 class="mb-3 p-2">My Profile</h1>
 
-                    <div class="mb-3">
-                        <label for="login" class="form-label">Login</label>
-                        <input type="text" class="form-control" id="login" name="profile.login" required value="${requestScope.user.profile.login}">
-                    </div>
+            <form action="<c:url value="profile/update" > </c:url>" method="post">
 
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
-                        <input type="text" class="form-control" id="password" name="profile.password" required value="${requestScope.user.profile.password}">
-                    </div>
+                <div class="mb-3">
+                    <label for="login" class="form-label">Login</label>
+                    <input type="text" class="form-control" id="login" name="profile.login" required
+                           value="${requestScope.user.profile.login}">
+                </div>
 
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" required value="${requestScope.user.email}">
-                    </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="text" class="form-control" id="password" name="profile.password" required
+                           value="${requestScope.user.profile.password}">
+                </div>
 
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="name" name="name" value="${requestScope.user.name}">
-                    </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" required
+                           value="${requestScope.user.email}">
+                </div>
 
-                    <div class="mb-3">
-                        <label for="surname" class="form-label">Surname</label>
-                        <input type="text" class="form-control" id="surname" name="surname" value="${requestScope.user.surname}">
-                    </div>
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="name" name="name" value="${requestScope.user.name}">
+                </div>
 
-                    <button type="submit" class="btn btn-primary">Update</button>
-                </form>
-            </c:if>
+                <div class="mb-3">
+                    <label for="surname" class="form-label">Surname</label>
+                    <input type="text" class="form-control" id="surname" name="surname"
+                           value="${requestScope.user.surname}">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Update</button>
+            </form>
+
 
             <c:import url="/WEB-INF/views/template/successful_template.jsp"/>
             <c:import url="/WEB-INF/views/template/error_templ.jsp"/>
@@ -68,7 +69,7 @@
 
         </div>
 
-        <div class="col-2" >
+        <div class="col-2">
 
         </div>
 

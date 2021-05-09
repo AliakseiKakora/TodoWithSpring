@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -98,14 +97,6 @@ public class PageController {
             log.warn("exception in loadEditTaskPage method ", e);
             return new ModelAndView("redirect:/error");
         }
-    }
-
-    @GetMapping("/logout")
-    public ModelAndView logout(HttpSession session) {
-        if (session != null) {
-            session.invalidate();
-        }
-        return new ModelAndView("redirect:/login");
     }
 
     @GetMapping("/block")
