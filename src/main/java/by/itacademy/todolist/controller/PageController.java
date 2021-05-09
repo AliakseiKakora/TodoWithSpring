@@ -3,9 +3,7 @@ package by.itacademy.todolist.controller;
 import by.itacademy.todolist.constants.ApplicationConstants;
 import by.itacademy.todolist.model.Task;
 import by.itacademy.todolist.security.UserDetailsImpl;
-import by.itacademy.todolist.service.SecurityService;
 import by.itacademy.todolist.service.TaskService;
-import by.itacademy.todolist.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -30,9 +28,7 @@ public class PageController {
     private static final String PROFILE_PAGE = "profile";
     private static final String LOGIN_PAGE = "login";
 
-    private final UserService userService;
     private final TaskService taskService;
-    private final SecurityService securityService;
 
     @GetMapping("/")
     public ModelAndView loadWelcomePage() {
@@ -125,5 +121,4 @@ public class PageController {
     public ModelAndView loadSecurityPage() {
         return new ModelAndView("security");
     }
-
 }

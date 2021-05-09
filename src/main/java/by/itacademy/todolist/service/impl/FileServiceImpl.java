@@ -27,8 +27,7 @@ public class FileServiceImpl implements FileService {
     private final FileInfoRepository fileInfoRepository;
     private final TaskRepository taskRepository;
 
-
-    //todo add preautorize where chek userId and principal id
+    @PreAuthorize("#userId == authentication.principal.id")
     public FileInfo addFileInfoForTask(MultipartFile file, long taskId, long userId, HttpServletRequest request) {
         try {
             String path = getPath(request, taskId, userId);

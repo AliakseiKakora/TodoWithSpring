@@ -9,6 +9,7 @@ import by.itacademy.todolist.util.DateParser;
 import by.itacademy.todolist.util.TaskPredicateManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -30,6 +31,7 @@ public class TaskServiceImpl implements TaskService {
         return taskRepository.findByUserId(userId);
     }
 
+    @PreAuthorize("#userId == authentication.principal.id")
     public List<Task> getUserTasksBySection(long userId, String section) {
         List<Task> tasks = getAllUserTasks(userId);
         return tasks.stream().filter(predicateManager.getPredicateBySection(section))
@@ -37,6 +39,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    @PreAuthorize("#task.user.id == authentication.principal.id")
     public Task saveTaskToSection(Task task, String section, String date) {
         if (task.getName() == null || task.getName().equals("")) {
             throw new RuntimeException("Task name cannot be empty");
@@ -46,7 +49,6 @@ public class TaskServiceImpl implements TaskService {
         if (task.getDateCompletion() == null || task.getDateAdded() == null) {
             throw new RuntimeException("Task date cannot be empty");
         }
-
         return taskRepository.save(task);
     }
 
@@ -66,6 +68,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    @PreAuthorize("#task.user.id == authentication.principal.id")
     public Task updateTask(Task task) {
         if (task.getName() == null || task.getName().equals("") || task.getDateCompletion() == null) {
             throw new RuntimeException("Task name or date completion cannot be empty");
@@ -81,11 +84,13 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void deleteTask(long id) {
-        taskRepository.deleteById(id);
+    @PreAuthorize("#task.user.id == authentication.principal.id")
+    public void deleteTask(Task task) {
+        taskRepository.deleteById(task.getId());
     }
 
     @Override
+    @PreAuthorize("#userId == authentication.principal.id")
     public void deleteAllUserDeletedTask(long userId) {
         List<Task> deletedTasks = getAllUserTasks(userId).stream()
                 .filter(Task::isDeleted).collect(Collectors.toList());
@@ -105,7 +110,6 @@ public class TaskServiceImpl implements TaskService {
 
         allUserTasks.stream().filter(task -> task.getFileInfo() != null)
                 .forEach(task -> fileService.delete(task.getFileInfo()));
-
         taskRepository.deleteTasksByUserId(userId);
     }
 }
