@@ -7,6 +7,8 @@ import by.itacademy.todolist.persistence.FileInfoRepository;
 import by.itacademy.todolist.persistence.TaskRepository;
 import by.itacademy.todolist.service.FileService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,6 +27,8 @@ public class FileServiceImpl implements FileService {
     private final FileInfoRepository fileInfoRepository;
     private final TaskRepository taskRepository;
 
+
+    //todo add preautorize where chek userId and principal id
     public FileInfo addFileInfoForTask(MultipartFile file, long taskId, long userId, HttpServletRequest request) {
         try {
             String path = getPath(request, taskId, userId);
@@ -82,6 +86,7 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
+    @PreAuthorize("#fileInfo.task.user.id == authentication.principal.id")
     public void delete(FileInfo fileInfo) {
         try {
             Path path = Paths.get(fileInfo.getPath());
@@ -93,9 +98,9 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
+    @PostAuthorize("returnObject.task.user.id == authentication.principal.id")
     public FileInfo getById(long fileId) {
         return fileInfoRepository.findById(fileId)
                 .orElseThrow(() -> new RuntimeException("file with id " + fileId + " not found"));
     }
-
 }

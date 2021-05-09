@@ -32,7 +32,7 @@
                 An unknown error has occurred! Please describe the error, it will help us a lot!
             </p>
 
-            <form action="<c:url value="/message/add" /> " method="post">
+            <form action="<c:url value="/messages" /> " method="post">
 
                 <div class="input-group mb-4">
                     <span class="input-group-text">Message</span>

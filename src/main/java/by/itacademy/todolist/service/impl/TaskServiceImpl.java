@@ -8,6 +8,7 @@ import by.itacademy.todolist.service.TaskService;
 import by.itacademy.todolist.util.DateParser;
 import by.itacademy.todolist.util.TaskPredicateManager;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -73,6 +74,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    @PostAuthorize("returnObject.user.id == authentication.principal.id")
     public Task getTaskById(long id) {
         return taskRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("task with id " + id + " not found"));

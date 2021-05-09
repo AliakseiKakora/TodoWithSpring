@@ -2,12 +2,14 @@ package by.itacademy.todolist.controller;
 
 import by.itacademy.todolist.constants.ApplicationConstants;
 import by.itacademy.todolist.model.Task;
-import by.itacademy.todolist.model.User;
+import by.itacademy.todolist.security.UserDetailsImpl;
 import by.itacademy.todolist.service.SecurityService;
 import by.itacademy.todolist.service.TaskService;
 import by.itacademy.todolist.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -48,12 +50,12 @@ public class PageController {
     }
 
     @GetMapping("/error")
-    public ModelAndView loadErrorPage(HttpSession session) {
+    public ModelAndView loadErrorPage() {
         try {
-            User user = (User) session.getAttribute(ApplicationConstants.USER_KEY);
-            long userId = user.getId();
-            return new ModelAndView("error", ApplicationConstants.USER_ID_KEY, userId);
-
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            UserDetailsImpl principal = (UserDetailsImpl) authentication.getPrincipal();
+            long id = principal.getId();
+            return new ModelAndView("error", ApplicationConstants.USER_ID_KEY, id);
         } catch (Exception e) {
             log.warn("exception load error page ", e);
             return new ModelAndView("main");
@@ -86,14 +88,10 @@ public class PageController {
     }
 
     @GetMapping("task/edit")
-    public ModelAndView loadEditTaskPage2(@RequestParam Long taskId, @RequestParam(required = false) String successful,
-                                          @RequestParam(required = false) String error, HttpSession session) {
+    public ModelAndView loadEditTaskPage(@RequestParam Long taskId, @RequestParam(required = false) String successful,
+                                          @RequestParam(required = false) String error) {
         try {
             Task task = taskService.getTaskById(taskId);
-
-            User user = (User) session.getAttribute(ApplicationConstants.USER_KEY);
-            securityService.checkRightToTask(task, user);
-
             ModelAndView modelAndView = new ModelAndView("editTask");
             modelAndView.addObject(ApplicationConstants.TASK_KEY, task);
             modelAndView.addObject(ApplicationConstants.SUCCESSFUL_KEY, successful);
