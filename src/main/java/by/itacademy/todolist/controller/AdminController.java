@@ -5,7 +5,6 @@ import by.itacademy.todolist.model.Message;
 import by.itacademy.todolist.model.User;
 import by.itacademy.todolist.service.MessageService;
 import by.itacademy.todolist.service.ProfileService;
-import by.itacademy.todolist.service.SecurityService;
 import by.itacademy.todolist.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.function.Function;
 
@@ -30,14 +28,10 @@ public class AdminController {
     private final UserService userService;
     private final MessageService messageService;
     private final ProfileService profileService;
-    private final SecurityService securityService;
 
     @GetMapping
-    public ModelAndView loadAdminPage(HttpSession session) {
+    public ModelAndView loadAdminPage() {
         try {
-            User user = (User) session.getAttribute(ApplicationConstants.USER_KEY);
-            securityService.checkAdminRole(user);
-
             return new ModelAndView("adminPage");
         } catch (Exception e) {
             log.warn("exception in loadAdminPage method ", e);
@@ -46,11 +40,8 @@ public class AdminController {
     }
 
     @GetMapping("/users")
-    public ModelAndView loadAllUsers(HttpSession session, @RequestParam(required = false) String error) {
+    public ModelAndView loadAllUsers(@RequestParam(required = false) String error) {
         try {
-            User user = (User) session.getAttribute(ApplicationConstants.USER_KEY);
-            securityService.checkAdminRole(user);
-
             List<User> users = userService.getAllUsers();
             ModelAndView modelAndView = new ModelAndView("/users");
             modelAndView.addObject(ApplicationConstants.USERS_KEY, users);
@@ -63,11 +54,8 @@ public class AdminController {
     }
 
     @GetMapping("/messages")
-    public ModelAndView loadAllMessages(HttpSession session, @RequestParam(required = false) String error) {
+    public ModelAndView loadAllMessages(@RequestParam(required = false) String error) {
         try {
-            User user = (User) session.getAttribute(ApplicationConstants.USER_KEY);
-            securityService.checkAdminRole(user);
-
             List<Message> messages = messageService.getAll();
             ModelAndView modelAndView = new ModelAndView("/messages");
             modelAndView.addObject(ApplicationConstants.MESSAGES_KEY, messages);
@@ -80,10 +68,10 @@ public class AdminController {
     }
 
     @GetMapping("/user/block/{id}")
-    public ModelAndView blockUser(@PathVariable Long id, HttpSession session) {
+    public ModelAndView blockUser(@PathVariable Long id) {
         try {
             log.info("admin tries block user with id {}", id);
-            ModelAndView modelAndView = updateUser(id, session, user -> {
+            ModelAndView modelAndView = updateUser(id, user -> {
                 user.getProfile().setEnable(false);
                 return user;
             });
@@ -97,10 +85,10 @@ public class AdminController {
     }
 
     @GetMapping("/user/unblock/{id}")
-    public ModelAndView unblockUser(@PathVariable Long id, HttpSession session) {
+    public ModelAndView unblockUser(@PathVariable Long id) {
         try {
             log.info("admin tries unblock user with id {}", id);
-            ModelAndView modelAndView = updateUser(id, session, user -> {
+            ModelAndView modelAndView = updateUser(id, user -> {
                 user.getProfile().setEnable(true);
                 return user;
             });
@@ -114,13 +102,10 @@ public class AdminController {
     }
 
     @GetMapping("/user/delete/{id}")
-    public ModelAndView deleteUser(@PathVariable Long id, HttpSession session) {
+    public ModelAndView deleteUser(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView("redirect:/admin/users");
         log.info("admin tries delete user with id {}", id);
         try {
-            User user = (User) session.getAttribute(ApplicationConstants.USER_KEY);
-            securityService.checkAdminRole(user);
-
             userService.deleteById(id);
             log.info("admin successfully delete user with id {} ", id);
             return modelAndView;
@@ -131,11 +116,8 @@ public class AdminController {
         }
     }
 
-    private ModelAndView updateUser(Long id, HttpSession session, Function<User, User> function) {
+    private ModelAndView updateUser(Long id, Function<User, User> function) {
         ModelAndView modelAndView = new ModelAndView("redirect:/admin/users");
-        User user = (User) session.getAttribute(ApplicationConstants.USER_KEY);
-        securityService.checkAdminRole(user);
-
         User updatingUser = userService.getById(id);
         updatingUser = function.apply(updatingUser);
 
@@ -144,10 +126,8 @@ public class AdminController {
     }
 
     @GetMapping("/message/{id}")
-    public ModelAndView loadMessagePage(@PathVariable Long id, HttpSession session) {
+    public ModelAndView loadMessagePage(@PathVariable Long id) {
         try {
-            User user = (User) session.getAttribute(ApplicationConstants.USER_KEY);
-            securityService.checkAdminRole(user);
             Message message = messageService.getById(id);
             ModelAndView modelAndView = new ModelAndView("messageCard");
             modelAndView.addObject(ApplicationConstants.MESSAGE_KEY, message);
@@ -159,12 +139,10 @@ public class AdminController {
     }
 
     @GetMapping("/message/delete/{id}")
-    public ModelAndView deleteMessage(@PathVariable Long id, HttpSession session) {
+    public ModelAndView deleteMessage(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView("redirect:/admin/messages");
         log.info("admin tries delete message with id {}", id);
         try {
-            User user = (User) session.getAttribute(ApplicationConstants.USER_KEY);
-            securityService.checkAdminRole(user);
             messageService.delete(id);
             log.info("admin successfully delete message with id {} ", id);
             return modelAndView;
@@ -176,10 +154,8 @@ public class AdminController {
     }
 
     @GetMapping("/user/{id}")
-    public ModelAndView loadUserPage(@PathVariable Long id, HttpSession session) {
+    public ModelAndView loadUserPage(@PathVariable Long id) {
         try {
-            User sessionUser = (User) session.getAttribute(ApplicationConstants.USER_KEY);
-            securityService.checkAdminRole(sessionUser);
             User user = userService.getById(id);
             ModelAndView modelAndView = new ModelAndView("userCard");
             modelAndView.addObject(ApplicationConstants.USER_KEY, user);

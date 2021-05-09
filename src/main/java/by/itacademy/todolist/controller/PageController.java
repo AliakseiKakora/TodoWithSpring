@@ -123,4 +123,9 @@ public class PageController {
         return modelAndView;
     }
 
+    @GetMapping("/security")
+    public ModelAndView loadSecurityPage() {
+        return new ModelAndView("security");
+    }
+
 }

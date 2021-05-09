@@ -24,7 +24,7 @@
 
         <div class="col-8 rounded-3">
             <div style="margin-bottom: 5vh">
-                <c:import url="/WEB-INF/template/header_templ.jsp"/>
+                <c:import url="/WEB-INF/views/template/header_templ.jsp"/>
             </div>
 
             <h3 class="p-2">Access denied!</h3>
