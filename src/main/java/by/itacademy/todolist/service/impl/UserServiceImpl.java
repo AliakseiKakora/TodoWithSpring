@@ -7,10 +7,13 @@ import by.itacademy.todolist.persistence.UserRepository;
 import by.itacademy.todolist.service.RoleService;
 import by.itacademy.todolist.service.TaskService;
 import by.itacademy.todolist.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+@RequiredArgsConstructor
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -18,13 +21,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final RoleService roleService;
     private final TaskService taskService;
-
-    @Autowired
-    public UserServiceImpl(UserRepository userRepository, RoleService roleService, TaskService taskService) {
-        this.userRepository = userRepository;
-        this.roleService = roleService;
-        this.taskService = taskService;
-    }
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public User getUserByLoginAndPassword(String login, String password) {
@@ -38,6 +35,7 @@ public class UserServiceImpl implements UserService {
         if (!isValidRegistrationData(user)) {
             throw new RuntimeException("User credentials are not valid ");
         }
+        user.getProfile().setPassword(passwordEncoder.encode(user.getProfile().getPassword()));
         Role userRole = roleService.getByNameWithUsers(ApplicationConstants.ROLE_USER_VALUE);
         user = userRepository.save(user);
         user.addRole(userRole);
