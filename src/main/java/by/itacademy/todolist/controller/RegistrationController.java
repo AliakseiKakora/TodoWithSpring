@@ -16,23 +16,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpSession;
-
 @Slf4j
 @RequiredArgsConstructor
 
 @Controller
 public class RegistrationController {
 
-    private static final String REGISTRATION_PAGE = "registration";
-    private static final String MAIN_PAGE = "main";
-
     private final ProfileService profileService;
     private final UserService userService;
     private final UserDetailsParser userDetailsParser;
 
     @PostMapping(value = "/registration")
-    public ModelAndView registration(Profile profile, User user, HttpSession session) {
+    public ModelAndView registration(Profile profile, User user) {
         try {
             log.info("user tries to sign up with credentials: email - {}; login - {}", user.getEmail(), profile.getLogin());
             if (profileService.existLoginOrEmail(profile.getLogin(), user.getEmail())) {
@@ -46,10 +41,10 @@ public class RegistrationController {
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
             log.info("user was able to register with credentials: email - {}; login - {}", user.getEmail(), profile.getLogin());
-            return new ModelAndView("redirect:/" + MAIN_PAGE);
+            return new ModelAndView("redirect:/" + ApplicationConstants.MAIN_PAGE);
         } catch (Exception e) {
             log.warn("exception registration user with credentials - {} {} ", user.getEmail(), profile.getLogin(), e);
-            return new ModelAndView("redirect:/" + REGISTRATION_PAGE, ApplicationConstants.ERROR_KEY, e.getMessage());
+            return new ModelAndView("redirect:/" + ApplicationConstants.REGISTRATION_PAGE, ApplicationConstants.ERROR_KEY, e.getMessage());
         }
     }
 }

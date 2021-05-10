@@ -17,8 +17,6 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/profile")
 public class ProfileController {
 
-    private static final String PROFILE_PAGE = "profile";
-
     private final UserService userService;
     private final SecurityContextManager securityContextManager;
 
@@ -26,7 +24,7 @@ public class ProfileController {
     public ModelAndView loadProfilePage(@RequestParam(required = false) String successful,
                                         @RequestParam(required = false) String error) {
         try {
-            ModelAndView modelAndView = new ModelAndView(PROFILE_PAGE);
+            ModelAndView modelAndView = new ModelAndView(ApplicationConstants.PROFILE_PAGE);
             modelAndView.addObject(ApplicationConstants.ERROR_KEY, error);
             modelAndView.addObject(ApplicationConstants.SUCCESSFUL_KEY, successful);
             long userId = securityContextManager.getUserId();
@@ -35,12 +33,13 @@ public class ProfileController {
             return modelAndView;
         } catch (Exception e) {
             log.warn("exception load profile page", e);
-            return new ModelAndView("redirect:/main");
+            return new ModelAndView("redirect:/" + ApplicationConstants.MAIN_PAGE);
         }
     }
 
     @PostMapping("/update")
     public ModelAndView updateProfile(@ModelAttribute User userForm) {
+        ModelAndView modelAndView = new ModelAndView("redirect:/" + ApplicationConstants.PROFILE_PAGE);
         try {
             long userId = securityContextManager.getUserId();
             User user = userService.getById(userId);
@@ -52,13 +51,13 @@ public class ProfileController {
 
             userService.update(user);
             log.info("user {} has updated his data", userForm);
-            return new ModelAndView("redirect:/" + PROFILE_PAGE,
-                    ApplicationConstants.SUCCESSFUL_KEY, ApplicationConstants.DATA_UPDATED_MSG);
+            modelAndView.addObject(ApplicationConstants.SUCCESSFUL_KEY, ApplicationConstants.DATA_UPDATED_MSG);
+            return modelAndView;
 
         } catch (Exception e) {
             log.warn("exception update user profile", e);
-            return new ModelAndView("redirect:/" + PROFILE_PAGE,
-                    ApplicationConstants.ERROR_KEY, ApplicationConstants.DATA_UPDATED_MSG);
+            modelAndView.addObject(ApplicationConstants.ERROR_KEY, ApplicationConstants.DATA_UPDATED_MSG);
+            return modelAndView;
         }
     }
 }

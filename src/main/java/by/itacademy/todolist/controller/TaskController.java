@@ -36,7 +36,7 @@ public class TaskController {
 
     @GetMapping
     public ModelAndView loadTaskPage(@RequestParam long taskId, @RequestParam String section) {
-        ModelAndView modelAndView = new ModelAndView("taskCard");
+        ModelAndView modelAndView = new ModelAndView(ApplicationConstants.TASK_CARD_PAGE);
         try {
             Task task = taskService.getTaskById(taskId);
             modelAndView.addObject(ApplicationConstants.TASK_KEY, task);

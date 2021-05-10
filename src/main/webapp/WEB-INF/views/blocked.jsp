@@ -42,7 +42,7 @@
 
             </form>
 
-            <c:import url="/WEB-INF/views/template/error_templ.jsp"/>
+            <c:import url="/WEB-INF/views/template/error_template.jsp"/>
             <c:import url="/WEB-INF/views/template/successful_template.jsp"/>
 
         </div>

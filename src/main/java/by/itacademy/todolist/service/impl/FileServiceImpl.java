@@ -85,7 +85,7 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    @PreAuthorize("#fileInfo.task.user.id == authentication.principal.id")
+    @PreAuthorize("#fileInfo.task.user.id == authentication.principal.id or hasAnyRole('ADMIN')")
     public void delete(FileInfo fileInfo) {
         try {
             Path path = Paths.get(fileInfo.getPath());

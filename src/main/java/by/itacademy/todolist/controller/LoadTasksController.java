@@ -30,7 +30,7 @@ public class LoadTasksController {
         try {
             long userId = securityContextManager.getUserId();
 
-            ModelAndView modelAndView = new ModelAndView("tasks");
+            ModelAndView modelAndView = new ModelAndView(ApplicationConstants.TASKS_PAGE);
             List<Task> tasks = taskService.getUserTasksBySection(userId, section);
 
             modelAndView.addObject(ApplicationConstants.TASKS_KEY, tasks);
@@ -40,7 +40,7 @@ public class LoadTasksController {
 
         } catch (Exception e) {
             log.warn("exception in loadTasks method ", e);
-            return new ModelAndView("redirect:/error");
+            return new ModelAndView("redirect:/" + ApplicationConstants.ERROR_PAGE);
         }
     }
 

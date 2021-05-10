@@ -26,7 +26,7 @@
         <div class="col-8 rounded-3">
 
             <div style="margin-bottom: 5vh">
-                <c:import url="/WEB-INF/views/template/header_templ.jsp"/>
+                <c:import url="/WEB-INF/views/template/header_template.jsp"/>
             </div>
 
             <c:if test="${section == ApplicationConstants.SECTION_DELETED}">
@@ -147,7 +147,7 @@
             </c:if>
 
             <c:import url="/WEB-INF/views/template/successful_template.jsp"/>
-            <c:import url="/WEB-INF/views/template/error_templ.jsp"/>
+            <c:import url="/WEB-INF/views/template/error_template.jsp"/>
         </div>
 
         <div class="col-2">

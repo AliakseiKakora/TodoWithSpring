@@ -29,7 +29,7 @@
 
         <div class="col-8 rounded-3">
 
-            <c:import url="/WEB-INF/views/template/header_templ.jsp"/>
+            <c:import url="/WEB-INF/views/template/header_template.jsp"/>
 
         </div>
 
@@ -71,7 +71,31 @@
 
         </div>
 
-        <div class="col-6 text-center" >
+        <div class="col-6" >
+
+
+            <div class="card">
+                <div class="card-header">
+                    <ul class="nav nav-pills card-header-pills">
+
+                            <li>
+                                <a class="btn btn-danger btn-sm" href="<c:url value="/admin/message/delete/${message.id}" />">Delete message</a>
+                            </li>
+
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <h6 class="card-title">Sender</h6>
+                    <a style="text-decoration: none" class="btn btn-link ms-2 mb-0"
+                       href="<c:url value="/admin/user/${requestScope.message.user.id}" />">${requestScope.message.user.name} ${requestScope.message.user.surname}</a>
+
+                    <h6 class="card-title">Message:</h6>
+                    <p class="card-text">${requestScope.message.message}</p>
+                    <h6 class="card-title">${requestScope.message.dateAdded.format(DateTimeFormatter.ofPattern("dd:MM:uuuu HH:mm"))}</h6>
+                </div>
+            </div>
+
+
 
         </div>
 

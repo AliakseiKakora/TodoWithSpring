@@ -31,6 +31,25 @@ public class ApplicationConstants {
     public static final String USER_ACTION_UNBLOCK = "unblock";
     public static final String USER_ACTION_BLOCK = "block";
 
+    public static final String INDEX_PAGE = "index";
+    public static final String REGISTRATION_PAGE = "registration";
+    public static final String MAIN_PAGE = "main";
+    public static final String LOGIN_PAGE = "login";
+    public static final String ERROR_PAGE = "error";
+    public static final String ADD_TASK_PAGE = "add_task";
+    public static final String EDIT_TASK_PAGE = "edit_task";
+    public static final String BLOCKED_PAGE = "blocked";
+    public static final String SECURITY_PAGE = "security";
+    public static final String TASK_CARD_PAGE = "task_card";
+    public static final String PROFILE_PAGE = "profile";
+    public static final String TASKS_PAGE = "tasks";
+    public static final String ADMIN_PAGE = "admin_page";
+    public static final String USERS_PAGE = "users";
+    public static final String MESSAGES_PAGE = "messages";
+    public static final String MESSAGE_CARD_PAGE = "message_card";
+    public static final String USER_CARD_PAGE = "user_card";
+
+
     public static final String ADD_TASK_JSP = "/addTask.jsp";
     public static final String PROFILE_JSP = "/profile.jsp";
     public static final String TASKS_JSP = "/tasks.jsp";

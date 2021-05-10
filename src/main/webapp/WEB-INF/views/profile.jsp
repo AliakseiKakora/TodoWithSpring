@@ -23,7 +23,7 @@
 
         <div class="col-8 rounded-3">
             <div style="margin-bottom: 5vh">
-                <c:import url="/WEB-INF/views/template/header_templ.jsp"/>
+                <c:import url="/WEB-INF/views/template/header_template.jsp"/>
             </div>
 
             <h1 class="mb-3 p-2">My Profile</h1>
@@ -64,7 +64,7 @@
 
 
             <c:import url="/WEB-INF/views/template/successful_template.jsp"/>
-            <c:import url="/WEB-INF/views/template/error_templ.jsp"/>
+            <c:import url="/WEB-INF/views/template/error_template.jsp"/>
 
 
         </div>

@@ -32,10 +32,10 @@ public class AdminController {
     @GetMapping
     public ModelAndView loadAdminPage() {
         try {
-            return new ModelAndView("adminPage");
+            return new ModelAndView(ApplicationConstants.ADMIN_PAGE);
         } catch (Exception e) {
             log.warn("exception in loadAdminPage method ", e);
-            return new ModelAndView("redirect:/error");
+            return new ModelAndView("redirect:/" + ApplicationConstants.ERROR_PAGE);
         }
     }
 
@@ -43,13 +43,13 @@ public class AdminController {
     public ModelAndView loadAllUsers(@RequestParam(required = false) String error) {
         try {
             List<User> users = userService.getAllUsers();
-            ModelAndView modelAndView = new ModelAndView("/users");
+            ModelAndView modelAndView = new ModelAndView(ApplicationConstants.USERS_PAGE);
             modelAndView.addObject(ApplicationConstants.USERS_KEY, users);
             modelAndView.addObject(ApplicationConstants.ERROR_KEY, error);
             return modelAndView;
         } catch (Exception e) {
             log.warn("exception in loadAllUsers method ", e);
-            return new ModelAndView("redirect:/error");
+            return new ModelAndView("redirect:/" + ApplicationConstants.ERROR_PAGE);
         }
     }
 
@@ -57,13 +57,13 @@ public class AdminController {
     public ModelAndView loadAllMessages(@RequestParam(required = false) String error) {
         try {
             List<Message> messages = messageService.getAll();
-            ModelAndView modelAndView = new ModelAndView("/messages");
+            ModelAndView modelAndView = new ModelAndView(ApplicationConstants.MESSAGES_PAGE);
             modelAndView.addObject(ApplicationConstants.MESSAGES_KEY, messages);
             modelAndView.addObject(ApplicationConstants.ERROR_KEY, error);
             return modelAndView;
         } catch (Exception e) {
             log.warn("exception in loadAllMessages method ", e);
-            return new ModelAndView("redirect:/error");
+            return new ModelAndView("redirect:/" + ApplicationConstants.ERROR_PAGE);
         }
     }
 
@@ -111,8 +111,8 @@ public class AdminController {
             return modelAndView;
         } catch (Exception e) {
             log.warn("exception in method deleteUser", e);
-            return new ModelAndView("redirect:/admin/users",
-                    ApplicationConstants.ERROR_KEY, "delete user");
+            modelAndView.addObject(ApplicationConstants.ERROR_KEY,"delete user");
+            return modelAndView;
         }
     }
 
@@ -129,12 +129,12 @@ public class AdminController {
     public ModelAndView loadMessagePage(@PathVariable Long id) {
         try {
             Message message = messageService.getById(id);
-            ModelAndView modelAndView = new ModelAndView("messageCard");
+            ModelAndView modelAndView = new ModelAndView(ApplicationConstants.MESSAGE_CARD_PAGE);
             modelAndView.addObject(ApplicationConstants.MESSAGE_KEY, message);
             return modelAndView;
         } catch (Exception e) {
             log.warn("exception in loadMessagePage method ", e);
-            return new ModelAndView("redirect:/error");
+            return new ModelAndView("redirect:/" + ApplicationConstants.ERROR_PAGE);
         }
     }
 
@@ -157,12 +157,12 @@ public class AdminController {
     public ModelAndView loadUserPage(@PathVariable Long id) {
         try {
             User user = userService.getById(id);
-            ModelAndView modelAndView = new ModelAndView("userCard");
+            ModelAndView modelAndView = new ModelAndView(ApplicationConstants.USER_CARD_PAGE);
             modelAndView.addObject(ApplicationConstants.USER_KEY, user);
             return modelAndView;
         } catch (Exception e) {
             log.warn("exception in loadUserPage method ", e);
-            return new ModelAndView("redirect:/error");
+            return new ModelAndView("redirect:/" + ApplicationConstants.ERROR_PAGE);
         }
     }
 }

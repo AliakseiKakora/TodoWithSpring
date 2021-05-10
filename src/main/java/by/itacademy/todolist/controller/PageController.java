@@ -16,26 +16,21 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class PageController {
 
-    private static final String INDEX_PAGE = "index";
-    private static final String REGISTRATION_PAGE = "registration";
-    private static final String MAIN_PAGE = "main";
-    private static final String LOGIN_PAGE = "login";
-
     private final TaskService taskService;
 
     @GetMapping("/")
     public ModelAndView loadWelcomePage() {
-        return new ModelAndView(INDEX_PAGE);
+        return new ModelAndView(ApplicationConstants.INDEX_PAGE);
     }
 
     @GetMapping(value = "/login")
     public ModelAndView loadLoginPage(@RequestParam(required = false) String error) {
-        return new ModelAndView(LOGIN_PAGE, ApplicationConstants.ERROR_KEY, error);
+        return new ModelAndView(ApplicationConstants.LOGIN_PAGE, ApplicationConstants.ERROR_KEY, error);
     }
 
     @GetMapping(value = "/main")
     public ModelAndView loadMainPage(@RequestParam(required = false) String successful) {
-        ModelAndView modelAndView = new ModelAndView(MAIN_PAGE);
+        ModelAndView modelAndView = new ModelAndView(ApplicationConstants.MAIN_PAGE);
         modelAndView.addObject(ApplicationConstants.SUCCESSFUL_KEY, successful);
         return modelAndView;
     }
@@ -43,18 +38,18 @@ public class PageController {
     @GetMapping("/error")
     public ModelAndView loadErrorPage(@RequestParam(required = false) String error) {
         try {
-            ModelAndView modelAndView = new ModelAndView("error");
+            ModelAndView modelAndView = new ModelAndView(ApplicationConstants.ERROR_PAGE);
             modelAndView.addObject(ApplicationConstants.ERROR_KEY, error);
             return modelAndView;
         } catch (Exception e) {
             log.warn("exception load error page ", e);
-            return new ModelAndView("main");
+            return new ModelAndView(ApplicationConstants.MAIN_PAGE);
         }
     }
 
     @GetMapping(value = "/registration")
     public ModelAndView loadRegistrationPage(@RequestParam(required = false) String error) {
-        return new ModelAndView(REGISTRATION_PAGE, ApplicationConstants.ERROR_KEY, error);
+        return new ModelAndView(ApplicationConstants.REGISTRATION_PAGE, ApplicationConstants.ERROR_KEY, error);
     }
 
     @GetMapping("/task/add")
@@ -62,7 +57,7 @@ public class PageController {
                                         @RequestParam(required = false) String error,
                                         @RequestParam(required = false) String successful) {
         try {
-            ModelAndView modelAndView = new ModelAndView("addTask");
+            ModelAndView modelAndView = new ModelAndView(ApplicationConstants.ADD_TASK_PAGE);
             modelAndView.addObject(ApplicationConstants.SECTION_KEY, section);
             modelAndView.addObject(ApplicationConstants.SUCCESSFUL_KEY, successful);
             modelAndView.addObject(ApplicationConstants.ERROR_KEY, error);
@@ -70,7 +65,7 @@ public class PageController {
             return modelAndView;
         } catch (Exception e) {
             log.warn("exception in loadTaskPage method ", e);
-            return new ModelAndView("redirect:/error");
+            return new ModelAndView("redirect:/" + ApplicationConstants.ERROR_PAGE);
         }
     }
 
@@ -80,7 +75,7 @@ public class PageController {
                                          @RequestParam(required = false) String error) {
         try {
             Task task = taskService.getTaskById(taskId);
-            ModelAndView modelAndView = new ModelAndView("editTask");
+            ModelAndView modelAndView = new ModelAndView(ApplicationConstants.EDIT_TASK_PAGE);
             modelAndView.addObject(ApplicationConstants.TASK_KEY, task);
             modelAndView.addObject(ApplicationConstants.SUCCESSFUL_KEY, successful);
             modelAndView.addObject(ApplicationConstants.ERROR_KEY, error);
@@ -88,14 +83,14 @@ public class PageController {
 
         } catch (Exception e) {
             log.warn("exception in loadEditTaskPage method ", e);
-            return new ModelAndView("redirect:/error");
+            return new ModelAndView("redirect:/" + ApplicationConstants.ERROR_PAGE);
         }
     }
 
     @GetMapping("/block")
     public ModelAndView loadBlockedPage(@RequestParam(required = false) String error,
                                         @RequestParam(required = false) String successful) {
-        ModelAndView modelAndView = new ModelAndView("blocked");
+        ModelAndView modelAndView = new ModelAndView(ApplicationConstants.BLOCKED_PAGE);
         modelAndView.addObject(ApplicationConstants.ERROR_KEY, error);
         modelAndView.addObject(ApplicationConstants.SUCCESSFUL_KEY, successful);
         return modelAndView;
@@ -103,6 +98,6 @@ public class PageController {
 
     @GetMapping("/security")
     public ModelAndView loadSecurityPage() {
-        return new ModelAndView("security");
+        return new ModelAndView(ApplicationConstants.SECURITY_PAGE);
     }
 }

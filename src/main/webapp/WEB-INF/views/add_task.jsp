@@ -27,7 +27,7 @@
 
         <div class="col-8 rounded-3">
 
-            <c:import url="/WEB-INF/views/template/header_templ.jsp"/>
+            <c:import url="/WEB-INF/views/template/header_template.jsp"/>
 
         </div>
 
@@ -86,7 +86,7 @@
 
 
             <c:import url="/WEB-INF/views/template/successful_template.jsp"/>
-            <c:import url="/WEB-INF/views/template/error_templ.jsp"/>
+            <c:import url="/WEB-INF/views/template/error_template.jsp"/>
 
         </div>
 
