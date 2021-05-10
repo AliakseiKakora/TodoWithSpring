@@ -47,6 +47,8 @@
 
             </form>
 
+            <c:import url="/WEB-INF/views/template/error_templ.jsp"/>
+
         </div>
 
         <div class="col-2" >

@@ -2,7 +2,6 @@ package by.itacademy.todolist.controller;
 
 import by.itacademy.todolist.constants.ApplicationConstants;
 import by.itacademy.todolist.model.Task;
-import by.itacademy.todolist.security.SecurityContextManager;
 import by.itacademy.todolist.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,8 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpServletRequest;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -22,11 +19,9 @@ public class PageController {
     private static final String INDEX_PAGE = "index";
     private static final String REGISTRATION_PAGE = "registration";
     private static final String MAIN_PAGE = "main";
-    private static final String PROFILE_PAGE = "profile";
     private static final String LOGIN_PAGE = "login";
 
     private final TaskService taskService;
-    private final SecurityContextManager securityContextManager;
 
     @GetMapping("/")
     public ModelAndView loadWelcomePage() {
@@ -34,20 +29,23 @@ public class PageController {
     }
 
     @GetMapping(value = "/login")
-    public ModelAndView loadLoginPage() {
-        return new ModelAndView(LOGIN_PAGE);
+    public ModelAndView loadLoginPage(@RequestParam(required = false) String error) {
+        return new ModelAndView(LOGIN_PAGE, ApplicationConstants.ERROR_KEY, error);
     }
 
     @GetMapping(value = "/main")
-    public ModelAndView loadMainPage() {
-        return new ModelAndView(MAIN_PAGE);
+    public ModelAndView loadMainPage(@RequestParam(required = false) String successful) {
+        ModelAndView modelAndView = new ModelAndView(MAIN_PAGE);
+        modelAndView.addObject(ApplicationConstants.SUCCESSFUL_KEY, successful);
+        return modelAndView;
     }
 
     @GetMapping("/error")
-    public ModelAndView loadErrorPage() {
+    public ModelAndView loadErrorPage(@RequestParam(required = false) String error) {
         try {
-//            long userId = securityContextManager.getUserId();
-            return new ModelAndView("error");
+            ModelAndView modelAndView = new ModelAndView("error");
+            modelAndView.addObject(ApplicationConstants.ERROR_KEY, error);
+            return modelAndView;
         } catch (Exception e) {
             log.warn("exception load error page ", e);
             return new ModelAndView("main");
@@ -55,22 +53,19 @@ public class PageController {
     }
 
     @GetMapping(value = "/registration")
-    public ModelAndView loadRegistrationPage(HttpServletRequest request) {
-        String errorKey = ApplicationConstants.ERROR_KEY;
-        return new ModelAndView(REGISTRATION_PAGE, errorKey, request.getParameter(errorKey));
+    public ModelAndView loadRegistrationPage(@RequestParam(required = false) String error) {
+        return new ModelAndView(REGISTRATION_PAGE, ApplicationConstants.ERROR_KEY, error);
     }
 
     @GetMapping("/task/add")
-    public ModelAndView loadAddTaskPage(HttpServletRequest request) {
+    public ModelAndView loadAddTaskPage(@RequestParam String section,
+                                        @RequestParam(required = false) String error,
+                                        @RequestParam(required = false) String successful) {
         try {
-            String section = request.getParameter(ApplicationConstants.SECTION_KEY);
-            String successfulMessage = request.getParameter(ApplicationConstants.SUCCESSFUL_KEY);
-            String errorMessage = request.getParameter(ApplicationConstants.ERROR_KEY);
-
             ModelAndView modelAndView = new ModelAndView("addTask");
             modelAndView.addObject(ApplicationConstants.SECTION_KEY, section);
-            modelAndView.addObject(ApplicationConstants.SUCCESSFUL_KEY, successfulMessage);
-            modelAndView.addObject(ApplicationConstants.ERROR_KEY, errorMessage);
+            modelAndView.addObject(ApplicationConstants.SUCCESSFUL_KEY, successful);
+            modelAndView.addObject(ApplicationConstants.ERROR_KEY, error);
 
             return modelAndView;
         } catch (Exception e) {
@@ -80,8 +75,9 @@ public class PageController {
     }
 
     @GetMapping("/task/edit")
-    public ModelAndView loadEditTaskPage(@RequestParam Long taskId, @RequestParam(required = false) String successful,
-                                          @RequestParam(required = false) String error) {
+    public ModelAndView loadEditTaskPage(@RequestParam Long taskId,
+                                         @RequestParam(required = false) String successful,
+                                         @RequestParam(required = false) String error) {
         try {
             Task task = taskService.getTaskById(taskId);
             ModelAndView modelAndView = new ModelAndView("editTask");

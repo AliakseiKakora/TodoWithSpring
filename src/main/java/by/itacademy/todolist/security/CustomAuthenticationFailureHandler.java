@@ -21,7 +21,7 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
         String contextPath = httpServletRequest.getServletContext().getContextPath();
 
         if (e instanceof BadCredentialsException) {
-            httpServletResponse.sendRedirect(contextPath + "/login?error=true");
+            httpServletResponse.sendRedirect(contextPath + "/login?error=Invalid credentials");
         } else {
             String login = httpServletRequest.getParameter("login");
             httpServletRequest.getSession().setAttribute("userLogin", login);

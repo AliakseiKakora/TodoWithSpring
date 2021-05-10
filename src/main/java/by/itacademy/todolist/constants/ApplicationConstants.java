@@ -11,6 +11,7 @@ public class ApplicationConstants {
     public static final String USER_KEY = "user";
     public static final String USERS_KEY = "users";
     public static final String USER_ID_KEY = "userId";
+    public static final String USER_LOGIN = "userLogin";
     public static final String USER_NAME_KEY = "name";
     public static final String USER_SURNAME_KEY = "surname";
 
