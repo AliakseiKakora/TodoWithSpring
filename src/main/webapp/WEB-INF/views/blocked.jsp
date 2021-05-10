@@ -28,20 +28,17 @@
                 <h4 class="text-muted">Your account has been blocked. You can contact the administrator.</h4>
             </div>
 
-            <form action="<c:url value="/guest"> <c:param name="command" value="CreateMessage"/> </c:url> " method="post">
+            <form action="<c:url value="/messages"/>" method="post">
 
                 <div class="input-group mb-4">
                     <span class="input-group-text">Message</span>
                     <textarea class="form-control" name="message" required></textarea>
                 </div>
-
-                <input name="${ApplicationConstants.USER_ID_KEY}" type="hidden" value="${requestScope.userId}">
-
                 <div class="mb-4">
                     <input type="submit" class="form-control" value="Submit">
                 </div>
 
-                <a href="<c:url value="/"> <c:param name="command" value="LoginView"/> </c:url>">Back</a>
+                <a href="<c:url value="/login">  </c:url>">Back</a>
 
             </form>
 

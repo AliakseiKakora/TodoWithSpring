@@ -2,12 +2,10 @@ package by.itacademy.todolist.controller;
 
 import by.itacademy.todolist.constants.ApplicationConstants;
 import by.itacademy.todolist.model.Task;
-import by.itacademy.todolist.security.UserDetailsImpl;
+import by.itacademy.todolist.security.SecurityContextManager;
 import by.itacademy.todolist.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,6 +26,7 @@ public class PageController {
     private static final String LOGIN_PAGE = "login";
 
     private final TaskService taskService;
+    private final SecurityContextManager securityContextManager;
 
     @GetMapping("/")
     public ModelAndView loadWelcomePage() {
@@ -47,10 +46,8 @@ public class PageController {
     @GetMapping("/error")
     public ModelAndView loadErrorPage() {
         try {
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            UserDetailsImpl principal = (UserDetailsImpl) authentication.getPrincipal();
-            long id = principal.getId();
-            return new ModelAndView("error", ApplicationConstants.USER_ID_KEY, id);
+//            long userId = securityContextManager.getUserId();
+            return new ModelAndView("error");
         } catch (Exception e) {
             log.warn("exception load error page ", e);
             return new ModelAndView("main");
@@ -82,7 +79,7 @@ public class PageController {
         }
     }
 
-    @GetMapping("task/edit")
+    @GetMapping("/task/edit")
     public ModelAndView loadEditTaskPage(@RequestParam Long taskId, @RequestParam(required = false) String successful,
                                           @RequestParam(required = false) String error) {
         try {

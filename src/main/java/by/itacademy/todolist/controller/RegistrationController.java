@@ -35,7 +35,7 @@ public class RegistrationController {
             user.addProfile(profile);
             user = userService.save(user);
 
-            session.setAttribute(ApplicationConstants.USER_KEY, user);
+//            session.setAttribute(ApplicationConstants.USER_KEY, user);
             log.info("user was able to register with credentials: email - {}; login - {}", user.getEmail(), profile.getLogin());
 
             return new ModelAndView("redirect:/" + MAIN_PAGE);

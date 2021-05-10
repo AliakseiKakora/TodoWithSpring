@@ -1,5 +1,6 @@
 package by.itacademy.todolist.config;
 
+import by.itacademy.todolist.security.CustomAuthenticationFailureHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +14,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
 
 @Configuration
@@ -30,9 +32,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/login", "/registration", "/", "block").anonymous()
+                .antMatchers("/login", "/registration", "/", "/block").anonymous()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/admin*").hasRole("ADMIN")
+                .antMatchers( "/messages").permitAll()
                 .anyRequest().authenticated();
 
         http.formLogin()
@@ -40,7 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/login")
                 .usernameParameter("login")
                 .passwordParameter("password")
-                .failureUrl("/login?error=true")
+                .failureHandler(authenticationFailureHandler())
                 .defaultSuccessUrl("/main");
 
         http.logout()
@@ -58,6 +61,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
 
+    }
+
+    @Bean
+    public AuthenticationFailureHandler authenticationFailureHandler() {
+        return new CustomAuthenticationFailureHandler();
     }
 
     @Override

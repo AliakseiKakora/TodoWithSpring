@@ -32,7 +32,7 @@
                 An unknown error has occurred! Please describe the error, it will help us a lot!
             </p>
 
-            <form action="<c:url value="/messages" /> " method="post">
+            <form action="<c:url value="/messages"/>" method="post">
 
                 <div class="input-group mb-4">
                     <span class="input-group-text">Message</span>
@@ -41,15 +41,11 @@
                     </label>
                 </div>
 
-                <input name="${ApplicationConstants.USER_ID_KEY}" type="hidden" value="${requestScope.userId}">
-
                 <div class="mb-4">
                     <input type="submit" class="form-control" value="Submit">
                 </div>
 
             </form>
-
-
 
         </div>
 

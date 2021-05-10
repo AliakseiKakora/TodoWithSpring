@@ -3,13 +3,11 @@ package by.itacademy.todolist.controller;
 import by.itacademy.todolist.constants.ApplicationConstants;
 import by.itacademy.todolist.model.FileInfo;
 import by.itacademy.todolist.model.User;
-import by.itacademy.todolist.security.UserDetailsImpl;
+import by.itacademy.todolist.security.SecurityContextManager;
 import by.itacademy.todolist.service.FileService;
 import by.itacademy.todolist.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,6 +36,7 @@ public class FileInfoController {
 
     private final FileService fileService;
     private final UserService userService;
+    private final SecurityContextManager securityContextManager;
 
     @GetMapping("/delete")
     public ModelAndView deleteFileInfo(@RequestParam Long taskId, @RequestParam Long fileId) {
@@ -63,10 +62,8 @@ public class FileInfoController {
         log.info("user tries upload file");
         ModelAndView modelAndView = new ModelAndView("redirect:/task/edit", ApplicationConstants.TASK_ID, taskId);
         try {
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            UserDetailsImpl principal = (UserDetailsImpl) authentication.getPrincipal();
-            long id = principal.getId();
-            User user = userService.getById(id);
+            long userId = securityContextManager.getUserId();
+            User user = userService.getById(userId);
 
             fileService.addFileInfoForTask(file, taskId, user.getId(), request);
             modelAndView.addObject(ApplicationConstants.SUCCESSFUL_KEY, FILE_UPLOAD_MESSAGE);

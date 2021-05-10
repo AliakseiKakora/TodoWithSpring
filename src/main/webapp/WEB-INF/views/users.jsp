@@ -1,5 +1,6 @@
 <%@ page import="by.itacademy.todolist.constants.ApplicationConstants" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -122,7 +123,7 @@
                                 </c:otherwise>
                             </c:choose>
 
-                            <c:if test="${sessionScope.user.id != user.id}">
+                            <c:if test="${!user.roles.contains(applicationScope.adminRole)}">
 
                                 <c:choose>
                                     <c:when test="${user.profile.enable}">
@@ -145,6 +146,8 @@
                                     <a class="btn btn-danger btn-sm"
                                        href="<c:url value="/admin/user/delete/${user.id}" />">Delete</a>
                                 </td>
+
+
 
                             </c:if>
                         </tr>

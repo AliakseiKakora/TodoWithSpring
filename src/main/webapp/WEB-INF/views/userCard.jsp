@@ -78,7 +78,7 @@
                 <div class="card-header">
                     <ul class="nav nav-pills card-header-pills">
 
-                        <c:if test="${sessionScope.user.id != requestScope.user.id}">
+                        <c:if test="${!user.roles.contains(applicationScope.adminRole)}">
                             <li>
                                 <a class="btn btn-danger btn-sm ms-2 mb-0" href="<c:url value="/admin/user/delete/${user.id}" />">Delete</a>
                             </li>

@@ -16,5 +16,7 @@ public interface UserService {
 
     User getById(long id);
 
+    User getByLogin(String login);
+
     void deleteById(long id);
 }

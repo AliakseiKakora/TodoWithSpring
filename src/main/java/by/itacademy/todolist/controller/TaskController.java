@@ -3,15 +3,13 @@ package by.itacademy.todolist.controller;
 import by.itacademy.todolist.constants.ApplicationConstants;
 import by.itacademy.todolist.model.Task;
 import by.itacademy.todolist.model.User;
-import by.itacademy.todolist.security.UserDetailsImpl;
+import by.itacademy.todolist.security.SecurityContextManager;
 import by.itacademy.todolist.service.FileService;
 import by.itacademy.todolist.service.TaskService;
 import by.itacademy.todolist.service.UserService;
 import by.itacademy.todolist.util.DateParser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,6 +32,7 @@ public class TaskController {
     private final FileService fileService;
     private final UserService userService;
     private final DateParser dateParser;
+    private final SecurityContextManager securityContextManager;
 
     @GetMapping
     public ModelAndView loadTaskPage(@RequestParam long taskId, @RequestParam String section) {
@@ -58,9 +57,7 @@ public class TaskController {
         log.info("user tries to add a task");
         ModelAndView modelAndView = new ModelAndView("redirect:/task/add");
         try {
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            UserDetailsImpl principal = (UserDetailsImpl) authentication.getPrincipal();
-            long userId = principal.getId();
+            long userId = securityContextManager.getUserId();
 
             User user = userService.getById(userId);
             task.setUser(user);
@@ -156,9 +153,7 @@ public class TaskController {
         log.info("user tries clear list deleted tasks");
         ModelAndView modelAndView = new ModelAndView("redirect:/tasks/deleted");
         try {
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            UserDetailsImpl principal = (UserDetailsImpl) authentication.getPrincipal();
-            long userId = principal.getId();
+            long userId = securityContextManager.getUserId();
 
             taskService.deleteAllUserDeletedTask(userId);
             log.info("the user has successfully cleared the list of deleted tasks");

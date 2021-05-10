@@ -76,13 +76,16 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new RuntimeException("user with id " + id + " not found"));
     }
 
+    @Override
+    public User getByLogin(String login) {
+        return userRepository.findByProfileLogin(login)
+                .orElseThrow(() -> new RuntimeException("user with login " + login + " not found"));
+    }
 
-    //todo mark this method as transactional
     @Override
     public void deleteById(long id) {
         taskService.deleteAllUserTasks(id);
         roleService.deleteAllUserRoles(id);
-
         userRepository.deleteById(id);
     }
 }
