@@ -48,6 +48,7 @@ public class ApplicationConstants {
     public static final String MESSAGES_PAGE = "messages";
     public static final String MESSAGE_CARD_PAGE = "message_card";
     public static final String USER_CARD_PAGE = "user_card";
+    public static final String CHANGE_PASSWORD_PAGE = "change_password";
 
 
     public static final String ADD_TASK_JSP = "/addTask.jsp";

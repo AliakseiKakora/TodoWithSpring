@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.function.Function;
 
 @Slf4j
@@ -51,7 +50,7 @@ public class TaskController {
     }
 
     @PostMapping("/add")
-    public ModelAndView addTask(HttpServletRequest request, @RequestParam MultipartFile file,
+    public ModelAndView addTask(@RequestParam MultipartFile file,
                                 @RequestParam String section, @ModelAttribute Task task,
                                 @RequestParam(required = false) String date) {
         log.info("user tries to add a task");
@@ -64,7 +63,7 @@ public class TaskController {
             task = taskService.saveTaskToSection(task, section, date);
 
             if (!file.isEmpty()) {
-                fileService.addFileInfoForTask(file, task.getId(), userId, request);
+                fileService.addFileInfoForTask(file, task.getId(), userId);
             }
             modelAndView.addObject(ApplicationConstants.SECTION_KEY, section);
             modelAndView.addObject(ApplicationConstants.SUCCESSFUL_KEY, "task added");

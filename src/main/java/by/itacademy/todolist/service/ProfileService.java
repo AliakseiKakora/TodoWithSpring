@@ -8,4 +8,6 @@ public interface ProfileService {
 
     Profile update(Profile profile);
 
+    void updatePasswordByLogin(String password, String login);
+
 }

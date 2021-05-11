@@ -52,37 +52,28 @@
 
         <div class="col-6 text-center" >
 
-            <form action="<c:url value="profile/update" > </c:url>" method="post">
+            <form action="<c:url value="/profile/update/password" > </c:url>" method="post">
 
                 <div class="input-group mb-3">
-                    <label for="login" class="input-group-text">Login</label>
-                    <input type="text" class="form-control" id="login" name="profile.login" required
-                           value="${requestScope.user.profile.login}">
+                    <label for="password" class="input-group-text">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" required>
                 </div>
 
                 <div class="input-group mb-3">
-                    <label for="email" class="input-group-text">Email</label>
-                    <input type="email" class="form-control" id="email" name="email" required
-                           value="${requestScope.user.email}">
+                    <label for="newPassword" class="input-group-text">New Password</label>
+                    <input type="password" class="form-control" id="newPassword" name="newPassword" required>
                 </div>
 
                 <div class="input-group mb-3">
-                    <label for="name" class="input-group-text">Name</label>
-                    <input type="text" class="form-control" id="name" name="name" value="${requestScope.user.name}">
+                    <label for="newPassword2" class="input-group-text">Password</label>
+                    <input type="password" class="form-control" id="newPassword2" name="newPassword2" required">
                 </div>
 
-                <div class="input-group mb-3">
-                    <label for="surname" class="input-group-text">Surname</label>
-                    <input type="text" class="form-control" id="surname" name="surname"
-                           value="${requestScope.user.surname}">
-                </div>
-
-                <button type="submit" class="btn btn-primary">Update</button>
+                <button type="submit" class="btn btn-primary">Change Password</button>
             </form>
 
             <c:import url="/WEB-INF/views/template/successful_template.jsp"/>
             <c:import url="/WEB-INF/views/template/error_template.jsp"/>
-
 
         </div>
 

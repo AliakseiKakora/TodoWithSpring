@@ -57,15 +57,14 @@ public class FileInfoController {
     }
 
     @PostMapping("/upload")
-    public ModelAndView uploadFile(@RequestParam MultipartFile file, @RequestParam Long taskId,
-                                   HttpServletRequest request) {
+    public ModelAndView uploadFile(@RequestParam MultipartFile file, @RequestParam Long taskId) {
         log.info("user tries upload file");
         ModelAndView modelAndView = new ModelAndView("redirect:/task/edit", ApplicationConstants.TASK_ID, taskId);
         try {
             long userId = securityContextManager.getUserId();
             User user = userService.getById(userId);
 
-            fileService.addFileInfoForTask(file, taskId, user.getId(), request);
+            fileService.addFileInfoForTask(file, taskId, user.getId());
             modelAndView.addObject(ApplicationConstants.SUCCESSFUL_KEY, FILE_UPLOAD_MESSAGE);
             log.info("user successfully upload file");
             return modelAndView;

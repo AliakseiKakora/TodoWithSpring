@@ -36,6 +36,9 @@ public class SpringWebAppInitializer extends AbstractAnnotationConfigDispatcherS
     }
 
     private MultipartConfigElement getMultipartConfigElement() {
+        if (!uploadDirectory.exists()) {
+            uploadDirectory.mkdir();
+        }
         MultipartConfigElement multipartConfigElement = new
                 MultipartConfigElement(uploadDirectory.getAbsolutePath(),
                 maxUploadSizeInMb, maxUploadSizeInMb * 2, maxUploadSizeInMb / 2);

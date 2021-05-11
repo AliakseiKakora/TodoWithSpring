@@ -3,18 +3,17 @@ package by.itacademy.todolist.service.impl;
 import by.itacademy.todolist.model.Profile;
 import by.itacademy.todolist.persistence.ProfileRepository;
 import by.itacademy.todolist.service.ProfileService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+@AllArgsConstructor
 
 @Service
 public class ProfileServiceImpl implements ProfileService {
 
     private final ProfileRepository profileRepository;
-
-    @Autowired
-    public ProfileServiceImpl(ProfileRepository profileRepository) {
-        this.profileRepository = profileRepository;
-    }
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public boolean existLoginOrEmail(String login, String email) {
@@ -32,5 +31,11 @@ public class ProfileServiceImpl implements ProfileService {
 
         }
         return profileRepository.save(profile);
+    }
+
+    @Override
+    public void updatePasswordByLogin(String password, String login) {
+        String encodedPassword = passwordEncoder.encode(password);
+        profileRepository.updatePasswordByLogin(encodedPassword, login);
     }
 }

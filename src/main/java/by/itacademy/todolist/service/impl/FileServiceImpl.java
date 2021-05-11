@@ -12,7 +12,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.file.Files;
@@ -28,22 +27,20 @@ public class FileServiceImpl implements FileService {
     private final TaskRepository taskRepository;
 
     @PreAuthorize("#userId == authentication.principal.id")
-    public FileInfo addFileInfoForTask(MultipartFile file, long taskId, long userId, HttpServletRequest request) {
+    public FileInfo addFileInfoForTask(MultipartFile file, long taskId, long userId) {
         try {
-            String path = getPath(request, taskId, userId);
-
+            String path = getPath(taskId, userId);
             String fileName = file.getOriginalFilename();
-            String filePath;
+            path = path + File.separator + fileName;
             if (fileName != null && fileName.length() > 0) {
-                filePath = path + File.separator + fileName;
-                FileOutputStream stream = new FileOutputStream(filePath);
+                FileOutputStream stream = new FileOutputStream(path);
                 stream.write(file.getBytes());
                 stream.close();
             } else {
                 throw new RuntimeException("Error save file");
             }
             String directory = ApplicationConstants.SAVE_DIRECTORY + userId + "/" + taskId + "/";
-            FileInfo fileInfo = FileInfo.builder().name(fileName).directory(directory).path(filePath).build();
+            FileInfo fileInfo = FileInfo.builder().name(fileName).directory(directory).path(path).build();
 
             Task task = taskRepository.findById(taskId)
                     .orElseThrow(() -> new RuntimeException("task with id" + taskId + "not found"));
@@ -56,26 +53,15 @@ public class FileServiceImpl implements FileService {
         }
     }
 
-    private String getPath(HttpServletRequest request, long taskId, long userId) {
-        String path = request.getServletContext().getRealPath("");
-        path = path.replace('\\', '/');
-
-        String fullSavePath;
-        if (path.endsWith("/")) {
-            fullSavePath = path + ApplicationConstants.SAVE_DIRECTORY;
-        } else {
-            fullSavePath = path + "/" + ApplicationConstants.SAVE_DIRECTORY;
-        }
-        fullSavePath = fullSavePath + userId + "/";
-        File fileSaveDir = new File(fullSavePath);
-
+    private String getPath(long taskId, long userId) {
+        File absolutPathFile = new File(ApplicationConstants.SAVE_DIRECTORY);
+        String path = absolutPathFile.getAbsolutePath() + "/" + userId + "/";
+        File fileSaveDir = new File(path);
         createDirectory(fileSaveDir);
-
-        fullSavePath = fullSavePath + taskId + "/";
-        fileSaveDir = new File(fullSavePath);
-
+        path = path + taskId + "/";
+        fileSaveDir = new File(path);
         createDirectory(fileSaveDir);
-        return fullSavePath;
+        return path;
     }
 
     private void createDirectory(File fileSaveDir) {
