@@ -1,7 +1,9 @@
 package by.itacademy.todolist.controller;
 
 import by.itacademy.todolist.constants.ApplicationConstants;
+import by.itacademy.todolist.model.Profile;
 import by.itacademy.todolist.model.Task;
+import by.itacademy.todolist.model.User;
 import by.itacademy.todolist.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -49,7 +51,12 @@ public class PageController {
 
     @GetMapping(value = "/registration")
     public ModelAndView loadRegistrationPage(@RequestParam(required = false) String error) {
-        return new ModelAndView(ApplicationConstants.REGISTRATION_PAGE, ApplicationConstants.ERROR_KEY, error);
+        ModelAndView modelAndView = new ModelAndView(ApplicationConstants.REGISTRATION_PAGE);
+        modelAndView.addObject(ApplicationConstants.ERROR_KEY, error);
+        User user = new User();
+        user.setProfile(new Profile());
+        modelAndView.addObject("user", user);
+        return modelAndView;
     }
 
     @GetMapping("/task/add")

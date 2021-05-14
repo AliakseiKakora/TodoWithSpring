@@ -1,8 +1,10 @@
 package by.itacademy.todolist.model;
 
 import lombok.*;
+import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,8 +27,10 @@ public class User {
 
     private String surname;
 
+    @Email
     private String email;
 
+    @Valid
     @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Profile profile;
 

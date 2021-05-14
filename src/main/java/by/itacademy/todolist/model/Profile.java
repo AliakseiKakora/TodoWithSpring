@@ -1,7 +1,9 @@
 package by.itacademy.todolist.model;
 
 
+import by.itacademy.todolist.validation.ValidPassword;
 import lombok.*;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 
@@ -18,8 +20,11 @@ public class Profile {
     @Id
     private Long id;
 
+    @NotEmpty(message = "{validation.NotEmpty.message}")
     private String login;
 
+    @NotEmpty(message = "{validation.NotEmpty.message}")
+    @ValidPassword(message = "{validation.Password.message}")
     private String password;
 
     @Column(name = "is_enable")
