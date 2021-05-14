@@ -13,7 +13,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -30,13 +29,12 @@ public class RegistrationController {
     private final UserService userService;
     private final UserDetailsParser userDetailsParser;
 
-    @Validated
     @PostMapping(value = "/registration")
     public ModelAndView registration(@Valid @ModelAttribute("user") User user, BindingResult bindingResult) {
         try {
             log.info("user tries to sign up with credentials: email - {}; login - {}", user.getEmail(), user.getProfile().getLogin());
             if (bindingResult.hasErrors()) {
-                return  new ModelAndView("registration");
+                return  new ModelAndView(ApplicationConstants.REGISTRATION_PAGE);
             }
 
             if (profileService.existLoginOrEmail(user.getProfile().getLogin(), user.getEmail())) {

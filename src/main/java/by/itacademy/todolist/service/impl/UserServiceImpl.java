@@ -32,9 +32,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User save(User user) {
-        if (!isValidRegistrationData(user)) {
-            throw new RuntimeException("User credentials are not valid ");
-        }
         user.getProfile().setPassword(passwordEncoder.encode(user.getProfile().getPassword()));
         Role userRole = roleService.getByNameWithUsers(ApplicationConstants.ROLE_USER_VALUE);
         user = userRepository.save(user);
@@ -43,23 +40,8 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
-    private boolean isValidRegistrationData(User user) {
-        if (user == null || user.getProfile() == null) {
-            return false;
-        }
-        return user.getEmail() != null && !user.getEmail().equals("")
-                && user.getProfile().getLogin() != null
-                && user.getProfile().getPassword() != null
-                && !user.getProfile().getLogin().equals("")
-                && !user.getProfile().getPassword().equals("");
-    }
-
     @Override
     public User update(User user) {
-        if (!isValidRegistrationData(user)) {
-            throw new RuntimeException("User credentials are not valid ");
-        }
-
         return userRepository.save(user);
     }
 

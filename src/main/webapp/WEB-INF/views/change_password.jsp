@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
@@ -10,6 +11,13 @@
           integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
 
     <title>ToDo</title>
+
+    <style type="text/css">
+        .errormsg {
+            color: red;
+        }
+    </style>
+
 </head>
 <body>
 
@@ -56,17 +64,18 @@
 
                 <div class="input-group mb-3">
                     <label for="password" class="input-group-text">Password</label>
-                    <input type="password" class="form-control" id="password" name="password" required>
+                    <input type="password" class="form-control" id="password" name="currentPassword" required>
                 </div>
 
                 <div class="input-group mb-3">
+                    <small><form:errors path="user.password" cssClass="errormsg"/></small>
                     <label for="newPassword" class="input-group-text">New Password</label>
-                    <input type="password" class="form-control" id="newPassword" name="newPassword" required>
+                    <input type="password" class="form-control" id="newPassword" name="password" required>
                 </div>
 
                 <div class="input-group mb-3">
-                    <label for="newPassword2" class="input-group-text">Password</label>
-                    <input type="password" class="form-control" id="newPassword2" name="newPassword2" required">
+                    <label for="confirmPassword" class="input-group-text">Confirm password</label>
+                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required">
                 </div>
 
                 <button type="submit" class="btn btn-primary">Change Password</button>

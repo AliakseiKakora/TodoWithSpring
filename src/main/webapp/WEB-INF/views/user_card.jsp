@@ -112,7 +112,6 @@
 
                     <p class="card-text"><strong>Email:</strong> ${requestScope.user.email}</p>
                     <p class="card-text"><strong>Login:</strong> ${requestScope.user.profile.login}</p>
-                    <p class="card-text"><strong>Password:</strong> ${requestScope.user.profile.password}</p>
 
                     <p class="card-text"> <strong>Role:</strong>
                         <c:choose>
