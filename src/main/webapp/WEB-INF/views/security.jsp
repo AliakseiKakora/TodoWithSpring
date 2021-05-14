@@ -29,7 +29,7 @@
 
             <h3 class="p-2">Access denied!</h3>
 
-            <img src="<c:url value="/todoFiles/fig-vam.jpg"/>">
+            <img src="<c:url value="/resources/img/fig-vam.jpg"/>">
 
         </div>
 
