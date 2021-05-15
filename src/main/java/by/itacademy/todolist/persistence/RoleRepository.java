@@ -17,7 +17,7 @@ public interface RoleRepository extends CrudRepository<Role, Long> {
     Optional<Role> findById(Long id);
 
     @EntityGraph(attributePaths = {"users", "users.profile"})
-    Role findByRole(@Param("role") String role);
+    Role findByRole(String role);
 
     @Modifying
     @Transactional

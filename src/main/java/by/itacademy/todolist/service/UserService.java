@@ -6,8 +6,6 @@ import java.util.List;
 
 public interface UserService {
 
-    User getUserByLoginAndPassword(String login, String password);
-
     User save(User user);
 
     User update(User user);

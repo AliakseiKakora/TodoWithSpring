@@ -22,14 +22,6 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     public Profile update(Profile profile) {
-        if (profile.getPassword() == null
-                || profile.getLogin() == null
-                || profile.getLogin().equals("")
-                || profile.getPassword().equals("")) {
-
-            throw new RuntimeException("Password or login cannot be empty");
-
-        }
         return profileRepository.save(profile);
     }
 

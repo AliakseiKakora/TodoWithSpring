@@ -23,8 +23,7 @@ public class Profile {
     @NotEmpty(message = "{validation.NotEmpty.message}")
     private String login;
 
-    @NotEmpty(message = "{validation.NotEmpty.message}")
-    @ValidPassword(message = "{validation.Password.message}")
+    @ValidPassword
     private String password;
 
     @Column(name = "is_enable")

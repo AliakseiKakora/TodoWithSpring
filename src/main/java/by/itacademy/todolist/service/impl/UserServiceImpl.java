@@ -24,13 +24,6 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public User getUserByLoginAndPassword(String login, String password) {
-        return userRepository
-                .findByProfileLoginAndProfilePassword(login, password)
-                .orElseThrow(() -> new RuntimeException("Invalid user data"));
-    }
-
-    @Override
     public User save(User user) {
         user.getProfile().setPassword(passwordEncoder.encode(user.getProfile().getPassword()));
         Role userRole = roleService.getByNameWithUsers(ApplicationConstants.ROLE_USER_VALUE);

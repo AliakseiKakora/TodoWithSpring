@@ -43,11 +43,4 @@ public class LoadTasksController {
             return new ModelAndView("redirect:/" + ApplicationConstants.ERROR_PAGE);
         }
     }
-
-
-//    @ExceptionHandler({Exception.class})
-//    private ModelAndView handleException(Exception e) {
-//        log.warn("exception in loadTasks method ", e);
-//        return new ModelAndView("redirect:/error");
-//    }
 }

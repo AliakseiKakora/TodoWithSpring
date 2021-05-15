@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 public interface ProfileRepository extends CrudRepository<Profile, Long> {
 
-    boolean existsByLoginOrUserEmailIgnoreCase(@Param("login") String login, @Param("email") String email);
+    boolean existsByLoginOrUserEmailIgnoreCase(String login, String email);
 
     @Modifying
     @Transactional
