@@ -88,6 +88,7 @@ public class ProfileController {
             if (bindingResult.hasErrors()) {
                 return new ModelAndView(ApplicationConstants.CHANGE_PASSWORD_PAGE);
             }
+            log.info("user tries to change password");
 
             long userId = securityContextManager.getUserId();
             User user = userService.getById(userId);
@@ -98,9 +99,11 @@ public class ProfileController {
                 return modelAndView;
             }
             profileService.updatePasswordByLogin(newPassword.getPassword(), user.getProfile().getLogin());
+            log.info("user has updated his password");
             modelAndView.addObject(ApplicationConstants.SUCCESSFUL_KEY, "password has been changed");
             return modelAndView;
         } catch (Exception e) {
+            log.warn("exception update user password", e);
             modelAndView.addObject(ApplicationConstants.ERROR_KEY, "update password");
             return modelAndView;
         }
