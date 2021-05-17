@@ -2,12 +2,10 @@ package by.itacademy.todolist.controller;
 
 import by.itacademy.todolist.constants.ApplicationConstants;
 import by.itacademy.todolist.model.FileInfo;
-import by.itacademy.todolist.model.User;
-import by.itacademy.todolist.security.SecurityContextManager;
 import by.itacademy.todolist.service.FileService;
-import by.itacademy.todolist.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,8 +33,6 @@ public class FileInfoController {
     private static final String FILE_UPLOAD_MESSAGE = "file upload";
 
     private final FileService fileService;
-    private final UserService userService;
-    private final SecurityContextManager securityContextManager;
 
     @GetMapping("/delete")
     public ModelAndView deleteFileInfo(@RequestParam Long taskId, @RequestParam Long fileId) {
@@ -48,36 +44,34 @@ public class FileInfoController {
 
             modelAndView.addObject(ApplicationConstants.SUCCESSFUL_KEY, SUCCESSFUL_DELETE_MESSAGE);
             log.info("user successfully deleted file");
-            return modelAndView;
         } catch (Exception e) {
             log.warn("exception im deleteFileInfo method", e);
             modelAndView.addObject(ApplicationConstants.ERROR_KEY, ERROR_DELETE_MESSAGE);
-            return modelAndView;
         }
+        return modelAndView;
     }
 
     @PostMapping("/upload")
-    public ModelAndView uploadFile(@RequestParam MultipartFile file, @RequestParam Long taskId) {
+    public ModelAndView uploadFile(@CurrentSecurityContext(expression = "authentication.principal.id") Long userId,
+                                   @RequestParam MultipartFile file,
+                                   @RequestParam Long taskId) {
         log.info("user tries upload file");
         ModelAndView modelAndView = new ModelAndView("redirect:/task/edit", ApplicationConstants.TASK_ID, taskId);
         try {
-            long userId = securityContextManager.getUserId();
-            User user = userService.getById(userId);
-
-            fileService.addFileInfoForTask(file, taskId, user.getId());
+            fileService.addFileInfoForTask(file, taskId, userId);
             modelAndView.addObject(ApplicationConstants.SUCCESSFUL_KEY, FILE_UPLOAD_MESSAGE);
             log.info("user successfully upload file");
-            return modelAndView;
         } catch (Exception e) {
             log.warn("exception in method uploadFile", e);
             modelAndView.addObject(ApplicationConstants.ERROR_KEY, FILE_UPLOAD_MESSAGE);
-            return modelAndView;
         }
+        return modelAndView;
     }
 
     @GetMapping("/download")
-    public void downloadFile(@RequestParam Long taskId, @RequestParam Long fileId,
-                                     HttpServletResponse response, HttpServletRequest request) {
+    public void downloadFile(@RequestParam Long fileId,
+                             HttpServletResponse response,
+                             HttpServletRequest request) {
         log.info("user tries download file");
         try {
             FileInfo fileInfo = fileService.getById(fileId);

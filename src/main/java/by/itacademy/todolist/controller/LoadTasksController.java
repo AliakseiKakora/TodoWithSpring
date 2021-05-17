@@ -2,10 +2,10 @@ package by.itacademy.todolist.controller;
 
 import by.itacademy.todolist.constants.ApplicationConstants;
 import by.itacademy.todolist.model.Task;
-import by.itacademy.todolist.security.SecurityContextManager;
 import by.itacademy.todolist.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,13 +23,11 @@ import java.util.List;
 public class LoadTasksController {
 
     private final TaskService taskService;
-    private final SecurityContextManager securityContextManager;
 
     @GetMapping("/{section}")
-    public ModelAndView loadTasks(@PathVariable String section, @RequestParam(required = false) String error) {
+    public ModelAndView loadTasks(@CurrentSecurityContext(expression = "authentication.principal.id") Long userId,
+                                  @PathVariable String section, @RequestParam(required = false) String error) {
         try {
-            long userId = securityContextManager.getUserId();
-
             ModelAndView modelAndView = new ModelAndView(ApplicationConstants.TASKS_PAGE);
             List<Task> tasks = taskService.getUserTasksBySection(userId, section);
 

@@ -31,7 +31,6 @@ public class TaskServiceImpl implements TaskService {
         return taskRepository.findByUserId(userId);
     }
 
-    @PreAuthorize("#userId == authentication.principal.id")
     public List<Task> getUserTasksBySection(long userId, String section) {
         List<Task> tasks = getAllUserTasks(userId);
         return tasks.stream().filter(predicateManager.getPredicateBySection(section))
@@ -39,7 +38,6 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    @PreAuthorize("#task.user.id == authentication.principal.id")
     public Task saveTaskToSection(Task task, String section, String date) {
         if (task.getName() == null || task.getName().equals("")) {
             throw new RuntimeException("Task name cannot be empty");
@@ -90,7 +88,6 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    @PreAuthorize("#userId == authentication.principal.id")
     public void deleteAllUserDeletedTask(long userId) {
         List<Task> deletedTasks = getAllUserTasks(userId).stream()
                 .filter(Task::isDeleted).collect(Collectors.toList());

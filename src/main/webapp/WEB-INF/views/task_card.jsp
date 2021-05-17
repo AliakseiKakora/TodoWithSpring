@@ -96,7 +96,6 @@
                             <li>
                                     <%-- Download file--%>
                                 <a class="btn btn-info btn-sm ms-2 mb-0" href="<c:url value="/file/download">
-                                        <c:param name="${ApplicationConstants.TASK_ID}" value="${task.id}"/>
                                         <c:param name="${ApplicationConstants.FILE_ID}" value="${task.fileInfo.id}"/>
                                  </c:url>">Download File</a>
 

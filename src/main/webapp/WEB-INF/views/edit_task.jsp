@@ -94,7 +94,6 @@
                     <c:otherwise>
                         <%-- Download file--%>
                         <a class="btn btn-info" href="<c:url value="/file/download">
-                                        <c:param name="${ApplicationConstants.TASK_ID}" value="${task.id}"/>
                                         <c:param name="${ApplicationConstants.FILE_ID}" value="${task.fileInfo.id}"/>
                             </c:url>">Download File</a>
 

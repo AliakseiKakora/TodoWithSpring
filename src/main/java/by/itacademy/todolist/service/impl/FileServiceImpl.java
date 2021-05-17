@@ -26,7 +26,6 @@ public class FileServiceImpl implements FileService {
     private final FileInfoRepository fileInfoRepository;
     private final TaskRepository taskRepository;
 
-    @PreAuthorize("#userId == authentication.principal.id")
     public FileInfo addFileInfoForTask(MultipartFile file, long taskId, long userId) {
         try {
             String path = getPath(taskId, userId);
