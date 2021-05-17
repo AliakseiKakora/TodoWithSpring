@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
+
 @Slf4j
 @RequiredArgsConstructor
 
@@ -26,13 +28,19 @@ public class PageController {
     }
 
     @GetMapping(value = "/login")
-    public ModelAndView loadLoginPage(@RequestParam(required = false) String error) {
-        return new ModelAndView(ApplicationConstants.LOGIN_PAGE, ApplicationConstants.ERROR_KEY, error);
+    public ModelAndView loadLoginPage(@RequestParam(required = false) String error,
+                                      @RequestParam(required = false) String successful) {
+        ModelAndView modelAndView = new ModelAndView(ApplicationConstants.LOGIN_PAGE);
+        modelAndView.addObject(ApplicationConstants.ERROR_KEY, error);
+        modelAndView.addObject(ApplicationConstants.SUCCESSFUL_KEY, successful);
+        return modelAndView;
     }
 
     @GetMapping(value = "/main")
-    public ModelAndView loadMainPage(@RequestParam(required = false) String successful) {
+    public ModelAndView loadMainPage(@RequestParam(required = false) String error,
+                                     @RequestParam(required = false) String successful) {
         ModelAndView modelAndView = new ModelAndView(ApplicationConstants.MAIN_PAGE);
+        modelAndView.addObject(ApplicationConstants.ERROR_KEY, error);
         modelAndView.addObject(ApplicationConstants.SUCCESSFUL_KEY, successful);
         return modelAndView;
     }
@@ -96,10 +104,14 @@ public class PageController {
 
     @GetMapping("/block")
     public ModelAndView loadBlockedPage(@RequestParam(required = false) String error,
-                                        @RequestParam(required = false) String successful) {
+                                        @RequestParam(required = false) String successful,
+                                        HttpSession session) {
+        String userLogin = (String) session.getAttribute(ApplicationConstants.USER_LOGIN);
+        session.setAttribute(ApplicationConstants.USER_LOGIN, null);
         ModelAndView modelAndView = new ModelAndView(ApplicationConstants.BLOCKED_PAGE);
         modelAndView.addObject(ApplicationConstants.ERROR_KEY, error);
         modelAndView.addObject(ApplicationConstants.SUCCESSFUL_KEY, successful);
+        modelAndView.addObject(ApplicationConstants.USER_LOGIN, userLogin);
         return modelAndView;
     }
 

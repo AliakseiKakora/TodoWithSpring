@@ -34,6 +34,7 @@
                     <span class="input-group-text">Message</span>
                     <textarea class="form-control" name="message" required></textarea>
                 </div>
+                <input name="${ApplicationConstants.USER_LOGIN}" type="hidden" value="${userLogin}">
                 <div class="mb-4">
                     <input type="submit" class="form-control" value="Submit">
                 </div>
