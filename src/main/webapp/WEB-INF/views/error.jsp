@@ -1,6 +1,5 @@
-<%@ page import="by.itacademy.todolist.constants.ApplicationConstants" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8"%>
 <html>
 <head>
     <!-- Required meta tags -->
@@ -32,7 +31,7 @@
                 An unknown error has occurred! Please describe the error, it will help us a lot!
             </p>
 
-            <form action="<c:url value="/messages"/>" method="post">
+            <form action="<c:url value="/messages/create"/>" method="post">
 
                 <div class="input-group mb-4">
                     <span class="input-group-text">Message</span>
