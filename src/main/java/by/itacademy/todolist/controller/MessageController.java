@@ -28,6 +28,7 @@ public class MessageController {
     @PostMapping("/messages")
     public ModelAndView createMessage(@RequestParam String message,
                                       @RequestParam(required = false) String userLogin) {
+        log.info("the user is trying to send a message ");
         ModelAndView modelAndView = new ModelAndView("redirect:/main");
         if (userLogin != null && !userLogin.equals("")) {
             modelAndView.setViewName("redirect:/login");
@@ -47,6 +48,7 @@ public class MessageController {
                     .build();
             messageService.save(mes);
             modelAndView.addObject(ApplicationConstants.SUCCESSFUL_KEY, "submit message");
+            log.info("user sent message successfully");
         } catch (Exception e) {
             log.warn("exception in createMessage method", e);
             modelAndView.addObject(ApplicationConstants.ERROR_KEY, "submit message");

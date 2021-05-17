@@ -2,12 +2,12 @@ package by.itacademy.todolist.controller;
 
 import by.itacademy.todolist.constants.ApplicationConstants;
 import by.itacademy.todolist.model.User;
-import by.itacademy.todolist.security.SecurityContextManager;
 import by.itacademy.todolist.service.ProfileService;
 import by.itacademy.todolist.service.UserService;
 import by.itacademy.todolist.validation.UserPasswordForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -25,17 +25,16 @@ public class ProfileController {
 
     private final UserService userService;
     private final ProfileService profileService;
-    private final SecurityContextManager securityContextManager;
     private final PasswordEncoder passwordEncoder;
 
     @GetMapping
     public ModelAndView loadProfilePage(@RequestParam(required = false) String successful,
-                                        @RequestParam(required = false) String error) {
+                                        @RequestParam(required = false) String error,
+                                        @CurrentSecurityContext(expression = "authentication.principal.id") Long userId) {
         try {
             ModelAndView modelAndView = new ModelAndView(ApplicationConstants.PROFILE_PAGE);
             modelAndView.addObject(ApplicationConstants.ERROR_KEY, error);
             modelAndView.addObject(ApplicationConstants.SUCCESSFUL_KEY, successful);
-            long userId = securityContextManager.getUserId();
             User user = userService.getById(userId);
             modelAndView.addObject(ApplicationConstants.USER_KEY, user);
             return modelAndView;
@@ -46,10 +45,10 @@ public class ProfileController {
     }
 
     @PostMapping("/update")
-    public ModelAndView updateProfile(@ModelAttribute User userForm) {
+    public ModelAndView updateProfile(@ModelAttribute User userForm,
+                                      @CurrentSecurityContext(expression = "authentication.principal.id") Long userId) {
         ModelAndView modelAndView = new ModelAndView("redirect:/" + ApplicationConstants.PROFILE_PAGE);
         try {
-            long userId = securityContextManager.getUserId();
             User user = userService.getById(userId);
             user.setName(userForm.getName());
             user.setSurname(userForm.getSurname());
@@ -59,13 +58,11 @@ public class ProfileController {
             userService.update(user);
             log.info("user {} has updated his data", userForm);
             modelAndView.addObject(ApplicationConstants.SUCCESSFUL_KEY, ApplicationConstants.DATA_UPDATED_MSG);
-            return modelAndView;
-
         } catch (Exception e) {
             log.warn("exception update user profile", e);
             modelAndView.addObject(ApplicationConstants.ERROR_KEY, ApplicationConstants.DATA_UPDATED_MSG);
-            return modelAndView;
         }
+        return modelAndView;
     }
 
     @GetMapping("update/password")
@@ -82,30 +79,27 @@ public class ProfileController {
     public ModelAndView changePassword(@Valid @ModelAttribute("user") UserPasswordForm newPassword,
                                        BindingResult bindingResult,
                                        @RequestParam String currentPassword,
-                                       @RequestParam String confirmPassword) {
+                                       @RequestParam String confirmPassword,
+                                       @CurrentSecurityContext(expression = "authentication.principal.id") Long userId) {
         ModelAndView modelAndView = new ModelAndView("redirect:/profile/update/password");
         try {
             if (bindingResult.hasErrors()) {
                 return new ModelAndView(ApplicationConstants.CHANGE_PASSWORD_PAGE);
             }
             log.info("user tries to change password");
-
-            long userId = securityContextManager.getUserId();
             User user = userService.getById(userId);
             boolean matches = passwordEncoder.matches(currentPassword, user.getProfile().getPassword());
-
             if (!matches || !newPassword.getPassword().equals(confirmPassword)) {
                 modelAndView.addObject(ApplicationConstants.ERROR_KEY, "Invalid password");
                 return modelAndView;
             }
             profileService.updatePasswordByLogin(newPassword.getPassword(), user.getProfile().getLogin());
-            log.info("user has updated his password");
             modelAndView.addObject(ApplicationConstants.SUCCESSFUL_KEY, "password has been changed");
-            return modelAndView;
+            log.info("user has updated his password");
         } catch (Exception e) {
             log.warn("exception update user password", e);
             modelAndView.addObject(ApplicationConstants.ERROR_KEY, "update password");
-            return modelAndView;
         }
+        return modelAndView;
     }
 }

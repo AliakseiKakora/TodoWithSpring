@@ -75,7 +75,7 @@
 
                 <div class="input-group mb-3">
                     <label for="confirmPassword" class="input-group-text">Confirm password</label>
-                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required">
+                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
                 </div>
 
                 <button type="submit" class="btn btn-primary">Change Password</button>
